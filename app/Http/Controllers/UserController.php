@@ -17,132 +17,15 @@ class UserController extends Controller
             "usuarios.edit",
             "usuarios.destroy",
 
-            "urbanizacions.index",
-            "urbanizacions.create",
-            "urbanizacions.edit",
-            "urbanizacions.destroy",
-
-            "manzanos.index",
-            "manzanos.create",
-            "manzanos.edit",
-            "manzanos.destroy",
-
-            "lotes.index",
-            "lotes.create",
-            "lotes.edit",
-            "lotes.destroy",
-
-            "planilla_cuotas.index",
-            "planilla_cuotas.create",
-            "planilla_cuotas.edit",
-            "planilla_cuotas.destroy",
-
-            "clientes.index",
-            "clientes.create",
-            "clientes.edit",
-            "clientes.destroy",
-
-            "venta_lotes.index",
-            "venta_lotes.create",
-            "venta_lotes.edit",
-            "venta_lotes.destroy",
-
-            "pagos.index",
-            "pagos.create",
-            "pagos.edit",
-            "pagos.destroy",
-
-            "notificacion_users.index",
-            "notificacion_users.show",
-
             "configuracions.index",
             "configuracions.create",
             "configuracions.edit",
             "configuracions.destroy",
 
             "reportes.usuarios",
-            "reportes.lotes_terrenos",
-            "reportes.clientes",
-            "reportes.planilla_pagos",
-            "reportes.g_lotes_terrenos",
-            "reportes.g_venta_lotes",
         ],
-        "SUPERVISOR" => [
-            "urbanizacions.index",
-            "urbanizacions.create",
-            "urbanizacions.edit",
-            "urbanizacions.destroy",
-
-            "manzanos.index",
-            "manzanos.create",
-            "manzanos.edit",
-            "manzanos.destroy",
-
-            "lotes.index",
-            "lotes.create",
-            "lotes.edit",
-            "lotes.destroy",
-
-            "planilla_cuotas.index",
-            "planilla_cuotas.create",
-            "planilla_cuotas.edit",
-            "planilla_cuotas.destroy",
-
-            "clientes.index",
-            "clientes.create",
-            "clientes.edit",
-            "clientes.destroy",
-
-            "venta_lotes.index",
-            "venta_lotes.create",
-            "venta_lotes.edit",
-            "venta_lotes.destroy",
-
-            "pagos.index",
-            "pagos.create",
-            "pagos.edit",
-            "pagos.destroy",
-
-            "notificacion_users.index",
-            "notificacion_users.show",
-
-            "reportes.lotes_terrenos",
-            "reportes.clientes",
-            "reportes.planilla_pagos",
-            "reportes.g_lotes_terrenos",
-            "reportes.g_venta_lotes",
-        ],
-        "CLIENTE" => [
-            "venta_lotes.index",
-
-            "notificacion_users.index",
-            "notificacion_users.show",
-        ],
-        "AGENTE INMOBILIARIO" => [
-            "clientes.index",
-            "clientes.create",
-            "clientes.edit",
-            "clientes.destroy",
-
-            "venta_lotes.index",
-            "venta_lotes.create",
-            "venta_lotes.edit",
-            "venta_lotes.destroy",
-
-            "pagos.index",
-            "pagos.create",
-            "pagos.edit",
-            "pagos.destroy",
-
-            "notificacion_users.index",
-            "notificacion_users.show",
-
-            "reportes.lotes_terrenos",
-            "reportes.clientes",
-            "reportes.planilla_pagos",
-            "reportes.g_lotes_terrenos",
-            "reportes.g_venta_lotes",
-        ],
+        "SUPERVISOR DE SUCURSAL" => [],
+        "OPERADOR" => [],
     ];
 
     public static function getPermisosUser()
@@ -199,30 +82,6 @@ class UserController extends Controller
                 'color' => 'bg-info',
                 'icon' => "fa-user-friends",
                 "url" => "clientes.index"
-            ];
-        }
-
-        if (in_array('venta_lotes.index', self::$permisos[$tipo])) {
-            $venta_lotes = VentaLote::count();
-            if (Auth::user()->tipo == 'CLIENTE') {
-                $venta_lotes = VentaLote::where("cliente_id", Auth::user()->cliente->id)->count();
-            }
-            $array_infos[] = [
-                'label' => 'VENTA DE LOTES',
-                'cantidad' => $venta_lotes,
-                'color' => 'bg-orange',
-                'icon' => "fa-clipboard-list",
-                "url" => "venta_lotes.index"
-            ];
-        }
-
-        if (in_array('lotes.index', self::$permisos[$tipo])) {
-            $array_infos[] = [
-                'label' => 'LOTES',
-                'cantidad' => Lote::count(),
-                'color' => 'bg-red',
-                'icon' => "fa-clipboard-list",
-                "url" => "lotes.index"
             ];
         }
 

@@ -7,7 +7,7 @@ import { onMounted } from "vue";
 import { useApp } from "@/composables/useApp";
 // componentes
 import { useConfiguracion } from "@/composables/configuracion/useConfiguracion";
-import { usePage, Head } from "@inertiajs/vue3";
+import { usePage, Head, Link } from "@inertiajs/vue3";
 const props_page = defineProps({
     array_infos: {
         type: Array,

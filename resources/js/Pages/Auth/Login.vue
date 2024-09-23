@@ -151,10 +151,6 @@ onMounted(() => {
 }
 
 .login-cover .login-cover-bg {
-    background: linear-gradient(
-        to bottom,
-        rgba(172, 8, 8, 0.45) 0,
-        rgba(0, 0, 0, 0.9)
-    );
+    background: linear-gradient(to bottom, #153f59, #94b8d7);
 }
 </style>

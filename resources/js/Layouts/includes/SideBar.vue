@@ -410,6 +410,12 @@ router.on("navigate", (event) => {
 
 const { props: props_page } = usePage();
 
+window.addEventListener("load", (e) => {
+    open_menus();
+    handleSidebarMinifyFloatMenu();
+    scrollActive();
+});
+
 onMounted(() => {
     let route_actual = route().current();
     // buscar en submenus y abrirlo si uno de sus elementos esta activo
@@ -421,14 +427,6 @@ onMounted(() => {
     if (props_page.auth) {
         user_logeado.value = props_page.auth?.user;
     }
-
-    open_menus();
-
-    handleSidebarMinifyFloatMenu();
-
-    setTimeout(() => {
-        scrollActive();
-    }, 300);
 });
 
 const scrollActive = () => {
@@ -457,7 +455,7 @@ const logout = () => {
 </script>
 <template>
     <!-- BEGIN #sidebar -->
-    <div id="sidebar" class="app-sidebar">
+    <div id="sidebar" class="app-sidebar bg-dark">
         <!-- BEGIN scrollbar -->
         <div
             class="app-sidebar-content"
@@ -659,15 +657,7 @@ const logout = () => {
                         user_logeado.permisos.includes('reportes.usuarios') ||
                         user_logeado.permisos.includes(
                             'reportes.lotes_terrenos'
-                        ) ||
-                        user_logeado.permisos.includes('reportes.clientes') ||
-                        user_logeado.permisos.includes(
-                            'reportes.planilla_pagos'
-                        ) ||
-                        user_logeado.permisos.includes(
-                            'reportes.g_lotes_terrenos'
-                        ) ||
-                        user_logeado.permisos.includes('reportes.g_venta_lotes')
+                        )
                     "
                 >
                     <a href="javascript:;" class="menu-link">
@@ -700,103 +690,21 @@ const logout = () => {
                         <div
                             v-if="
                                 user_logeado.permisos.includes(
-                                    'reportes.lotes_terrenos'
+                                    'reportes.usuarios'
                                 )
                             "
                             class="menu-item"
                             :class="[
-                                route_current == 'reportes.lotes_terrenos'
+                                route_current == 'reportes.usuarios'
                                     ? 'active'
                                     : '',
                             ]"
                         >
                             <Link
-                                :href="route('reportes.lotes_terrenos')"
+                                :href="route('reportes.usuarios')"
                                 class="menu-link"
                                 ><div class="menu-text">
                                     Lotes de Terrenos
-                                </div></Link
-                            >
-                        </div>
-                        <div
-                            v-if="
-                                user_logeado.permisos.includes(
-                                    'reportes.clientes'
-                                )
-                            "
-                            class="menu-item"
-                            :class="[
-                                route_current == 'reportes.clientes'
-                                    ? 'active'
-                                    : '',
-                            ]"
-                        >
-                            <Link
-                                :href="route('reportes.clientes')"
-                                class="menu-link"
-                                ><div class="menu-text">Clientes</div></Link
-                            >
-                        </div>
-                        <div
-                            v-if="
-                                user_logeado.permisos.includes(
-                                    'reportes.planilla_pagos'
-                                )
-                            "
-                            class="menu-item"
-                            :class="[
-                                route_current == 'reportes.planilla_pagos'
-                                    ? 'active'
-                                    : '',
-                            ]"
-                        >
-                            <Link
-                                :href="route('reportes.planilla_pagos')"
-                                class="menu-link"
-                                ><div class="menu-text">
-                                    Planilla de Pagos
-                                </div></Link
-                            >
-                        </div>
-                        <div
-                            v-if="
-                                user_logeado.permisos.includes(
-                                    'reportes.g_lotes_terrenos'
-                                )
-                            "
-                            class="menu-item"
-                            :class="[
-                                route_current == 'reportes.g_lotes_terrenos'
-                                    ? 'active'
-                                    : '',
-                            ]"
-                        >
-                            <Link
-                                :href="route('reportes.g_lotes_terrenos')"
-                                class="menu-link"
-                                ><div class="menu-text">
-                                    G. Lotes de Terrenos
-                                </div></Link
-                            >
-                        </div>
-                        <div
-                            v-if="
-                                user_logeado.permisos.includes(
-                                    'reportes.g_venta_lotes'
-                                )
-                            "
-                            class="menu-item"
-                            :class="[
-                                route_current == 'reportes.g_venta_lotes'
-                                    ? 'active'
-                                    : '',
-                            ]"
-                        >
-                            <Link
-                                :href="route('reportes.g_venta_lotes')"
-                                class="menu-link"
-                                ><div class="menu-text">
-                                    Venta de Terrenos
                                 </div></Link
                             >
                         </div>

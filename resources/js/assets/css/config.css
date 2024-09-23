@@ -1,14 +1,18 @@
 :root {
-    --principal: #0078ff;
-    --principal_hover: #40a5f7;
-    --principal_transparent: #2a99f3c2;
-    --secundario: #f02a23;
-    --secundario_hover: #fc9002;
+    --principal: #153f59;
+    --principal_hover: #134869;
+    --principal_transparent: #153f59bd;
+    --secundario: #94b8d7;
+    --secundario_hover: #9fc4e4;
     --fondo_app: #e8e9eb;
     --correcto: #d2e7c9;
     --transparente: #000000bd;
     --secundarion_transparente: #a14609d0;
     --progress: #4b5563;
+}
+
+.bg-principal {
+    background-color: var(--principal);
 }
 
 html {
@@ -25,13 +29,22 @@ html {
 .text-center {
     text-align: center;
 }
-.font-weight-bold{
+.font-weight-bold {
     font-weight: bold;
 }
 
 .pace .pace-activity,
 .pace .pace-progress {
     top: 0px;
+}
+
+.app-sidebar.bg-dark .menu .menu-profile a,
+.app-sidebar.bg-dark .menu .menu-profile .menu-profile-info small,
+.app-sidebar.bg-dark .menu-header,
+.app-sidebar.bg-dark .menu-item a,
+.app-sidebar.bg-dark .menu-item .menu-link,
+.app-sidebar.bg-dark .menu-item .menu-submenu .menu-item .menu-text{
+    color: white;
 }
 
 #sidebar {
