@@ -1,7 +1,6 @@
 <script setup>
 import { useForm, usePage } from "@inertiajs/vue3";
-import { useUsuarios } from "@/composables/usuarios/useUsuarios";
-import { useSucursals } from "@/composables/sucursals/useSucursals";
+import { useClientes } from "@/composables/clientes/useClientes";
 import { watch, ref, computed, defineEmits, onMounted, nextTick } from "vue";
 const props = defineProps({
     open_dialog: {
@@ -14,11 +13,10 @@ const props = defineProps({
     },
 });
 
-const { oUsuario, limpiarUsuario } = useUsuarios();
-const { getSucursals } = useSucursals();
+const { oCliente, limpiarCliente } = useClientes();
 const accion = ref(props.accion_dialog);
 const dialog = ref(props.open_dialog);
-let form = useForm(oUsuario.value);
+let form = useForm(oCliente.value);
 let switcheryInstance = null;
 watch(
     () => props.open_dialog,
@@ -26,16 +24,15 @@ watch(
         dialog.value = newValue;
         if (dialog.value) {
             const accesoCheckbox = $("#acceso");
-            if (oUsuario.value.acceso == 1) {
+            if (oCliente.value.acceso == 1) {
                 accesoCheckbox.prop("checked", false).trigger("click");
             } else {
                 accesoCheckbox.prop("checked", true).trigger("click");
             }
-
             document
                 .getElementsByTagName("body")[0]
                 .classList.add("modal-open");
-            form = useForm(oUsuario.value);
+            form = useForm(oCliente.value);
         }
     }
 );
@@ -48,7 +45,6 @@ watch(
 
 const { flash } = usePage().props;
 
-const listTipos = ["ADMINISTRADOR", "SUPERVISOR DE SUCURSAL", "OPERADOR"];
 const listExpedido = [
     { value: "LP", label: "La Paz" },
     { value: "CB", label: "Cochabamba" },
@@ -60,7 +56,6 @@ const listExpedido = [
     { value: "PD", label: "Pando" },
     { value: "BN", label: "Beni" },
 ];
-const listSucursals = ref([]);
 
 const foto = ref(null);
 
@@ -88,8 +83,8 @@ const initializeSwitcher = () => {
 const enviarFormulario = () => {
     let url =
         form["_method"] == "POST"
-            ? route("usuarios.store")
-            : route("usuarios.update", form.id);
+            ? route("clientes.store")
+            : route("clientes.update", form.cliente_id);
 
     form.post(url, {
         preserveScroll: true,
@@ -103,7 +98,7 @@ const enviarFormulario = () => {
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: `Aceptar`,
             });
-            limpiarUsuario();
+            limpiarCliente();
             emits("envio-formulario");
         },
         onError: (err) => {
@@ -138,16 +133,7 @@ const cerrarDialog = () => {
     document.getElementsByTagName("body")[0].classList.remove("modal-open");
 };
 
-const cargarListas = () => {
-    cargarSucursals();
-};
-
-const cargarSucursals = async () => {
-    listSucursals.value = await getSucursals();
-};
-
 onMounted(() => {
-    cargarListas();
     initializeSwitcher();
 });
 </script>
@@ -283,46 +269,6 @@ onMounted(() => {
                                 </ul>
                             </div>
                             <div class="col-md-4 mt-2">
-                                <label>Dirección*</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    :class="{
-                                        'parsley-error': form.errors?.dir,
-                                    }"
-                                    v-model="form.dir"
-                                />
-
-                                <ul
-                                    v-if="form.errors?.dir"
-                                    class="parsley-errors-list filled"
-                                >
-                                    <li class="parsley-required">
-                                        {{ form.errors?.dir }}
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-4 mt-2">
-                                <label>Email</label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    :class="{
-                                        'parsley-error': form.errors?.email,
-                                    }"
-                                    v-model="form.email"
-                                />
-
-                                <ul
-                                    v-if="form.errors?.email"
-                                    class="parsley-errors-list filled"
-                                >
-                                    <li class="parsley-required">
-                                        {{ form.errors?.email }}
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-4 mt-2">
                                 <label>Teléfono/Celular*</label>
                                 <input
                                     type="text"
@@ -339,88 +285,6 @@ onMounted(() => {
                                 >
                                     <li class="parsley-required">
                                         {{ form.errors?.fono }}
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-4 mt-2">
-                                <label>Tipo de Usuario*</label>
-                                <select
-                                    class="form-select"
-                                    :class="{
-                                        'parsley-error': form.errors?.tipo,
-                                    }"
-                                    v-model="form.tipo"
-                                >
-                                    <option value="">- Seleccione -</option>
-                                    <option
-                                        v-for="item in listTipos"
-                                        :value="item"
-                                    >
-                                        {{ item }}
-                                    </option>
-                                </select>
-
-                                <ul
-                                    v-if="form.errors?.tipo"
-                                    class="parsley-errors-list filled"
-                                >
-                                    <li class="parsley-required">
-                                        {{ form.errors?.tipo }}
-                                    </li>
-                                </ul>
-                            </div>
-                            <div
-                                class="col-md-4 mt-2"
-                                v-show="
-                                    form.tipo == 'SUPERVISOR DE SUCURSAL' ||
-                                    form.tipo == 'OPERADOR'
-                                "
-                            >
-                                <label>Seleccionar Sucursal*</label>
-                                <select
-                                    class="form-select"
-                                    :class="{
-                                        'parsley-error':
-                                            form.errors?.sucursal_id,
-                                    }"
-                                    v-model="form.sucursal_id"
-                                >
-                                    <option value="">- Seleccione -</option>
-                                    <option
-                                        v-for="item in listSucursals"
-                                        :value="item.id"
-                                    >
-                                        {{ item.nombre }}
-                                    </option>
-                                </select>
-
-                                <ul
-                                    v-if="form.errors?.sucursal_id"
-                                    class="parsley-errors-list filled"
-                                >
-                                    <li class="parsley-required">
-                                        {{ form.errors?.sucursal_id }}
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-4 mt-2">
-                                <label>Foto</label>
-                                <input
-                                    type="file"
-                                    class="form-control"
-                                    :class="{
-                                        'parsley-error': form.errors?.foto,
-                                    }"
-                                    ref="foto"
-                                    @change="cargaArchivo($event, 'foto')"
-                                />
-
-                                <ul
-                                    v-if="form.errors?.foto"
-                                    class="parsley-errors-list filled"
-                                >
-                                    <li class="parsley-required">
-                                        {{ form.errors?.foto }}
                                     </li>
                                 </ul>
                             </div>

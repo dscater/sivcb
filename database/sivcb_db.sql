@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 23-09-2024 a las 14:44:00
+-- Tiempo de generación: 24-09-2024 a las 16:22:05
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -33,6 +33,13 @@ CREATE TABLE `categorias` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
+(1, 'CATEGORIA  #1', '2024-09-24 20:21:47', '2024-09-24 20:21:47');
 
 -- --------------------------------------------------------
 
@@ -80,7 +87,7 @@ CREATE TABLE `configuracions` (
 --
 
 INSERT INTO `configuracions` (`id`, `nombre_sistema`, `alias`, `razon_social`, `nit`, `ciudad`, `dir`, `fono`, `web`, `actividad`, `correo`, `logo`, `created_at`, `updated_at`) VALUES
-(1, 'SAJONIA', 'SJ', 'SAJONIA S.A.', NULL, 'LA PAZ', 'ZONA LOS OLIVOS', '77777777', 'SAJONIA.COM', 'ACTIVIDAD', 'SAJONIA@GMAIL.COM', '1725897866_1.jpg', NULL, '2024-09-09 20:04:26');
+(1, 'SIVCB', 'SC', 'SIVCB S.A.', NULL, 'LA PAZ', 'ZONA LOS OLIVOS', '77777777', 'SIVCB.COM', 'ACTIVIDAD', 'SIVCB@GMAIL.COM', '1725897866_1.jpg', NULL, '2024-09-23 19:29:16');
 
 -- --------------------------------------------------------
 
@@ -130,6 +137,33 @@ CREATE TABLE `historial_accions` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `historial_accions`
+--
+
+INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `datos_original`, `datos_nuevo`, `modulo`, `fecha`, `hora`, `created_at`, `updated_at`) VALUES
+(1, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA SUCURSAL', 'id: 1<br/>nombre: SUCURSAL #1<br/>fono: 77777 - 666666<br/>dir: ZONA LOS PEDREGALES C. 4 #2222<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:24:59<br/>updated_at: 2024-09-24 15:24:59<br/>', NULL, 'SUCURSALES', '2024-09-24', '15:24:59', '2024-09-24 19:24:59', '2024-09-24 19:24:59'),
+(2, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA SUCURSAL', 'id: 1<br/>nombre: SUCURSAL #1<br/>fono: 77777 - 666666<br/>dir: ZONA LOS PEDREGALES C. 4 #2222<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:24:59<br/>updated_at: 2024-09-24 15:24:59<br/>', 'id: 1<br/>nombre: SUCURSAL #1A<br/>fono: 77777 - 666666B<br/>dir: ZONA LOS PEDREGALES C. 4 #2222C<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:24:59<br/>updated_at: 2024-09-24 15:29:34<br/>', 'SUCURSALES', '2024-09-24', '15:29:34', '2024-09-24 19:29:34', '2024-09-24 19:29:34'),
+(3, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA SUCURSAL', 'id: 1<br/>nombre: SUCURSAL #1A<br/>fono: 77777 - 666666B<br/>dir: ZONA LOS PEDREGALES C. 4 #2222C<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:24:59<br/>updated_at: 2024-09-24 15:29:34<br/>', 'id: 1<br/>nombre: SUCURSAL #1A<br/>fono: 77777 - 666666B<br/>dir: ZONA LOS PEDREGALES C. 4 #2222C<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:24:59<br/>updated_at: 2024-09-24 15:29:34<br/>', 'SUCURSALES', '2024-09-24', '15:30:07', '2024-09-24 19:30:07', '2024-09-24 19:30:07'),
+(4, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA SUCURSAL', 'id: 1<br/>nombre: SUCURSAL #1A<br/>fono: 77777 - 666666B<br/>dir: ZONA LOS PEDREGALES C. 4 #2222C<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:24:59<br/>updated_at: 2024-09-24 15:29:34<br/>', NULL, 'SUCURSALES', '2024-09-24', '15:30:11', '2024-09-24 19:30:11', '2024-09-24 19:30:11'),
+(5, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA SUCURSAL', 'id: 1<br/>nombre: SUCURSAL #1<br/>fono: 77777777 - 66666666<br/>dir: ZONA LOS PEDREGALES C. 3 #4444<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:30:36<br/>updated_at: 2024-09-24 15:30:36<br/>', NULL, 'SUCURSALES', '2024-09-24', '15:30:36', '2024-09-24 19:30:36', '2024-09-24 19:30:36'),
+(6, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA SUCURSAL', 'id: 2<br/>nombre: SUCURSAL #2<br/>fono: 78787878 - 67676767<br/>dir: ZONA LOS OLIVOS C. A #2222<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:30:59<br/>updated_at: 2024-09-24 15:30:59<br/>', NULL, 'SUCURSALES', '2024-09-24', '15:30:59', '2024-09-24 19:30:59', '2024-09-24 19:30:59'),
+(7, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$sCckfT5X32Ajbwqs1QFCIuSiN9dJ5rwZsuY7uqCOSvXFEJGLvJ2fa<br/>tipo: SUPERVISOR DE SUCURSAL<br/>foto: 1727192424_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: 1<br/>created_at: 2024-09-24 15:40:24<br/>updated_at: 2024-09-24 15:40:24<br/>', NULL, 'USUARIOS', '2024-09-24', '15:40:24', '2024-09-24 19:40:24', '2024-09-24 19:40:24'),
+(8, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$sCckfT5X32Ajbwqs1QFCIuSiN9dJ5rwZsuY7uqCOSvXFEJGLvJ2fa<br/>tipo: SUPERVISOR DE SUCURSAL<br/>foto: 1727192424_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: 1<br/>created_at: 2024-09-24 15:40:24<br/>updated_at: 2024-09-24 15:40:24<br/>', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$sCckfT5X32Ajbwqs1QFCIuSiN9dJ5rwZsuY7uqCOSvXFEJGLvJ2fa<br/>tipo: ADMINISTRADOR<br/>foto: 1727192424_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: <br/>created_at: 2024-09-24 15:40:24<br/>updated_at: 2024-09-24 15:40:38<br/>', 'USUARIOS', '2024-09-24', '15:40:38', '2024-09-24 19:40:38', '2024-09-24 19:40:38'),
+(9, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$sCckfT5X32Ajbwqs1QFCIuSiN9dJ5rwZsuY7uqCOSvXFEJGLvJ2fa<br/>tipo: ADMINISTRADOR<br/>foto: 1727192424_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: <br/>created_at: 2024-09-24 15:40:24<br/>updated_at: 2024-09-24 15:40:38<br/>', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$sCckfT5X32Ajbwqs1QFCIuSiN9dJ5rwZsuY7uqCOSvXFEJGLvJ2fa<br/>tipo: OPERADOR<br/>foto: 1727192424_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: 2<br/>created_at: 2024-09-24 15:40:24<br/>updated_at: 2024-09-24 15:40:57<br/>', 'USUARIOS', '2024-09-24', '15:40:57', '2024-09-24 19:40:57', '2024-09-24 19:40:57'),
+(10, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$sCckfT5X32Ajbwqs1QFCIuSiN9dJ5rwZsuY7uqCOSvXFEJGLvJ2fa<br/>tipo: OPERADOR<br/>foto: 1727192424_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: 2<br/>created_at: 2024-09-24 15:40:24<br/>updated_at: 2024-09-24 15:40:57<br/>', NULL, 'USUARIOS', '2024-09-24', '15:42:10', '2024-09-24 19:42:10', '2024-09-24 19:42:10'),
+(11, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$3QHG0syHSXFGDhyC3x7bqOfm.Rdms.qawkgu01540bhCLdNMlwzLm<br/>tipo: SUPERVISOR DE SUCURSAL<br/>foto: 1727192573_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: 1<br/>created_at: 2024-09-24 15:42:52<br/>updated_at: 2024-09-24 15:42:53<br/>', NULL, 'USUARIOS', '2024-09-24', '15:42:53', '2024-09-24 19:42:53', '2024-09-24 19:42:53'),
+(12, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA SUCURSAL', 'id: 1<br/>nombre: SUCURSAL #1<br/>fono: 77777777 - 66666666<br/>dir: ZONA LOS PEDREGALES C. 3 #4444<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:30:36<br/>updated_at: 2024-09-24 15:30:36<br/>', 'id: 1<br/>nombre: SUCURSAL #1<br/>fono: 77777777 - 66666666<br/>dir: ZONA LOS PEDREGALES C. 3 #4444<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:30:36<br/>updated_at: 2024-09-24 15:30:36<br/>', 'SUCURSALES', '2024-09-24', '15:56:50', '2024-09-24 19:56:50', '2024-09-24 19:56:50'),
+(13, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN PROVEEDOR', 'id: 1<br/>razon_social: PROVEEDOR1 S.A.<br/>nit: 1111111111<br/>dir: ZONA LOS MANZANOS C3 #22<br/>fono: 2222222<br/>nombre_contacto: EDUARDO MARTINEZ<br/>descripcion: DESC. PROVEEDOR 1<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 16:10:51<br/>updated_at: 2024-09-24 16:10:51<br/>', NULL, 'PROVEEDORES', '2024-09-24', '16:10:51', '2024-09-24 20:10:51', '2024-09-24 20:10:51'),
+(14, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN PROVEEDOR', 'id: 1<br/>razon_social: PROVEEDOR1 S.A.<br/>nit: 1111111111<br/>dir: ZONA LOS MANZANOS C3 #22<br/>fono: 2222222<br/>nombre_contacto: EDUARDO MARTINEZ<br/>descripcion: DESC. PROVEEDOR 1<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 16:10:51<br/>updated_at: 2024-09-24 16:10:51<br/>', 'id: 1<br/>razon_social: PROVEEDOR1 S.A.A<br/>nit: 1111111111B<br/>dir: ZONA LOS MANZANOS C3 #22C<br/>fono: 2222222D<br/>nombre_contacto: EDUARDO MARTINEZE<br/>descripcion: DESC. PROVEEDOR 1F<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 16:10:51<br/>updated_at: 2024-09-24 16:10:59<br/>', 'PROVEEDORES', '2024-09-24', '16:10:59', '2024-09-24 20:10:59', '2024-09-24 20:10:59'),
+(15, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN PROVEEDOR', 'id: 1<br/>razon_social: PROVEEDOR1 S.A.A<br/>nit: 1111111111B<br/>dir: ZONA LOS MANZANOS C3 #22C<br/>fono: 2222222D<br/>nombre_contacto: EDUARDO MARTINEZE<br/>descripcion: DESC. PROVEEDOR 1F<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 16:10:51<br/>updated_at: 2024-09-24 16:10:59<br/>', NULL, 'PROVEEDORES', '2024-09-24', '16:11:22', '2024-09-24 20:11:22', '2024-09-24 20:11:22'),
+(16, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN PROVEEDOR', 'id: 1<br/>razon_social: PROVEEDOR 1 S.A.<br/>nit: 1111111111<br/>dir: ZONA LOS MANZANOS C. 1 #44444<br/>fono: 222222<br/>nombre_contacto: EDUARDO ALVARES<br/>descripcion: DESC. PROVEEDOR 1<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 16:11:54<br/>updated_at: 2024-09-24 16:11:54<br/>', NULL, 'PROVEEDORES', '2024-09-24', '16:11:54', '2024-09-24 20:11:54', '2024-09-24 20:11:54'),
+(17, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN PROVEEDOR', 'id: 2<br/>razon_social: PROVEEDOR 2 S.R.L.<br/>nit: 222222222222<br/>dir: ZONA LOS HEROES C. 3 #22222<br/>fono: 2727277<br/>nombre_contacto: JORGE PAREDES<br/>descripcion: <br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 16:12:29<br/>updated_at: 2024-09-24 16:12:29<br/>', NULL, 'PROVEEDORES', '2024-09-24', '16:12:29', '2024-09-24 20:12:29', '2024-09-24 20:12:29'),
+(18, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 1<br/>nombre: CATEGORIA #1<br/>created_at: 2024-09-24 16:21:05<br/>updated_at: 2024-09-24 16:21:05<br/>', NULL, 'CATEGORIAS', '2024-09-24', '16:21:05', '2024-09-24 20:21:05', '2024-09-24 20:21:05'),
+(19, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA CATEGORÍA', 'id: 1<br/>nombre: CATEGORIA #1<br/>created_at: 2024-09-24 16:21:05<br/>updated_at: 2024-09-24 16:21:05<br/>', 'id: 1<br/>nombre: CATEGORIA #1 ASD<br/>created_at: 2024-09-24 16:21:05<br/>updated_at: 2024-09-24 16:21:25<br/>', 'CATEGORIAS', '2024-09-24', '16:21:25', '2024-09-24 20:21:25', '2024-09-24 20:21:25'),
+(20, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA CATEGORÍA', 'id: 1<br/>nombre: CATEGORIA #1 ASD<br/>created_at: 2024-09-24 16:21:05<br/>updated_at: 2024-09-24 16:21:25<br/>', NULL, 'CATEGORIAS', '2024-09-24', '16:21:28', '2024-09-24 20:21:28', '2024-09-24 20:21:28'),
+(21, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 1<br/>nombre: CATEGORIA  #1<br/>created_at: 2024-09-24 16:21:47<br/>updated_at: 2024-09-24 16:21:47<br/>', NULL, 'CATEGORIAS', '2024-09-24', '16:21:47', '2024-09-24 20:21:47', '2024-09-24 20:21:47');
 
 -- --------------------------------------------------------
 
@@ -292,6 +326,14 @@ CREATE TABLE `proveedors` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `proveedors`
+--
+
+INSERT INTO `proveedors` (`id`, `razon_social`, `nit`, `dir`, `fono`, `nombre_contacto`, `descripcion`, `fecha_registro`, `created_at`, `updated_at`) VALUES
+(1, 'PROVEEDOR 1 S.A.', '1111111111', 'ZONA LOS MANZANOS C. 1 #44444', '222222', 'EDUARDO ALVARES', 'DESC. PROVEEDOR 1', '2024-09-24', '2024-09-24 20:11:54', '2024-09-24 20:11:54'),
+(2, 'PROVEEDOR 2 S.R.L.', '222222222222', 'ZONA LOS HEROES C. 3 #22222', '2727277', 'JORGE PAREDES', '', '2024-09-24', '2024-09-24 20:12:29', '2024-09-24 20:12:29');
+
 -- --------------------------------------------------------
 
 --
@@ -325,6 +367,14 @@ CREATE TABLE `sucursals` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `sucursals`
+--
+
+INSERT INTO `sucursals` (`id`, `nombre`, `fono`, `dir`, `fecha_registro`, `created_at`, `updated_at`) VALUES
+(1, 'SUCURSAL #1', '77777777 - 66666666', 'ZONA LOS PEDREGALES C. 3 #4444', '2024-09-24', '2024-09-24 19:30:36', '2024-09-24 19:30:36'),
+(2, 'SUCURSAL #2', '78787878 - 67676767', 'ZONA LOS OLIVOS C. A #2222', '2024-09-24', '2024-09-24 19:30:59', '2024-09-24 19:30:59');
 
 -- --------------------------------------------------------
 
@@ -412,7 +462,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `usuario`, `nombre`, `paterno`, `materno`, `ci`, `ci_exp`, `dir`, `email`, `fono`, `password`, `tipo`, `foto`, `fecha_registro`, `acceso`, `sucursal_id`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin', 'admin', NULL, '0', '', NULL, NULL, '', '$2y$12$65d4fgZsvBV5Lc/AxNKh4eoUdbGyaczQ4sSco20feSQANshNLuxSC', 'ADMINISTRADOR', NULL, '2024-09-23', 1, NULL, NULL, NULL);
+(1, 'admin', 'admin', 'admin', NULL, '0', '', NULL, NULL, '', '$2y$12$65d4fgZsvBV5Lc/AxNKh4eoUdbGyaczQ4sSco20feSQANshNLuxSC', 'ADMINISTRADOR', NULL, '2024-09-23', 1, NULL, NULL, NULL),
+(2, 'JPERES', 'JUAN', 'PERES', 'MAMANI', '1111', 'LP', 'ZONA LOS OLIVOS', 'JUAN@GMAIL.COM', '77777777', '$2y$12$3QHG0syHSXFGDhyC3x7bqOfm.Rdms.qawkgu01540bhCLdNMlwzLm', 'SUPERVISOR DE SUCURSAL', '1727192573_JPERES.jpg', '2024-09-24', 1, 1, '2024-09-24 19:42:52', '2024-09-24 19:42:53');
 
 -- --------------------------------------------------------
 
@@ -423,6 +474,7 @@ INSERT INTO `users` (`id`, `usuario`, `nombre`, `paterno`, `materno`, `ci`, `ci_
 CREATE TABLE `ventas` (
   `id` bigint UNSIGNED NOT NULL,
   `cliente_id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
   `nit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `total` decimal(24,2) NOT NULL,
   `descuento` double NOT NULL,
@@ -616,7 +668,7 @@ ALTER TABLE `venta_detalles`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -646,7 +698,7 @@ ALTER TABLE `distribucion_productos`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
@@ -688,7 +740,7 @@ ALTER TABLE `producto_barras`
 -- AUTO_INCREMENT de la tabla `proveedors`
 --
 ALTER TABLE `proveedors`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `salida_productos`
@@ -700,7 +752,7 @@ ALTER TABLE `salida_productos`
 -- AUTO_INCREMENT de la tabla `sucursals`
 --
 ALTER TABLE `sucursals`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `sucursal_productos`
@@ -730,7 +782,7 @@ ALTER TABLE `unidad_medidas`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`

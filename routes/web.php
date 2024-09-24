@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\NotificacionUserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +59,33 @@ Route::middleware('auth')->prefix("admin")->group(function () {
     Route::delete("usuarios/{user}", [UsuarioController::class, 'destroy'])->name("usuarios.destroy");
     Route::resource("usuarios", UsuarioController::class)->only(
         ["index", "store"]
+    );
+
+    // SUCURSALS
+    Route::put("sucursals/update_estado/{cliente}", [SucursalController::class, 'update_estado'])->name("sucursals.update_estado");
+    Route::get("sucursals/api", [SucursalController::class, 'api'])->name("sucursals.api");
+    Route::get("sucursals/paginado", [SucursalController::class, 'paginado'])->name("sucursals.paginado");
+    Route::get("sucursals/listado", [SucursalController::class, 'listado'])->name("sucursals.listado");
+    Route::resource("sucursals", SucursalController::class)->only(
+        ["index", "store", "update", "show", "destroy"]
+    );
+
+    // PROVEEDORES
+    Route::put("proveedors/update_estado/{cliente}", [ProveedorController::class, 'update_estado'])->name("proveedors.update_estado");
+    Route::get("proveedors/api", [ProveedorController::class, 'api'])->name("proveedors.api");
+    Route::get("proveedors/paginado", [ProveedorController::class, 'paginado'])->name("proveedors.paginado");
+    Route::get("proveedors/listado", [ProveedorController::class, 'listado'])->name("proveedors.listado");
+    Route::resource("proveedors", ProveedorController::class)->only(
+        ["index", "store", "update", "show", "destroy"]
+    );
+
+    // CATEGORIAS
+    Route::put("categorias/update_estado/{cliente}", [CategoriaController::class, 'update_estado'])->name("categorias.update_estado");
+    Route::get("categorias/api", [CategoriaController::class, 'api'])->name("categorias.api");
+    Route::get("categorias/paginado", [CategoriaController::class, 'paginado'])->name("categorias.paginado");
+    Route::get("categorias/listado", [CategoriaController::class, 'listado'])->name("categorias.listado");
+    Route::resource("categorias", CategoriaController::class)->only(
+        ["index", "store", "update", "show", "destroy"]
     );
 
     // CLIENTES

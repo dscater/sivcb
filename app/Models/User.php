@@ -32,7 +32,8 @@ class User extends Authenticatable
         "tipo",
         "foto",
         "fecha_registro",
-        "acceso"
+        "acceso",
+        "sucursal_id"
     ];
     protected $appends = ["permisos", "url_foto", "foto_b64", "full_name", "full_ci", "fecha_registro_t"];
 
@@ -100,9 +101,9 @@ class User extends Authenticatable
     }
 
     // RELACIONES
-    public function cliente()
+    public function sucursal()
     {
-        return $this->hasOne(Cliente::class, 'user_id');
+        return $this->hasOne(Sucursal::class, 'sucursal_id');
     }
 
     // FUNCIONES

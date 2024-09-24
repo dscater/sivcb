@@ -2,31 +2,25 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 import { usePage } from "@inertiajs/vue3";
 
-const oUsuario = ref({
+const oProveedor = ref({
     id: 0,
-    nombre: "",
-    paterno: "",
-    materno: "",
-    ci: "",
-    ci_exp: "",
+    razon_social: "",
+    nit: "",
     dir: "",
-    email: "",
     fono: "",
-    tipo: "",
-    foto: "",
-    acceso: 0 + "",
-    sucursal_id: "",
+    nombre_contacto: "",
+    descripcion: "",
     _method: "POST",
 });
 
-export const useUsuarios = () => {
+export const useProveedors = () => {
     const { flash } = usePage().props;
-    const getUsuarios = async () => {
+    const getProveedors = async () => {
         try {
-            const response = await axios.get(route("usuarios.listado"), {
+            const response = await axios.get(route("proveedors.listado"), {
                 headers: { Accept: "application/json" },
             });
-            return response.data.usuarios;
+            return response.data.proveedors;
         } catch (err) {
             Swal.fire({
                 icon: "error",
@@ -45,25 +39,28 @@ export const useUsuarios = () => {
         }
     };
 
-    const getUsuariosByTipo = async (data) => {
+    const getProveedorsByTipo = async (data) => {
         try {
-            const response = await axios.get(route("usuarios.byTipo"), {
+            const response = await axios.get(route("proveedors.byTipo"), {
                 headers: { Accept: "application/json" },
                 params: data,
             });
-            return response.data.usuarios;
+            return response.data.proveedors;
         } catch (error) {
             console.error("Error:", error);
             throw error; // Puedes manejar el error según tus necesidades
         }
     };
 
-    const getUsuariosApi = async (data) => {
+    const getProveedorsApi = async (data) => {
         try {
-            const response = await axios.get(route("usuarios.paginado", data), {
-                headers: { Accept: "application/json" },
-            });
-            return response.data.usuarios;
+            const response = await axios.get(
+                route("proveedors.paginado", data),
+                {
+                    headers: { Accept: "application/json" },
+                }
+            );
+            return response.data.proveedors;
         } catch (err) {
             Swal.fire({
                 icon: "error",
@@ -81,40 +78,9 @@ export const useUsuarios = () => {
             throw err; // Puedes manejar el error según tus necesidades
         }
     };
-    const saveUsuario = async (data) => {
+    const saveProveedor = async (data) => {
         try {
-            const response = await axios.post(route("usuarios.store", data), {
-                headers: { Accept: "application/json" },
-            });
-            Swal.fire({
-                icon: "success",
-                title: "Correcto",
-                text: `${flash.bien ? flash.bien : "Proceso realizado"}`,
-                confirmButtonColor: "#3085d6",
-                confirmButtonText: `Aceptar`,
-            });
-            return response.data;
-        } catch (err) {
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: `${
-                    flash.error
-                        ? flash.error
-                        : err.response?.data
-                        ? err.response?.data?.message
-                        : "Hay errores en el formulario"
-                }`,
-                confirmButtonColor: "#3085d6",
-                confirmButtonText: `Aceptar`,
-            });
-            throw err; // Puedes manejar el error según tus necesidades
-        }
-    };
-
-    const deleteUsuario = async (id) => {
-        try {
-            const response = await axios.delete(route("usuarios.destroy", id), {
+            const response = await axios.post(route("proveedors.store", data), {
                 headers: { Accept: "application/json" },
             });
             Swal.fire({
@@ -143,54 +109,76 @@ export const useUsuarios = () => {
         }
     };
 
-    const setUsuario = (item = null) => {
+    const deleteProveedor = async (id) => {
+        try {
+            const response = await axios.delete(
+                route("proveedors.destroy", id),
+                {
+                    headers: { Accept: "application/json" },
+                }
+            );
+            Swal.fire({
+                icon: "success",
+                title: "Correcto",
+                text: `${flash.bien ? flash.bien : "Proceso realizado"}`,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: `Aceptar`,
+            });
+            return response.data;
+        } catch (err) {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: `${
+                    flash.error
+                        ? flash.error
+                        : err.response?.data
+                        ? err.response?.data?.message
+                        : "Hay errores en el formulario"
+                }`,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: `Aceptar`,
+            });
+            throw err; // Puedes manejar el error según tus necesidades
+        }
+    };
+
+    const setProveedor = (item = null) => {
         if (item) {
-            oUsuario.value.id = item.id;
-            oUsuario.value.nombre = item.nombre;
-            oUsuario.value.paterno = item.paterno;
-            oUsuario.value.materno = item.materno;
-            oUsuario.value.ci = item.ci;
-            oUsuario.value.ci_exp = item.ci_exp;
-            oUsuario.value.dir = item.dir;
-            oUsuario.value.email = item.email;
-            oUsuario.value.fono = item.fono;
-            oUsuario.value.tipo = item.tipo;
-            oUsuario.value.foto = item.foto;
-            oUsuario.value.acceso = item.acceso + "";
-            oUsuario.value.sucursal_id = item.sucursal_id;
-            oUsuario.value._method = "PUT";
-            return oUsuario;
+            oProveedor.value.id = item.id;
+            oProveedor.value.razon_social = item.razon_social;
+            oProveedor.value.nit = item.nit;
+            oProveedor.value.dir = item.dir;
+            oProveedor.value.fono = item.fono;
+            oProveedor.value.nombre_contacto = item.nombre_contacto;
+            oProveedor.value.descripcion = item.descripcion;
+            oProveedor.value._method = "PUT";
+            return oProveedor;
         }
         return false;
     };
 
-    const limpiarUsuario = () => {
-        oUsuario.value.id = 0;
-        oUsuario.value.nombre = "";
-        oUsuario.value.paterno = "";
-        oUsuario.value.materno = "";
-        oUsuario.value.ci = "";
-        oUsuario.value.ci_exp = "";
-        oUsuario.value.dir = "";
-        oUsuario.value.email = "";
-        oUsuario.value.fono = "";
-        oUsuario.value.tipo = "";
-        oUsuario.value.foto = "";
-        oUsuario.value.acceso = 0 + "";
-        oUsuario.value.sucursal_id = "";
-        oUsuario.value._method = "POST";
+    const limpiarProveedor = () => {
+        oProveedor.value.id = 0;
+        oProveedor.value.razon_social = "";
+        oProveedor.value.nit = "";
+        oProveedor.value.dir = "";
+        oProveedor.value.fono = "";
+        oProveedor.value.nombre_contacto = "";
+        oProveedor.value.descripcion = "";
+        oProveedor.value._method = "POST";
     };
 
     onMounted(() => {});
 
     return {
-        oUsuario,
-        getUsuarios,
-        getUsuariosApi,
-        saveUsuario,
-        deleteUsuario,
-        setUsuario,
-        limpiarUsuario,
-        getUsuariosByTipo,
+        oProveedor,
+        getProveedors,
+        getProveedorsApi,
+        saveProveedor,
+        deleteProveedor,
+        setProveedor,
+        limpiarProveedor,
+        getProveedorsByTipo,
     };
 };

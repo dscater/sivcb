@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('ventas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("cliente_id");
+            $table->unsignedBigInteger("user_id");
             $table->string("nit");
             $table->decimal("total", 24, 2);
             $table->double("descuento", 8, 2);

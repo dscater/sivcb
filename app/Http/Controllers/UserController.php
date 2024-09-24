@@ -17,6 +17,21 @@ class UserController extends Controller
             "usuarios.edit",
             "usuarios.destroy",
 
+            "proveedors.index",
+            "proveedors.create",
+            "proveedors.edit",
+            "proveedors.destroy",
+
+            "sucursals.index",
+            "sucursals.create",
+            "sucursals.edit",
+            "sucursals.destroy",
+
+            "categorias.index",
+            "categorias.create",
+            "categorias.edit",
+            "categorias.destroy",
+
             "configuracions.index",
             "configuracions.create",
             "configuracions.edit",

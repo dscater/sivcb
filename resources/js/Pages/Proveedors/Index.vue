@@ -1,0 +1,217 @@
+<script>
+const breadbrums = [
+    {
+        title: "Inicio",
+        disabled: false,
+        url: route("inicio"),
+        name_url: "inicio",
+    },
+    {
+        title: "Proveedores",
+        disabled: false,
+        url: "",
+        name_url: "",
+    },
+];
+</script>
+<script setup>
+import { useApp } from "@/composables/useApp";
+import { Head, Link } from "@inertiajs/vue3";
+import { useProveedors } from "@/composables/proveedors/useProveedors";
+import { initDataTable } from "@/composables/datatable.js";
+import { ref, onMounted, onBeforeUnmount } from "vue";
+import PanelToolbar from "@/Components/PanelToolbar.vue";
+// import { useMenu } from "@/composables/useMenu";
+import Formulario from "./Formulario.vue";
+// const { mobile, identificaDispositivo } = useMenu();
+const { setLoading } = useApp();
+onMounted(() => {
+    setTimeout(() => {
+        setLoading(false);
+    }, 300);
+});
+
+const { getProveedors, setProveedor, limpiarProveedor, deleteProveedor } =
+    useProveedors();
+
+const columns = [
+    {
+        title: "",
+        data: "id",
+    },
+    {
+        title: "RAZÓN SOCIAL",
+        data: "razon_social",
+    },
+    {
+        title: "NIT",
+        data: "nit",
+    },
+    {
+        title: "DIRECCIÓN",
+        data: "dir",
+    },
+    {
+        title: "TELÉFONO/CELULAR",
+        data: "fono",
+    },
+    {
+        title: "NOMBRE CONTACTO",
+        data: "nombre_contacto",
+    },
+    {
+        title: "DESCRIPCIÓN",
+        data: "descripcion",
+    },
+    {
+        title: "FECHA DE REGISTRO",
+        data: "fecha_registro_t",
+    },
+    {
+        title: "ACCIONES",
+        data: null,
+        render: function (data, type, row) {
+            return `
+                <button class="mx-0 rounded-0 btn btn-warning editar" data-id="${
+                    row.id
+                }"><i class="fa fa-edit"></i></button>
+                <button class="mx-0 rounded-0 btn btn-danger eliminar"
+                 data-id="${row.id}" 
+                 data-nombre="${row.razon_social}" 
+                 data-url="${route(
+                     "proveedors.destroy",
+                     row.id
+                 )}"><i class="fa fa-trash"></i></button>
+            `;
+        },
+    },
+];
+const loading = ref(true);
+const accion_dialog = ref(0);
+const open_dialog = ref(false);
+
+const agregarRegistro = () => {
+    limpiarProveedor();
+    accion_dialog.value = 0;
+    open_dialog.value = true;
+};
+
+const accionesRow = () => {
+    // editar
+    $("#table-proveedor").on("click", "button.editar", function (e) {
+        e.preventDefault();
+        let id = $(this).attr("data-id");
+        axios.get(route("proveedors.show", id)).then((response) => {
+            setProveedor(response.data);
+            accion_dialog.value = 1;
+            open_dialog.value = true;
+        });
+    });
+    // eliminar
+    $("#table-proveedor").on("click", "button.eliminar", function (e) {
+        e.preventDefault();
+        let nombre = $(this).attr("data-nombre");
+        let id = $(this).attr("data-id");
+        Swal.fire({
+            title: "¿Quierés eliminar este registro?",
+            html: `<strong>${nombre}</strong>`,
+            showCancelButton: true,
+            confirmButtonColor: "#B61431",
+            confirmButtonText: "Si, eliminar",
+            cancelButtonText: "No, cancelar",
+            denyButtonText: `No, cancelar`,
+        }).then(async (result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                let respuesta = await deleteProveedor(id);
+                if (respuesta && respuesta.sw) {
+                    updateDatatable();
+                }
+            }
+        });
+    });
+};
+
+var datatable = null;
+const datatableInitialized = ref(false);
+const updateDatatable = () => {
+    accion_dialog.value = 0;
+    datatable.ajax.reload();
+};
+
+onMounted(async () => {
+    datatable = initDataTable(
+        "#table-proveedor",
+        columns,
+        route("proveedors.api")
+    );
+    datatableInitialized.value = true;
+    accionesRow();
+});
+onBeforeUnmount(() => {
+    if (datatable) {
+        datatable.clear();
+        datatable.destroy(false); // Destruye la instancia del DataTable
+        datatable = null;
+        datatableInitialized.value = false;
+    }
+});
+</script>
+<template>
+    <Head title="Proveedores"></Head>
+
+    <!-- BEGIN breadcrumb -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
+        <li class="breadcrumb-item active">Proveedores</li>
+    </ol>
+    <!-- END breadcrumb -->
+    <!-- BEGIN page-header -->
+    <h1 class="page-header">Proveedores</h1>
+    <!-- END page-header -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN panel -->
+            <div class="panel panel-inverse">
+                <!-- BEGIN panel-heading -->
+                <div class="panel-heading">
+                    <h4 class="panel-title btn-nuevo">
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            @click="agregarRegistro"
+                        >
+                            <i class="fa fa-plus"></i> Nuevo
+                        </button>
+                    </h4>
+                    <panel-toolbar
+                        :mostrar_loading="loading"
+                        @loading="updateDatatable"
+                    />
+                </div>
+                <!-- END panel-heading -->
+                <!-- BEGIN panel-body -->
+                <div class="panel-body">
+                    <table
+                        id="table-proveedor"
+                        width="100%"
+                        class="table table-striped table-bordered align-middle text-nowrap tabla_datos"
+                    >
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <!-- END panel-body -->
+            </div>
+            <!-- END panel -->
+        </div>
+    </div>
+
+    <Formulario
+        :open_dialog="open_dialog"
+        :accion_dialog="accion_dialog"
+        @envio-formulario="updateDatatable"
+        @cerrar-dialog="open_dialog = false"
+    ></Formulario>
+</template>

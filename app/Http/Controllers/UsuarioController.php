@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HistorialAccion;
 use App\Models\User;
+use App\Models\Venta;
 use App\Models\VentaLote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -106,6 +107,10 @@ class UsuarioController extends Controller
         if ($request->hasFile('foto')) {
             $this->validacion['foto'] = 'image|mimes:jpeg,jpg,png|max:4096';
         }
+
+        if ($request->tipo != 'ADMINISTRADOR') {
+            $this->validacion['sucursal_id'] = 'required';
+        }
         $request->validate($this->validacion, $this->mensajes);
 
         DB::beginTransaction();
@@ -125,6 +130,10 @@ class UsuarioController extends Controller
 
             // crear el Usuario
             $nuevo_usuario = User::create(array_map('mb_strtoupper', $request->except('foto')));
+            if ($request->tipo == 'ADMINISTRADOR') {
+                $nuevo_usuario->sucursal_id = null;
+            }
+
             $nuevo_usuario->password = Hash::make($request->ci);
             $nuevo_usuario->save();
             if ($request->hasFile('foto')) {
@@ -177,11 +186,17 @@ class UsuarioController extends Controller
         if ($request->hasFile('foto')) {
             $this->validacion['foto'] = 'image|mimes:jpeg,jpg,png|max:4096';
         }
+        if ($request->tipo != 'ADMINISTRADOR') {
+            $this->validacion['sucursal_id'] = 'required';
+        }
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {
             $datos_original = HistorialAccion::getDetalleRegistro($user, "users");
             $user->update(array_map('mb_strtoupper', $request->except('foto')));
+            if ($request->tipo == 'ADMINISTRADOR') {
+                $user->sucursal_id = null;
+            }
             if ($request->hasFile('foto')) {
                 $antiguo = $user->foto;
                 if ($antiguo != 'default.png') {
@@ -259,7 +274,7 @@ class UsuarioController extends Controller
     {
         DB::beginTransaction();
         try {
-            $usos = VentaLote::where("user_id", $user->id)->get();
+            $usos = Venta::where("user_id", $user->id)->get();
             if (count($usos) > 0) {
                 throw ValidationException::withMessages([
                     'error' =>  "No es posible eliminar este registro porque esta siendo utilizado por otros registros",
