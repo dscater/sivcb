@@ -532,6 +532,23 @@ const logout = () => {
                     </Link>
                 </div>
                 <div
+                    v-if="user_logeado.permisos.includes('productos.index')"
+                    class="menu-item"
+                    :class="[
+                        route_current == 'productos.index' ? 'active' : '',
+                    ]"
+                >
+                    <Link
+                        :href="route('productos.index')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-boxes"></i>
+                        </div>
+                        <div class="menu-text">Productos</div>
+                    </Link>
+                </div>
+                <div
                     v-if="user_logeado.permisos.includes('proveedors.index')"
                     class="menu-item"
                     :class="[
@@ -563,6 +580,40 @@ const logout = () => {
                             <i class="fa fa-list-alt"></i>
                         </div>
                         <div class="menu-text">Sucursales</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="user_logeado.permisos.includes('unidad_medidas.index')"
+                    class="menu-item"
+                    :class="[
+                        route_current == 'unidad_medidas.index' ? 'active' : '',
+                    ]"
+                >
+                    <Link
+                        :href="route('unidad_medidas.index')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-list-alt"></i>
+                        </div>
+                        <div class="menu-text">Unidades de medida</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="user_logeado.permisos.includes('marcas.index')"
+                    class="menu-item"
+                    :class="[
+                        route_current == 'marcas.index' ? 'active' : '',
+                    ]"
+                >
+                    <Link
+                        :href="route('marcas.index')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-list-alt"></i>
+                        </div>
+                        <div class="menu-text">Marcas</div>
                     </Link>
                 </div>
                 <div

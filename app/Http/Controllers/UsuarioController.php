@@ -77,7 +77,7 @@ class UsuarioController extends Controller
 
     public function api(Request $request)
     {
-        Log::debug($request);
+        // Log::debug($request);
         $usuarios = User::where("id", "!=", 1)->where("tipo", "!=", "CLIENTE");
         $usuarios = $usuarios->get();
         return response()->JSON(["data" => $usuarios]);

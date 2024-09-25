@@ -32,6 +32,21 @@ class UserController extends Controller
             "categorias.edit",
             "categorias.destroy",
 
+            "marcas.index",
+            "marcas.create",
+            "marcas.edit",
+            "marcas.destroy",
+
+            "unidad_medidas.index",
+            "unidad_medidas.create",
+            "unidad_medidas.edit",
+            "unidad_medidas.destroy",
+
+            "productos.index",
+            "productos.create",
+            "productos.edit",
+            "productos.destroy",
+
             "configuracions.index",
             "configuracions.create",
             "configuracions.edit",

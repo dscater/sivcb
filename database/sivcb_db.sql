@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 24-09-2024 a las 16:22:05
+-- Tiempo de generación: 25-09-2024 a las 17:12:49
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -39,7 +39,8 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
-(1, 'CATEGORIA  #1', '2024-09-24 20:21:47', '2024-09-24 20:21:47');
+(1, 'CATEGORIA  #1', '2024-09-24 20:21:47', '2024-09-24 20:21:47'),
+(2, 'CATEGORIA #2', '2024-09-25 21:08:52', '2024-09-25 21:08:52');
 
 -- --------------------------------------------------------
 
@@ -163,7 +164,22 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (18, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 1<br/>nombre: CATEGORIA #1<br/>created_at: 2024-09-24 16:21:05<br/>updated_at: 2024-09-24 16:21:05<br/>', NULL, 'CATEGORIAS', '2024-09-24', '16:21:05', '2024-09-24 20:21:05', '2024-09-24 20:21:05'),
 (19, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA CATEGORÍA', 'id: 1<br/>nombre: CATEGORIA #1<br/>created_at: 2024-09-24 16:21:05<br/>updated_at: 2024-09-24 16:21:05<br/>', 'id: 1<br/>nombre: CATEGORIA #1 ASD<br/>created_at: 2024-09-24 16:21:05<br/>updated_at: 2024-09-24 16:21:25<br/>', 'CATEGORIAS', '2024-09-24', '16:21:25', '2024-09-24 20:21:25', '2024-09-24 20:21:25'),
 (20, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA CATEGORÍA', 'id: 1<br/>nombre: CATEGORIA #1 ASD<br/>created_at: 2024-09-24 16:21:05<br/>updated_at: 2024-09-24 16:21:25<br/>', NULL, 'CATEGORIAS', '2024-09-24', '16:21:28', '2024-09-24 20:21:28', '2024-09-24 20:21:28'),
-(21, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 1<br/>nombre: CATEGORIA  #1<br/>created_at: 2024-09-24 16:21:47<br/>updated_at: 2024-09-24 16:21:47<br/>', NULL, 'CATEGORIAS', '2024-09-24', '16:21:47', '2024-09-24 20:21:47', '2024-09-24 20:21:47');
+(21, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 1<br/>nombre: CATEGORIA  #1<br/>created_at: 2024-09-24 16:21:47<br/>updated_at: 2024-09-24 16:21:47<br/>', NULL, 'CATEGORIAS', '2024-09-24', '16:21:47', '2024-09-24 20:21:47', '2024-09-24 20:21:47'),
+(22, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 1<br/>nombre: MARCA #1<br/>created_at: 2024-09-25 16:25:10<br/>updated_at: 2024-09-25 16:25:10<br/>', NULL, 'CATEGORIAS', '2024-09-25', '16:25:10', '2024-09-25 20:25:10', '2024-09-25 20:25:10'),
+(23, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA CATEGORÍA', 'id: 1<br/>nombre: MARCA #1<br/>created_at: 2024-09-25 16:25:10<br/>updated_at: 2024-09-25 16:25:10<br/>', 'id: 1<br/>nombre: MARCA #1ASD<br/>created_at: 2024-09-25 16:25:10<br/>updated_at: 2024-09-25 16:25:15<br/>', 'CATEGORIAS', '2024-09-25', '16:25:15', '2024-09-25 20:25:15', '2024-09-25 20:25:15'),
+(24, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA CATEGORÍA', 'id: 1<br/>nombre: MARCA #1ASD<br/>created_at: 2024-09-25 16:25:10<br/>updated_at: 2024-09-25 16:25:15<br/>', NULL, 'CATEGORIAS', '2024-09-25', '16:25:21', '2024-09-25 20:25:21', '2024-09-25 20:25:21'),
+(25, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 1<br/>nombre: MARCA #1<br/>created_at: 2024-09-25 16:25:33<br/>updated_at: 2024-09-25 16:25:33<br/>', NULL, 'CATEGORIAS', '2024-09-25', '16:25:33', '2024-09-25 20:25:33', '2024-09-25 20:25:33'),
+(26, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 2<br/>nombre: MARCA #2<br/>created_at: 2024-09-25 16:25:38<br/>updated_at: 2024-09-25 16:25:38<br/>', NULL, 'CATEGORIAS', '2024-09-25', '16:25:38', '2024-09-25 20:25:38', '2024-09-25 20:25:38'),
+(27, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA UNIDAD DE MEDIDA', 'id: 1<br/>nombre: UNIDAD #1<br/>created_at: 2024-09-25 16:28:37<br/>updated_at: 2024-09-25 16:28:37<br/>', NULL, 'UNIDADES DE MEDIDA', '2024-09-25', '16:28:37', '2024-09-25 20:28:37', '2024-09-25 20:28:37'),
+(28, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA UNIDAD DE MEDIDA', 'id: 1<br/>nombre: UNIDAD #1<br/>created_at: 2024-09-25 16:28:37<br/>updated_at: 2024-09-25 16:28:37<br/>', 'id: 1<br/>nombre: UNIDAD #1ASD<br/>created_at: 2024-09-25 16:28:37<br/>updated_at: 2024-09-25 16:28:41<br/>', 'UNIDADES DE MEDIDA', '2024-09-25', '16:28:41', '2024-09-25 20:28:41', '2024-09-25 20:28:41'),
+(29, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA UNIDAD DE MEDIDA', 'id: 1<br/>nombre: UNIDAD #1ASD<br/>created_at: 2024-09-25 16:28:37<br/>updated_at: 2024-09-25 16:28:41<br/>', NULL, 'UNIDADES DE MEDIDA', '2024-09-25', '16:28:45', '2024-09-25 20:28:45', '2024-09-25 20:28:45'),
+(30, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA UNIDAD DE MEDIDA', 'id: 1<br/>nombre: UNIDAD #1<br/>created_at: 2024-09-25 16:28:57<br/>updated_at: 2024-09-25 16:28:57<br/>', NULL, 'UNIDADES DE MEDIDA', '2024-09-25', '16:28:57', '2024-09-25 20:28:57', '2024-09-25 20:28:57'),
+(31, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA UNIDAD DE MEDIDA', 'id: 2<br/>nombre: UNIDAD #2<br/>created_at: 2024-09-25 16:29:02<br/>updated_at: 2024-09-25 16:29:02<br/>', NULL, 'UNIDADES DE MEDIDA', '2024-09-25', '16:29:02', '2024-09-25 20:29:02', '2024-09-25 20:29:02'),
+(32, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 2<br/>nombre: CATEGORIA #2<br/>created_at: 2024-09-25 17:08:52<br/>updated_at: 2024-09-25 17:08:52<br/>', NULL, 'CATEGORIAS', '2024-09-25', '17:08:52', '2024-09-25 21:08:52', '2024-09-25 21:08:52'),
+(33, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN PRODUCTO', 'id: 2<br/>nombre: PRODUCTO #1<br/>categoria_id: 1<br/>marca_id: 1<br/>unidad_medida_id: 1<br/>precio: 300<br/>stock_min: 10<br/>imagen: 1727284262_2.png<br/>fecha_registro: 2024-09-25<br/>created_at: 2024-09-25 17:11:02<br/>updated_at: 2024-09-25 17:11:02<br/>', NULL, 'PRODUCTOS', '2024-09-25', '17:11:02', '2024-09-25 21:11:02', '2024-09-25 21:11:02'),
+(34, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN PRODUCTO', 'id: 2<br/>nombre: PRODUCTO #1<br/>categoria_id: 1<br/>marca_id: 1<br/>unidad_medida_id: 1<br/>precio: 300.00<br/>stock_min: 10<br/>imagen: 1727284262_2.png<br/>fecha_registro: 2024-09-25<br/>created_at: 2024-09-25 17:11:02<br/>updated_at: 2024-09-25 17:11:02<br/>', 'id: 2<br/>nombre: PRODUCTO #1B<br/>categoria_id: 2<br/>marca_id: 2<br/>unidad_medida_id: 2<br/>precio: 250<br/>stock_min: 14<br/>imagen: 1727284285_2.png<br/>fecha_registro: 2024-09-25<br/>created_at: 2024-09-25 17:11:02<br/>updated_at: 2024-09-25 17:11:25<br/>', 'PRODUCTOS', '2024-09-25', '17:11:25', '2024-09-25 21:11:25', '2024-09-25 21:11:25'),
+(35, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN PRODUCTO', 'id: 2<br/>nombre: PRODUCTO #1B<br/>categoria_id: 2<br/>marca_id: 2<br/>unidad_medida_id: 2<br/>precio: 250.00<br/>stock_min: 14<br/>imagen: 1727284285_2.png<br/>fecha_registro: 2024-09-25<br/>created_at: 2024-09-25 17:11:02<br/>updated_at: 2024-09-25 17:11:25<br/>', NULL, 'PRODUCTOS', '2024-09-25', '17:12:07', '2024-09-25 21:12:07', '2024-09-25 21:12:07'),
+(36, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN PRODUCTO', 'id: 1<br/>nombre: PRODUCTO #1<br/>categoria_id: 1<br/>marca_id: 1<br/>unidad_medida_id: 1<br/>precio: 300<br/>stock_min: 15<br/>imagen: 1727284361_1.png<br/>fecha_registro: 2024-09-25<br/>created_at: 2024-09-25 17:12:41<br/>updated_at: 2024-09-25 17:12:41<br/>', NULL, 'PRODUCTOS', '2024-09-25', '17:12:41', '2024-09-25 21:12:41', '2024-09-25 21:12:41');
 
 -- --------------------------------------------------------
 
@@ -228,6 +244,14 @@ CREATE TABLE `marcas` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `marcas`
+--
+
+INSERT INTO `marcas` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
+(1, 'MARCA #1', '2024-09-25 20:25:33', '2024-09-25 20:25:33'),
+(2, 'MARCA #2', '2024-09-25 20:25:38', '2024-09-25 20:25:38');
+
 -- --------------------------------------------------------
 
 --
@@ -286,6 +310,13 @@ CREATE TABLE `productos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `productos`
+--
+
+INSERT INTO `productos` (`id`, `nombre`, `categoria_id`, `marca_id`, `unidad_medida_id`, `precio`, `stock_min`, `imagen`, `fecha_registro`, `created_at`, `updated_at`) VALUES
+(1, 'PRODUCTO #1', 1, 1, 1, 300.00, 15, '1727284361_1.png', '2024-09-25', '2024-09-25 21:12:41', '2024-09-25 21:12:41');
 
 -- --------------------------------------------------------
 
@@ -429,6 +460,14 @@ CREATE TABLE `unidad_medidas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `unidad_medidas`
+--
+
+INSERT INTO `unidad_medidas` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
+(1, 'UNIDAD #1', '2024-09-25 20:28:57', '2024-09-25 20:28:57'),
+(2, 'UNIDAD #2', '2024-09-25 20:29:02', '2024-09-25 20:29:02');
 
 -- --------------------------------------------------------
 
@@ -668,7 +707,7 @@ ALTER TABLE `venta_detalles`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -698,7 +737,7 @@ ALTER TABLE `distribucion_productos`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
@@ -716,7 +755,7 @@ ALTER TABLE `kadexs`
 -- AUTO_INCREMENT de la tabla `marcas`
 --
 ALTER TABLE `marcas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
@@ -728,7 +767,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `producto_barras`
@@ -776,7 +815,7 @@ ALTER TABLE `tipo_salidas`
 -- AUTO_INCREMENT de la tabla `unidad_medidas`
 --
 ALTER TABLE `unidad_medidas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
