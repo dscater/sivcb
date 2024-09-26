@@ -7,7 +7,7 @@ const breadbrums = [
         name_url: "inicio",
     },
     {
-        title: "Productos",
+        title: "Ingreso de productos",
         disabled: false,
         url: "",
         name_url: "",
@@ -17,7 +17,7 @@ const breadbrums = [
 <script setup>
 import { useApp } from "@/composables/useApp";
 import { Head, Link } from "@inertiajs/vue3";
-import { useProductos } from "@/composables/productos/useProductos";
+import { useIngresoProductos } from "@/composables/ingreso_productos/useIngresoProductos";
 import { initDataTable } from "@/composables/datatable.js";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import PanelToolbar from "@/Components/PanelToolbar.vue";
@@ -31,8 +31,12 @@ onMounted(() => {
     }, 300);
 });
 
-const { getProductos, setProducto, limpiarProducto, deleteProducto } =
-    useProductos();
+const {
+    getIngresoProductos,
+    setIngresoProducto,
+    limpiarIngresoProducto,
+    deleteIngresoProducto,
+} = useIngresoProductos();
 
 const columns = [
     {
@@ -40,35 +44,40 @@ const columns = [
         data: "id",
     },
     {
-        title: "",
-        data: "url_foto",
-        render: function (data, type, row) {
-            return `<img src="${data}" class="rounded h-30px my-n1 mx-n1"/>`;
-        },
+        title: "PRODUCTO",
+        data: "producto.nombre",
     },
     {
-        title: "NOMBRE",
-        data: "nombre",
+        title: "PROVEEDOR",
+        data: "proveedor.razon_social",
     },
     {
-        title: "CATEGORÍA",
-        data: "categoria.nombre",
-    },
-    {
-        title: "MARCA",
-        data: "marca.nombre",
-    },
-    {
-        title: "UNIDAD DE MEDIDA",
-        data: "unidad_medida.nombre",
-    },
-    {
-        title: "PRECIO",
+        title: "PRECIO DE COMPRA",
         data: "precio",
     },
     {
-        title: "STOCK MIN.",
-        data: "stock_min",
+        title: "CANTIDAD",
+        data: "cantidad",
+    },
+    {
+        title: "TIPO DE INGRESO",
+        data: "tipo_ingreso.nombre",
+    },
+    {
+        title: "DESCRIPCIÓN",
+        data: "descripcion",
+    },
+    {
+        title: "RECEPCIÓN DE PRODUCTOS",
+        data: "lugar",
+    },
+    {
+        title: "FECHA DE INGRESO",
+        data: "fecha_ingreso_t",
+    },
+    {
+        title: "FECHA DE REGISTRO",
+        data: "fecha_registro_t",
     },
     {
         title: "ACCIONES",
@@ -82,7 +91,7 @@ const columns = [
                  data-id="${row.id}" 
                  data-nombre="${row.nombre}" 
                  data-url="${route(
-                     "productos.destroy",
+                     "ingreso_productos.destroy",
                      row.id
                  )}"><i class="fa fa-trash"></i></button>
             `;
@@ -94,24 +103,24 @@ const accion_dialog = ref(0);
 const open_dialog = ref(false);
 
 const agregarRegistro = () => {
-    limpiarProducto();
+    limpiarIngresoProducto();
     accion_dialog.value = 0;
     open_dialog.value = true;
 };
 
 const accionesRow = () => {
     // editar
-    $("#table-producto").on("click", "button.editar", function (e) {
+    $("#table-ingreso_producto").on("click", "button.editar", function (e) {
         e.preventDefault();
         let id = $(this).attr("data-id");
-        axios.get(route("productos.show", id)).then((response) => {
-            setProducto(response.data);
+        axios.get(route("ingreso_productos.show", id)).then((response) => {
+            setIngresoProducto(response.data);
             accion_dialog.value = 1;
             open_dialog.value = true;
         });
     });
     // eliminar
-    $("#table-producto").on("click", "button.eliminar", function (e) {
+    $("#table-ingreso_producto").on("click", "button.eliminar", function (e) {
         e.preventDefault();
         let nombre = $(this).attr("data-nombre");
         let id = $(this).attr("data-id");
@@ -126,7 +135,7 @@ const accionesRow = () => {
         }).then(async (result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                let respuesta = await deleteProducto(id);
+                let respuesta = await deleteIngresoProducto(id);
                 if (respuesta && respuesta.sw) {
                     updateDatatable();
                 }
@@ -138,11 +147,16 @@ const accionesRow = () => {
 var datatable = null;
 const datatableInitialized = ref(false);
 const updateDatatable = () => {
+    accion_dialog.value = 0;
     datatable.ajax.reload();
 };
 
 onMounted(async () => {
-    datatable = initDataTable("#table-producto", columns, route("productos.api"));
+    datatable = initDataTable(
+        "#table-ingreso_producto",
+        columns,
+        route("ingreso_productos.api")
+    );
     datatableInitialized.value = true;
     accionesRow();
 });
@@ -156,16 +170,16 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-    <Head title="Productos"></Head>
+    <Head title="Ingreso de productos"></Head>
 
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="javascript:;">Inicio</a></li>
-        <li class="breadcrumb-item active">Productos</li>
+        <li class="breadcrumb-item active">Ingreso de productos</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Productos</h1>
+    <h1 class="page-header">Ingreso de productos</h1>
     <!-- END page-header -->
 
     <div class="row">
@@ -177,12 +191,11 @@ onBeforeUnmount(() => {
                     <h4 class="panel-title btn-nuevo">
                         <button
                             type="button"
-                            class="btn btn-primary mr-1 mt-1"
+                            class="btn btn-primary"
                             @click="agregarRegistro"
                         >
                             <i class="fa fa-plus"></i> Nuevo
                         </button>
-                        <button class="btn btn-warning mt-1"><i class="fa fa-list"></i> Stock productos</button>
                     </h4>
                     <panel-toolbar
                         :mostrar_loading="loading"
@@ -193,11 +206,18 @@ onBeforeUnmount(() => {
                 <!-- BEGIN panel-body -->
                 <div class="panel-body">
                     <table
-                        id="table-producto"
+                        id="table-ingreso_producto"
                         width="100%"
                         class="table table-striped table-bordered align-middle text-nowrap tabla_datos"
                     >
-                        <thead></thead>
+                        <thead>
+                            <tr>
+                                <th width="5%"></th>
+                                <th></th>
+                                <th></th>
+                                <th width="5%"></th>
+                            </tr>
+                        </thead>
                         <tbody></tbody>
                     </table>
                 </div>

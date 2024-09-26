@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kadexs', function (Blueprint $table) {
+        Schema::create('kardex_productos', function (Blueprint $table) {
             $table->id();
             $table->string("lugar", 255)->nullable();
             $table->unsignedBigInteger("sucursal_id")->nullable();

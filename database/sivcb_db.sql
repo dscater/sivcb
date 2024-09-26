@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 25-09-2024 a las 17:12:49
+-- Tiempo de generación: 26-09-2024 a las 18:18:50
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sivcb_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `almacen_productos`
+--
+
+CREATE TABLE `almacen_productos` (
+  `id` bigint UNSIGNED NOT NULL,
+  `producto_id` bigint UNSIGNED NOT NULL,
+  `stock_actual` double NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `almacen_productos`
+--
+
+INSERT INTO `almacen_productos` (`id`, `producto_id`, `stock_actual`, `created_at`, `updated_at`) VALUES
+(1, 1, 5, '2024-09-26 21:19:17', '2024-09-26 21:19:17');
 
 -- --------------------------------------------------------
 
@@ -144,42 +165,7 @@ CREATE TABLE `historial_accions` (
 --
 
 INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `datos_original`, `datos_nuevo`, `modulo`, `fecha`, `hora`, `created_at`, `updated_at`) VALUES
-(1, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA SUCURSAL', 'id: 1<br/>nombre: SUCURSAL #1<br/>fono: 77777 - 666666<br/>dir: ZONA LOS PEDREGALES C. 4 #2222<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:24:59<br/>updated_at: 2024-09-24 15:24:59<br/>', NULL, 'SUCURSALES', '2024-09-24', '15:24:59', '2024-09-24 19:24:59', '2024-09-24 19:24:59'),
-(2, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA SUCURSAL', 'id: 1<br/>nombre: SUCURSAL #1<br/>fono: 77777 - 666666<br/>dir: ZONA LOS PEDREGALES C. 4 #2222<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:24:59<br/>updated_at: 2024-09-24 15:24:59<br/>', 'id: 1<br/>nombre: SUCURSAL #1A<br/>fono: 77777 - 666666B<br/>dir: ZONA LOS PEDREGALES C. 4 #2222C<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:24:59<br/>updated_at: 2024-09-24 15:29:34<br/>', 'SUCURSALES', '2024-09-24', '15:29:34', '2024-09-24 19:29:34', '2024-09-24 19:29:34'),
-(3, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA SUCURSAL', 'id: 1<br/>nombre: SUCURSAL #1A<br/>fono: 77777 - 666666B<br/>dir: ZONA LOS PEDREGALES C. 4 #2222C<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:24:59<br/>updated_at: 2024-09-24 15:29:34<br/>', 'id: 1<br/>nombre: SUCURSAL #1A<br/>fono: 77777 - 666666B<br/>dir: ZONA LOS PEDREGALES C. 4 #2222C<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:24:59<br/>updated_at: 2024-09-24 15:29:34<br/>', 'SUCURSALES', '2024-09-24', '15:30:07', '2024-09-24 19:30:07', '2024-09-24 19:30:07'),
-(4, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA SUCURSAL', 'id: 1<br/>nombre: SUCURSAL #1A<br/>fono: 77777 - 666666B<br/>dir: ZONA LOS PEDREGALES C. 4 #2222C<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:24:59<br/>updated_at: 2024-09-24 15:29:34<br/>', NULL, 'SUCURSALES', '2024-09-24', '15:30:11', '2024-09-24 19:30:11', '2024-09-24 19:30:11'),
-(5, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA SUCURSAL', 'id: 1<br/>nombre: SUCURSAL #1<br/>fono: 77777777 - 66666666<br/>dir: ZONA LOS PEDREGALES C. 3 #4444<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:30:36<br/>updated_at: 2024-09-24 15:30:36<br/>', NULL, 'SUCURSALES', '2024-09-24', '15:30:36', '2024-09-24 19:30:36', '2024-09-24 19:30:36'),
-(6, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA SUCURSAL', 'id: 2<br/>nombre: SUCURSAL #2<br/>fono: 78787878 - 67676767<br/>dir: ZONA LOS OLIVOS C. A #2222<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:30:59<br/>updated_at: 2024-09-24 15:30:59<br/>', NULL, 'SUCURSALES', '2024-09-24', '15:30:59', '2024-09-24 19:30:59', '2024-09-24 19:30:59'),
-(7, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$sCckfT5X32Ajbwqs1QFCIuSiN9dJ5rwZsuY7uqCOSvXFEJGLvJ2fa<br/>tipo: SUPERVISOR DE SUCURSAL<br/>foto: 1727192424_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: 1<br/>created_at: 2024-09-24 15:40:24<br/>updated_at: 2024-09-24 15:40:24<br/>', NULL, 'USUARIOS', '2024-09-24', '15:40:24', '2024-09-24 19:40:24', '2024-09-24 19:40:24'),
-(8, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$sCckfT5X32Ajbwqs1QFCIuSiN9dJ5rwZsuY7uqCOSvXFEJGLvJ2fa<br/>tipo: SUPERVISOR DE SUCURSAL<br/>foto: 1727192424_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: 1<br/>created_at: 2024-09-24 15:40:24<br/>updated_at: 2024-09-24 15:40:24<br/>', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$sCckfT5X32Ajbwqs1QFCIuSiN9dJ5rwZsuY7uqCOSvXFEJGLvJ2fa<br/>tipo: ADMINISTRADOR<br/>foto: 1727192424_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: <br/>created_at: 2024-09-24 15:40:24<br/>updated_at: 2024-09-24 15:40:38<br/>', 'USUARIOS', '2024-09-24', '15:40:38', '2024-09-24 19:40:38', '2024-09-24 19:40:38'),
-(9, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$sCckfT5X32Ajbwqs1QFCIuSiN9dJ5rwZsuY7uqCOSvXFEJGLvJ2fa<br/>tipo: ADMINISTRADOR<br/>foto: 1727192424_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: <br/>created_at: 2024-09-24 15:40:24<br/>updated_at: 2024-09-24 15:40:38<br/>', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$sCckfT5X32Ajbwqs1QFCIuSiN9dJ5rwZsuY7uqCOSvXFEJGLvJ2fa<br/>tipo: OPERADOR<br/>foto: 1727192424_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: 2<br/>created_at: 2024-09-24 15:40:24<br/>updated_at: 2024-09-24 15:40:57<br/>', 'USUARIOS', '2024-09-24', '15:40:57', '2024-09-24 19:40:57', '2024-09-24 19:40:57'),
-(10, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$sCckfT5X32Ajbwqs1QFCIuSiN9dJ5rwZsuY7uqCOSvXFEJGLvJ2fa<br/>tipo: OPERADOR<br/>foto: 1727192424_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: 2<br/>created_at: 2024-09-24 15:40:24<br/>updated_at: 2024-09-24 15:40:57<br/>', NULL, 'USUARIOS', '2024-09-24', '15:42:10', '2024-09-24 19:42:10', '2024-09-24 19:42:10'),
-(11, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN USUARIO', 'id: 2<br/>usuario: JPERES<br/>nombre: JUAN<br/>paterno: PERES<br/>materno: MAMANI<br/>ci: 1111<br/>ci_exp: LP<br/>dir: ZONA LOS OLIVOS<br/>email: JUAN@GMAIL.COM<br/>fono: 77777777<br/>password: $2y$12$3QHG0syHSXFGDhyC3x7bqOfm.Rdms.qawkgu01540bhCLdNMlwzLm<br/>tipo: SUPERVISOR DE SUCURSAL<br/>foto: 1727192573_JPERES.jpg<br/>fecha_registro: 2024-09-24<br/>acceso: 1<br/>sucursal_id: 1<br/>created_at: 2024-09-24 15:42:52<br/>updated_at: 2024-09-24 15:42:53<br/>', NULL, 'USUARIOS', '2024-09-24', '15:42:53', '2024-09-24 19:42:53', '2024-09-24 19:42:53'),
-(12, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA SUCURSAL', 'id: 1<br/>nombre: SUCURSAL #1<br/>fono: 77777777 - 66666666<br/>dir: ZONA LOS PEDREGALES C. 3 #4444<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:30:36<br/>updated_at: 2024-09-24 15:30:36<br/>', 'id: 1<br/>nombre: SUCURSAL #1<br/>fono: 77777777 - 66666666<br/>dir: ZONA LOS PEDREGALES C. 3 #4444<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 15:30:36<br/>updated_at: 2024-09-24 15:30:36<br/>', 'SUCURSALES', '2024-09-24', '15:56:50', '2024-09-24 19:56:50', '2024-09-24 19:56:50'),
-(13, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN PROVEEDOR', 'id: 1<br/>razon_social: PROVEEDOR1 S.A.<br/>nit: 1111111111<br/>dir: ZONA LOS MANZANOS C3 #22<br/>fono: 2222222<br/>nombre_contacto: EDUARDO MARTINEZ<br/>descripcion: DESC. PROVEEDOR 1<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 16:10:51<br/>updated_at: 2024-09-24 16:10:51<br/>', NULL, 'PROVEEDORES', '2024-09-24', '16:10:51', '2024-09-24 20:10:51', '2024-09-24 20:10:51'),
-(14, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN PROVEEDOR', 'id: 1<br/>razon_social: PROVEEDOR1 S.A.<br/>nit: 1111111111<br/>dir: ZONA LOS MANZANOS C3 #22<br/>fono: 2222222<br/>nombre_contacto: EDUARDO MARTINEZ<br/>descripcion: DESC. PROVEEDOR 1<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 16:10:51<br/>updated_at: 2024-09-24 16:10:51<br/>', 'id: 1<br/>razon_social: PROVEEDOR1 S.A.A<br/>nit: 1111111111B<br/>dir: ZONA LOS MANZANOS C3 #22C<br/>fono: 2222222D<br/>nombre_contacto: EDUARDO MARTINEZE<br/>descripcion: DESC. PROVEEDOR 1F<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 16:10:51<br/>updated_at: 2024-09-24 16:10:59<br/>', 'PROVEEDORES', '2024-09-24', '16:10:59', '2024-09-24 20:10:59', '2024-09-24 20:10:59'),
-(15, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN PROVEEDOR', 'id: 1<br/>razon_social: PROVEEDOR1 S.A.A<br/>nit: 1111111111B<br/>dir: ZONA LOS MANZANOS C3 #22C<br/>fono: 2222222D<br/>nombre_contacto: EDUARDO MARTINEZE<br/>descripcion: DESC. PROVEEDOR 1F<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 16:10:51<br/>updated_at: 2024-09-24 16:10:59<br/>', NULL, 'PROVEEDORES', '2024-09-24', '16:11:22', '2024-09-24 20:11:22', '2024-09-24 20:11:22'),
-(16, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN PROVEEDOR', 'id: 1<br/>razon_social: PROVEEDOR 1 S.A.<br/>nit: 1111111111<br/>dir: ZONA LOS MANZANOS C. 1 #44444<br/>fono: 222222<br/>nombre_contacto: EDUARDO ALVARES<br/>descripcion: DESC. PROVEEDOR 1<br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 16:11:54<br/>updated_at: 2024-09-24 16:11:54<br/>', NULL, 'PROVEEDORES', '2024-09-24', '16:11:54', '2024-09-24 20:11:54', '2024-09-24 20:11:54'),
-(17, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN PROVEEDOR', 'id: 2<br/>razon_social: PROVEEDOR 2 S.R.L.<br/>nit: 222222222222<br/>dir: ZONA LOS HEROES C. 3 #22222<br/>fono: 2727277<br/>nombre_contacto: JORGE PAREDES<br/>descripcion: <br/>fecha_registro: 2024-09-24<br/>created_at: 2024-09-24 16:12:29<br/>updated_at: 2024-09-24 16:12:29<br/>', NULL, 'PROVEEDORES', '2024-09-24', '16:12:29', '2024-09-24 20:12:29', '2024-09-24 20:12:29'),
-(18, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 1<br/>nombre: CATEGORIA #1<br/>created_at: 2024-09-24 16:21:05<br/>updated_at: 2024-09-24 16:21:05<br/>', NULL, 'CATEGORIAS', '2024-09-24', '16:21:05', '2024-09-24 20:21:05', '2024-09-24 20:21:05'),
-(19, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA CATEGORÍA', 'id: 1<br/>nombre: CATEGORIA #1<br/>created_at: 2024-09-24 16:21:05<br/>updated_at: 2024-09-24 16:21:05<br/>', 'id: 1<br/>nombre: CATEGORIA #1 ASD<br/>created_at: 2024-09-24 16:21:05<br/>updated_at: 2024-09-24 16:21:25<br/>', 'CATEGORIAS', '2024-09-24', '16:21:25', '2024-09-24 20:21:25', '2024-09-24 20:21:25'),
-(20, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA CATEGORÍA', 'id: 1<br/>nombre: CATEGORIA #1 ASD<br/>created_at: 2024-09-24 16:21:05<br/>updated_at: 2024-09-24 16:21:25<br/>', NULL, 'CATEGORIAS', '2024-09-24', '16:21:28', '2024-09-24 20:21:28', '2024-09-24 20:21:28'),
-(21, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 1<br/>nombre: CATEGORIA  #1<br/>created_at: 2024-09-24 16:21:47<br/>updated_at: 2024-09-24 16:21:47<br/>', NULL, 'CATEGORIAS', '2024-09-24', '16:21:47', '2024-09-24 20:21:47', '2024-09-24 20:21:47'),
-(22, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 1<br/>nombre: MARCA #1<br/>created_at: 2024-09-25 16:25:10<br/>updated_at: 2024-09-25 16:25:10<br/>', NULL, 'CATEGORIAS', '2024-09-25', '16:25:10', '2024-09-25 20:25:10', '2024-09-25 20:25:10'),
-(23, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA CATEGORÍA', 'id: 1<br/>nombre: MARCA #1<br/>created_at: 2024-09-25 16:25:10<br/>updated_at: 2024-09-25 16:25:10<br/>', 'id: 1<br/>nombre: MARCA #1ASD<br/>created_at: 2024-09-25 16:25:10<br/>updated_at: 2024-09-25 16:25:15<br/>', 'CATEGORIAS', '2024-09-25', '16:25:15', '2024-09-25 20:25:15', '2024-09-25 20:25:15'),
-(24, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA CATEGORÍA', 'id: 1<br/>nombre: MARCA #1ASD<br/>created_at: 2024-09-25 16:25:10<br/>updated_at: 2024-09-25 16:25:15<br/>', NULL, 'CATEGORIAS', '2024-09-25', '16:25:21', '2024-09-25 20:25:21', '2024-09-25 20:25:21'),
-(25, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 1<br/>nombre: MARCA #1<br/>created_at: 2024-09-25 16:25:33<br/>updated_at: 2024-09-25 16:25:33<br/>', NULL, 'CATEGORIAS', '2024-09-25', '16:25:33', '2024-09-25 20:25:33', '2024-09-25 20:25:33'),
-(26, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 2<br/>nombre: MARCA #2<br/>created_at: 2024-09-25 16:25:38<br/>updated_at: 2024-09-25 16:25:38<br/>', NULL, 'CATEGORIAS', '2024-09-25', '16:25:38', '2024-09-25 20:25:38', '2024-09-25 20:25:38'),
-(27, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA UNIDAD DE MEDIDA', 'id: 1<br/>nombre: UNIDAD #1<br/>created_at: 2024-09-25 16:28:37<br/>updated_at: 2024-09-25 16:28:37<br/>', NULL, 'UNIDADES DE MEDIDA', '2024-09-25', '16:28:37', '2024-09-25 20:28:37', '2024-09-25 20:28:37'),
-(28, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA UNIDAD DE MEDIDA', 'id: 1<br/>nombre: UNIDAD #1<br/>created_at: 2024-09-25 16:28:37<br/>updated_at: 2024-09-25 16:28:37<br/>', 'id: 1<br/>nombre: UNIDAD #1ASD<br/>created_at: 2024-09-25 16:28:37<br/>updated_at: 2024-09-25 16:28:41<br/>', 'UNIDADES DE MEDIDA', '2024-09-25', '16:28:41', '2024-09-25 20:28:41', '2024-09-25 20:28:41'),
-(29, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA UNIDAD DE MEDIDA', 'id: 1<br/>nombre: UNIDAD #1ASD<br/>created_at: 2024-09-25 16:28:37<br/>updated_at: 2024-09-25 16:28:41<br/>', NULL, 'UNIDADES DE MEDIDA', '2024-09-25', '16:28:45', '2024-09-25 20:28:45', '2024-09-25 20:28:45'),
-(30, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA UNIDAD DE MEDIDA', 'id: 1<br/>nombre: UNIDAD #1<br/>created_at: 2024-09-25 16:28:57<br/>updated_at: 2024-09-25 16:28:57<br/>', NULL, 'UNIDADES DE MEDIDA', '2024-09-25', '16:28:57', '2024-09-25 20:28:57', '2024-09-25 20:28:57'),
-(31, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA UNIDAD DE MEDIDA', 'id: 2<br/>nombre: UNIDAD #2<br/>created_at: 2024-09-25 16:29:02<br/>updated_at: 2024-09-25 16:29:02<br/>', NULL, 'UNIDADES DE MEDIDA', '2024-09-25', '16:29:02', '2024-09-25 20:29:02', '2024-09-25 20:29:02'),
-(32, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA CATEGORÍA', 'id: 2<br/>nombre: CATEGORIA #2<br/>created_at: 2024-09-25 17:08:52<br/>updated_at: 2024-09-25 17:08:52<br/>', NULL, 'CATEGORIAS', '2024-09-25', '17:08:52', '2024-09-25 21:08:52', '2024-09-25 21:08:52'),
-(33, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN PRODUCTO', 'id: 2<br/>nombre: PRODUCTO #1<br/>categoria_id: 1<br/>marca_id: 1<br/>unidad_medida_id: 1<br/>precio: 300<br/>stock_min: 10<br/>imagen: 1727284262_2.png<br/>fecha_registro: 2024-09-25<br/>created_at: 2024-09-25 17:11:02<br/>updated_at: 2024-09-25 17:11:02<br/>', NULL, 'PRODUCTOS', '2024-09-25', '17:11:02', '2024-09-25 21:11:02', '2024-09-25 21:11:02'),
-(34, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN PRODUCTO', 'id: 2<br/>nombre: PRODUCTO #1<br/>categoria_id: 1<br/>marca_id: 1<br/>unidad_medida_id: 1<br/>precio: 300.00<br/>stock_min: 10<br/>imagen: 1727284262_2.png<br/>fecha_registro: 2024-09-25<br/>created_at: 2024-09-25 17:11:02<br/>updated_at: 2024-09-25 17:11:02<br/>', 'id: 2<br/>nombre: PRODUCTO #1B<br/>categoria_id: 2<br/>marca_id: 2<br/>unidad_medida_id: 2<br/>precio: 250<br/>stock_min: 14<br/>imagen: 1727284285_2.png<br/>fecha_registro: 2024-09-25<br/>created_at: 2024-09-25 17:11:02<br/>updated_at: 2024-09-25 17:11:25<br/>', 'PRODUCTOS', '2024-09-25', '17:11:25', '2024-09-25 21:11:25', '2024-09-25 21:11:25'),
-(35, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN PRODUCTO', 'id: 2<br/>nombre: PRODUCTO #1B<br/>categoria_id: 2<br/>marca_id: 2<br/>unidad_medida_id: 2<br/>precio: 250.00<br/>stock_min: 14<br/>imagen: 1727284285_2.png<br/>fecha_registro: 2024-09-25<br/>created_at: 2024-09-25 17:11:02<br/>updated_at: 2024-09-25 17:11:25<br/>', NULL, 'PRODUCTOS', '2024-09-25', '17:12:07', '2024-09-25 21:12:07', '2024-09-25 21:12:07'),
-(36, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN PRODUCTO', 'id: 1<br/>nombre: PRODUCTO #1<br/>categoria_id: 1<br/>marca_id: 1<br/>unidad_medida_id: 1<br/>precio: 300<br/>stock_min: 15<br/>imagen: 1727284361_1.png<br/>fecha_registro: 2024-09-25<br/>created_at: 2024-09-25 17:12:41<br/>updated_at: 2024-09-25 17:12:41<br/>', NULL, 'PRODUCTOS', '2024-09-25', '17:12:41', '2024-09-25 21:12:41', '2024-09-25 21:12:41');
+(1, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTO', 'id: 1<br/>producto_id: 1<br/>proveedor_id: 1<br/>precio: 1600<br/>cantidad: 5<br/>tipo_ingreso_id: 1<br/>descripcion: PRIMER INGRESO ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_ingreso: 2024-09-26<br/>fecha_registro: 2024-09-26<br/>created_at: 2024-09-26 17:19:17<br/>updated_at: 2024-09-26 17:19:17<br/>', NULL, 'INGRESO DE PRODUCTOS', '2024-09-26', '17:19:17', '2024-09-26 21:19:17', '2024-09-26 21:19:17');
 
 -- --------------------------------------------------------
 
@@ -203,13 +189,20 @@ CREATE TABLE `ingreso_productos` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `ingreso_productos`
+--
+
+INSERT INTO `ingreso_productos` (`id`, `producto_id`, `proveedor_id`, `precio`, `cantidad`, `tipo_ingreso_id`, `descripcion`, `lugar`, `sucursal_id`, `fecha_ingreso`, `fecha_registro`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1600.00, 5, 1, 'PRIMER INGRESO ALMACEN', 'ALMACÉN', NULL, '2024-09-26', '2024-09-26', '2024-09-26 21:19:17', '2024-09-26 21:19:17');
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `kadexs`
+-- Estructura de tabla para la tabla `kardex_productos`
 --
 
-CREATE TABLE `kadexs` (
+CREATE TABLE `kardex_productos` (
   `id` bigint UNSIGNED NOT NULL,
   `lugar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sucursal_id` bigint UNSIGNED DEFAULT NULL,
@@ -230,6 +223,13 @@ CREATE TABLE `kadexs` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `kardex_productos`
+--
+
+INSERT INTO `kardex_productos` (`id`, `lugar`, `sucursal_id`, `tipo_registro`, `registro_id`, `producto_id`, `detalle`, `precio`, `tipo_is`, `cantidad_ingreso`, `cantidad_salida`, `cantidad_saldo`, `cu`, `monto_ingreso`, `monto_salida`, `monto_saldo`, `fecha`, `created_at`, `updated_at`) VALUES
+(1, 'ALMACÉN', NULL, 'INGRESO', 1, 1, 'VALOR INICIAL', 300.00, 'INGRESO', 5, NULL, 5, 300.00, 1500.00, NULL, 1500.00, '2024-09-26', '2024-09-26 21:19:17', '2024-09-26 21:19:17');
 
 -- --------------------------------------------------------
 
@@ -289,7 +289,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (18, '2024_09_23_135354_create_distribucion_productos_table', 1),
 (19, '2024_09_23_135358_create_distribucion_detalles_table', 1),
 (20, '2024_09_23_135420_create_sucursal_productos_table', 1),
-(21, '2024_09_23_143923_create_kadexs_table', 1);
+(21, '2024_09_23_143923_create_kadexs_table', 1),
+(22, '2024_09_26_143104_create_almacen_productos_table', 2);
 
 -- --------------------------------------------------------
 
@@ -316,7 +317,8 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `nombre`, `categoria_id`, `marca_id`, `unidad_medida_id`, `precio`, `stock_min`, `imagen`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(1, 'PRODUCTO #1', 1, 1, 1, 300.00, 15, '1727284361_1.png', '2024-09-25', '2024-09-25 21:12:41', '2024-09-25 21:12:41');
+(1, 'PRODUCTO #1', 1, 1, 1, 300.00, 15, '1727284361_1.png', '2024-09-25', '2024-09-25 21:12:41', '2024-09-25 21:12:41'),
+(2, 'PRODUCTO #2', 1, 2, 1, 150.00, 3, NULL, '2024-09-26', '2024-09-26 18:33:36', '2024-09-26 18:33:36');
 
 -- --------------------------------------------------------
 
@@ -337,6 +339,17 @@ CREATE TABLE `producto_barras` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `producto_barras`
+--
+
+INSERT INTO `producto_barras` (`id`, `producto_id`, `codigo`, `lugar`, `sucursal_id`, `ingreso_id`, `salida_id`, `venta_detalle_id`, `distribucion_detalle_id`, `created_at`, `updated_at`) VALUES
+(1, 1, '111', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-26 21:19:17', '2024-09-26 21:19:17'),
+(2, 1, '112', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-26 21:19:17', '2024-09-26 21:19:17'),
+(3, 1, '113', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-26 21:19:17', '2024-09-26 21:19:17'),
+(4, 1, '114', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-26 21:19:17', '2024-09-26 21:19:17'),
+(5, 1, '115', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-26 21:19:17', '2024-09-26 21:19:17');
 
 -- --------------------------------------------------------
 
@@ -431,9 +444,18 @@ CREATE TABLE `sucursal_productos` (
 CREATE TABLE `tipo_ingresos` (
   `id` bigint UNSIGNED NOT NULL,
   `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` varchar(600) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `tipo_ingresos`
+--
+
+INSERT INTO `tipo_ingresos` (`id`, `nombre`, `descripcion`, `created_at`, `updated_at`) VALUES
+(1, 'TIPO INGRESO #1', 'DESC. 1', '2024-09-26 18:54:01', '2024-09-26 18:54:01'),
+(2, 'TIPO INGRESO #2', '', '2024-09-26 18:54:07', '2024-09-26 18:54:07');
 
 -- --------------------------------------------------------
 
@@ -444,9 +466,18 @@ CREATE TABLE `tipo_ingresos` (
 CREATE TABLE `tipo_salidas` (
   `id` bigint UNSIGNED NOT NULL,
   `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` varchar(600) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `tipo_salidas`
+--
+
+INSERT INTO `tipo_salidas` (`id`, `nombre`, `descripcion`, `created_at`, `updated_at`) VALUES
+(1, 'TIPO SALIDA #1', 'DESC. SALIDA 1', '2024-09-26 18:56:30', '2024-09-26 18:56:30'),
+(2, 'TIPO SALIDA #2', '', '2024-09-26 18:56:37', '2024-09-26 18:56:37');
 
 -- --------------------------------------------------------
 
@@ -545,6 +576,13 @@ CREATE TABLE `venta_detalles` (
 --
 
 --
+-- Indices de la tabla `almacen_productos`
+--
+ALTER TABLE `almacen_productos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `almacen_productos_producto_id_foreign` (`producto_id`);
+
+--
 -- Indices de la tabla `categorias`
 --
 ALTER TABLE `categorias`
@@ -594,9 +632,9 @@ ALTER TABLE `ingreso_productos`
   ADD KEY `ingreso_productos_sucursal_id_foreign` (`sucursal_id`);
 
 --
--- Indices de la tabla `kadexs`
+-- Indices de la tabla `kardex_productos`
 --
-ALTER TABLE `kadexs`
+ALTER TABLE `kardex_productos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `kadexs_producto_id_foreign` (`producto_id`);
 
@@ -704,6 +742,12 @@ ALTER TABLE `venta_detalles`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `almacen_productos`
+--
+ALTER TABLE `almacen_productos`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
@@ -737,19 +781,19 @@ ALTER TABLE `distribucion_productos`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
 --
 ALTER TABLE `ingreso_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `kadexs`
+-- AUTO_INCREMENT de la tabla `kardex_productos`
 --
-ALTER TABLE `kadexs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `kardex_productos`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `marcas`
@@ -761,19 +805,19 @@ ALTER TABLE `marcas`
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `producto_barras`
 --
 ALTER TABLE `producto_barras`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedors`
@@ -797,19 +841,19 @@ ALTER TABLE `sucursals`
 -- AUTO_INCREMENT de la tabla `sucursal_productos`
 --
 ALTER TABLE `sucursal_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_ingresos`
 --
 ALTER TABLE `tipo_ingresos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_salidas`
 --
 ALTER TABLE `tipo_salidas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `unidad_medidas`
@@ -840,6 +884,12 @@ ALTER TABLE `venta_detalles`
 --
 
 --
+-- Filtros para la tabla `almacen_productos`
+--
+ALTER TABLE `almacen_productos`
+  ADD CONSTRAINT `almacen_productos_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`);
+
+--
 -- Filtros para la tabla `distribucion_productos`
 --
 ALTER TABLE `distribucion_productos`
@@ -855,9 +905,9 @@ ALTER TABLE `ingreso_productos`
   ADD CONSTRAINT `ingreso_productos_tipo_ingreso_id_foreign` FOREIGN KEY (`tipo_ingreso_id`) REFERENCES `tipo_ingresos` (`id`);
 
 --
--- Filtros para la tabla `kadexs`
+-- Filtros para la tabla `kardex_productos`
 --
-ALTER TABLE `kadexs`
+ALTER TABLE `kardex_productos`
   ADD CONSTRAINT `kadexs_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`);
 
 --

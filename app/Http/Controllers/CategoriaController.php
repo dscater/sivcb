@@ -64,8 +64,8 @@ class CategoriaController extends Controller
         try {
             $request['fecha_registro'] = date('Y-m-d');
             // crear el Categoria
-            $nuevo_usuario = Categoria::create(array_map('mb_strtoupper', $request->all()));
-            $datos_original = HistorialAccion::getDetalleRegistro($nuevo_usuario, "categorias");
+            $nueva_categoria = Categoria::create(array_map('mb_strtoupper', $request->all()));
+            $datos_original = HistorialAccion::getDetalleRegistro($nueva_categoria, "categorias");
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
                 'accion' => 'CREACIÓN',

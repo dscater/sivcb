@@ -64,8 +64,8 @@ class MarcaController extends Controller
         try {
             $request['fecha_registro'] = date('Y-m-d');
             // crear el Marca
-            $nuevo_usuario = Marca::create(array_map('mb_strtoupper', $request->all()));
-            $datos_original = HistorialAccion::getDetalleRegistro($nuevo_usuario, "marcas");
+            $nueva_marca = Marca::create(array_map('mb_strtoupper', $request->all()));
+            $datos_original = HistorialAccion::getDetalleRegistro($nueva_marca, "marcas");
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
                 'accion' => 'CREACIÓN',

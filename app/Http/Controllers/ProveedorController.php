@@ -67,8 +67,8 @@ class ProveedorController extends Controller
         try {
             $request['fecha_registro'] = date('Y-m-d');
             // crear el Proveedor
-            $nuevo_usuario = Proveedor::create(array_map('mb_strtoupper', $request->all()));
-            $datos_original = HistorialAccion::getDetalleRegistro($nuevo_usuario, "proveedors");
+            $nuevo_proveedor = Proveedor::create(array_map('mb_strtoupper', $request->all()));
+            $datos_original = HistorialAccion::getDetalleRegistro($nuevo_proveedor, "proveedors");
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
                 'accion' => 'CREACIÓN',

@@ -549,6 +549,57 @@ const logout = () => {
                     </Link>
                 </div>
                 <div
+                    v-if="user_logeado.permisos.includes('ingreso_productos.index')"
+                    class="menu-item"
+                    :class="[
+                        route_current == 'ingreso_productos.index' ? 'active' : '',
+                    ]"
+                >
+                    <Link
+                        :href="route('ingreso_productos.index')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-arrow-right"></i>
+                        </div>
+                        <div class="menu-text">Ingreso de productos</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="user_logeado.permisos.includes('tipo_ingresos.index')"
+                    class="menu-item"
+                    :class="[
+                        route_current == 'tipo_ingresos.index' ? 'active' : '',
+                    ]"
+                >
+                    <Link
+                        :href="route('tipo_ingresos.index')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-list"></i>
+                        </div>
+                        <div class="menu-text">Tipo de ingresos</div>
+                    </Link>
+                </div>
+                <div
+                    v-if="user_logeado.permisos.includes('tipo_salidas.index')"
+                    class="menu-item"
+                    :class="[
+                        route_current == 'tipo_salidas.index' ? 'active' : '',
+                    ]"
+                >
+                    <Link
+                        :href="route('tipo_salidas.index')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-list"></i>
+                        </div>
+                        <div class="menu-text">Tipo de salidas</div>
+                    </Link>
+                </div>
+                <div
                     v-if="user_logeado.permisos.includes('proveedors.index')"
                     class="menu-item"
                     :class="[

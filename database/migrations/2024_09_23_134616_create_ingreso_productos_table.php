@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger("tipo_ingreso_id");
             $table->string("descripcion", 600)->nullable();
             $table->string("lugar");
-            $table->unsignedBigInteger("sucursal_id")->nullable();
+            $table->unsignedBigInteger("sucursal_id")->nullable()->default(null);
             $table->date("fecha_ingreso");
             $table->date("fecha_registro");
             $table->timestamps();

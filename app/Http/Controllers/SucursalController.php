@@ -69,8 +69,8 @@ class SucursalController extends Controller
         try {
             $request['fecha_registro'] = date('Y-m-d');
             // crear el Sucursal
-            $nuevo_usuario = Sucursal::create(array_map('mb_strtoupper', $request->all()));
-            $datos_original = HistorialAccion::getDetalleRegistro($nuevo_usuario, "sucursals");
+            $nueva_sucursal = Sucursal::create(array_map('mb_strtoupper', $request->all()));
+            $datos_original = HistorialAccion::getDetalleRegistro($nueva_sucursal, "sucursals");
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
                 'accion' => 'CREACIÓN',

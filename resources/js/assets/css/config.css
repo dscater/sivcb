@@ -20,6 +20,30 @@ html {
     overflow-y: overlay;
 }
 
+.readonly{
+    cursor: not-allowed;
+    background-color: rgb(228, 228, 228)!important;
+}
+
+.mr-1 {
+    margin-right: 5px;
+}
+.ml-1 {
+    margin-left: 5px;
+}
+
+.modal_registro {
+    width: 100%;
+}
+.modal_registro .modal-dialog {
+    width: 100vw;
+    margin: 0px;
+}
+
+.modal_registro .modal-dialog .modal-content {
+    width: 100vw;
+}
+
 .text-right {
     text-align: right;
 }
@@ -43,7 +67,7 @@ html {
 .app-sidebar.bg-dark .menu-header,
 .app-sidebar.bg-dark .menu-item a,
 .app-sidebar.bg-dark .menu-item .menu-link,
-.app-sidebar.bg-dark .menu-item .menu-submenu .menu-item .menu-text{
+.app-sidebar.bg-dark .menu-item .menu-submenu .menu-item .menu-text {
     color: white;
 }
 

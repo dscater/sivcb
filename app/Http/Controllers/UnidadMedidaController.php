@@ -64,8 +64,8 @@ class UnidadMedidaController extends Controller
         try {
             $request['fecha_registro'] = date('Y-m-d');
             // crear el UnidadMedida
-            $nuevo_usuario = UnidadMedida::create(array_map('mb_strtoupper', $request->all()));
-            $datos_original = HistorialAccion::getDetalleRegistro($nuevo_usuario, "unidad_medidas");
+            $nueva_unidad_medida = UnidadMedida::create(array_map('mb_strtoupper', $request->all()));
+            $datos_original = HistorialAccion::getDetalleRegistro($nueva_unidad_medida, "unidad_medidas");
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
                 'accion' => 'CREACIÓN',

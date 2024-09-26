@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tipo_ingresos', function (Blueprint $table) {
             $table->id();
             $table->string("nombre", 255)->unique();
+            $table->string("descripcion", 600)->nullable();
             $table->timestamps();
         });
     }
