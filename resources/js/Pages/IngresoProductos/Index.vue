@@ -69,7 +69,17 @@ const columns = [
     },
     {
         title: "RECEPCIÓN DE PRODUCTOS",
-        data: "lugar",
+        data: null,
+        render: function (data, type, row) {
+            let sucursal = ``;
+            if (row.lugar == "SUCURSAL" && row.sucursal_id) {
+                sucursal = `<span class="text-sm text-gray-600 font-weight-bold">"${row.sucursal.nombre}"</span>`;
+            }
+            return `
+                <span>${row.lugar}</span><br/>
+                ${sucursal}
+            `;
+        },
     },
     {
         title: "FECHA DE INGRESO",
@@ -89,7 +99,7 @@ const columns = [
                 }"><i class="fa fa-edit"></i></button>
                 <button class="mx-0 rounded-0 btn btn-danger eliminar"
                  data-id="${row.id}" 
-                 data-nombre="${row.nombre}" 
+                 data-nombre="${row.producto.nombre}-${row.lugar}" 
                  data-url="${route(
                      "ingreso_productos.destroy",
                      row.id
@@ -213,6 +223,13 @@ onBeforeUnmount(() => {
                         <thead>
                             <tr>
                                 <th width="5%"></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th width="5%"></th>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class KardexProducto extends Model
 {
@@ -11,7 +12,7 @@ class KardexProducto extends Model
 
     protected $fillable = [
         "lugar",
-        "lugar_id",
+        "sucursal_id",
         "tipo_registro",
         "registro_id",
         "producto_id",
@@ -36,7 +37,7 @@ class KardexProducto extends Model
 
     public function sucursal()
     {
-        return $this->belongsTo(Sucursal::class, 'lugar_id');
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
     }
 
     // REGISTRAR INGRESO
@@ -140,18 +141,28 @@ class KardexProducto extends Model
     // ACTUALIZA REGISTROS KARDEX
     // FUNCIÓN QUE ACTUALIZA LOS REGISTROS DEL KARDEX DE UN LUGAR
     // SOLO ACTUALIZARA LOS REGISTROS POSTERIORES AL REGISTRO ACTUALIZADO
-    public static function actualizaRegistrosKardex($id, $producto_id, $lugar)
+    public static function actualizaRegistrosKardex($id, $producto_id, $lugar, $sucursal_id = null)
     {
         $siguientes = KardexProducto::where("lugar", $lugar)
             ->where("producto_id", $producto_id)
-            ->where("id", ">=", $id)
-            ->get();
+            ->where("id", ">=", $id);
+
+        if ($lugar == 'SUCURSAL') {
+            $siguientes->where("sucursal_id", $sucursal_id);
+        }
+
+        $siguientes = $siguientes->get();
 
         foreach ($siguientes as $item) {
             $anterior = KardexProducto::where("lugar", $lugar)
                 ->where("producto_id", $producto_id)
-                ->where("id", "<", $item->id)->get()
-                ->last();
+                ->where("id", "<", $item->id);
+
+            if ($lugar == 'SUCURSAL') {
+                $anterior->where("sucursal_id", $sucursal_id);
+            }
+
+            $anterior = $anterior->get()->last();
 
             $datos_actualizacion = [
                 "lugar" => $item->lugar,
@@ -164,12 +175,12 @@ class KardexProducto extends Model
                 "monto_salida" => NULL,
                 "monto_saldo" => 0,
             ];
-
             switch ($item->tipo_registro) {
                 case 'INGRESO':
                     $ingreso_producto = IngresoProducto::find($item->registro_id);
                     $monto = (float)$ingreso_producto->cantidad * (float)$ingreso_producto->producto->precio;
                     if ($anterior) {
+                        Log::debug("AA");
                         $datos_actualizacion["precio"] = $ingreso_producto->producto->precio;
                         $datos_actualizacion["cantidad_ingreso"] =  $ingreso_producto->cantidad;
                         $datos_actualizacion["cantidad_saldo"] = (float)$anterior->cantidad_saldo + (float)$ingreso_producto->cantidad;
@@ -177,6 +188,8 @@ class KardexProducto extends Model
                         $datos_actualizacion["monto_ingreso"] = $monto;
                         $datos_actualizacion["monto_saldo"] = (float)$anterior->monto_saldo + $monto;
                     } else {
+                        Log::debug("BB");
+                        Log::debug($ingreso_producto->cantidad);
                         $datos_actualizacion["precio"] = $ingreso_producto->producto->precio;
                         $datos_actualizacion["cantidad_ingreso"] =  $ingreso_producto->cantidad;
                         $datos_actualizacion["cantidad_saldo"] = (float)$ingreso_producto->cantidad;
@@ -283,7 +296,6 @@ class KardexProducto extends Model
 
                     break;
             }
-
 
             $item->update($datos_actualizacion);
         }

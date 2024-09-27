@@ -22,10 +22,10 @@ export const useIngresoProductos = () => {
     const { flash } = usePage().props;
     const getIngresoProductos = async () => {
         try {
-            const response = await axios.get(route("tipo_ingresos.listado"), {
+            const response = await axios.get(route("ingreso_productos.listado"), {
                 headers: { Accept: "application/json" },
             });
-            return response.data.tipo_ingresos;
+            return response.data.ingreso_productos;
         } catch (err) {
             Swal.fire({
                 icon: "error",
@@ -46,7 +46,7 @@ export const useIngresoProductos = () => {
 
     const getIngresoProductosByTipo = async (data) => {
         try {
-            const response = await axios.get(route("tipo_ingresos.byTipo"), {
+            const response = await axios.get(route("ingreso_productos.byTipo"), {
                 headers: { Accept: "application/json" },
                 params: data,
             });
@@ -60,7 +60,7 @@ export const useIngresoProductos = () => {
     const getIngresoProductosApi = async (data) => {
         try {
             const response = await axios.get(
-                route("tipo_ingresos.paginado", data),
+                route("ingreso_productos.paginado", data),
                 {
                     headers: { Accept: "application/json" },
                 }
@@ -86,7 +86,7 @@ export const useIngresoProductos = () => {
     const saveIngresoProducto = async (data) => {
         try {
             const response = await axios.post(
-                route("tipo_ingresos.store", data),
+                route("ingreso_productos.store", data),
                 {
                     headers: { Accept: "application/json" },
                 }
@@ -120,7 +120,7 @@ export const useIngresoProductos = () => {
     const deleteIngresoProducto = async (id) => {
         try {
             const response = await axios.delete(
-                route("tipo_ingresos.destroy", id),
+                route("ingreso_productos.destroy", id),
                 {
                     headers: { Accept: "application/json" },
                 }
@@ -165,6 +165,8 @@ export const useIngresoProductos = () => {
             oIngresoProducto.fecha_ingreso = item.fecha_ingreso;
             oIngresoProducto.producto_barras = [...item.producto_barras];
             oIngresoProducto._method = "PUT";
+            oIngresoProducto.producto = item.producto? item.producto:null;
+            oIngresoProducto.sucursal = item.sucursal? item.sucursal:null;
             oIngresoProducto.eliminados = [];
             return oIngresoProducto;
         }

@@ -37,15 +37,10 @@ watch(
     async (newValue) => {
         dialog.value = newValue;
         if (dialog.value) {
+            console.log(oIngresoProducto);
             cargarListas();
             await nextTick();
             cod_prod_ref.value.focus();
-            const accesoCheckbox = $("#acceso");
-            if (oIngresoProducto.acceso == 1) {
-                accesoCheckbox.prop("checked", false).trigger("click");
-            } else {
-                accesoCheckbox.prop("checked", true).trigger("click");
-            }
             document
                 .getElementsByTagName("body")[0]
                 .classList.add("modal-open");
@@ -210,7 +205,10 @@ onMounted(() => {});
                         <div class="row">
                             <div class="col-md-8 border p-2">
                                 <div class="row">
-                                    <div class="col-12">
+                                    <div
+                                        class="col-12"
+                                        v-if="accion_dialog == 0"
+                                    >
                                         <label>Seleccionar Producto*</label>
                                         <select
                                             class="form-select"
@@ -238,6 +236,16 @@ onMounted(() => {});
                                                 {{ form.errors?.producto_id }}
                                             </li>
                                         </ul>
+                                    </div>
+                                    <div class="col-12" v-else>
+                                        <label>Producto:</label>
+                                        <input
+                                            type="text"
+                                            class="form-control readonly"
+                                            v-if="form.producto"
+                                            v-model="form.producto.nombre"
+                                            readonly
+                                        />
                                     </div>
                                     <div class="col-12">
                                         <label>Seleccionar Proveedor*</label>
@@ -363,7 +371,10 @@ onMounted(() => {});
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="col-12">
+                                    <div
+                                        class="col-12"
+                                        v-if="accion_dialog == 0"
+                                    >
                                         <label>Recepción de productos*</label>
                                         <select
                                             class="form-select"
@@ -392,37 +403,61 @@ onMounted(() => {});
                                             </li>
                                         </ul>
                                     </div>
+                                    <div class="col-12" v-else>
+                                        <label>Lugar:</label>
+                                        <input
+                                            type="text"
+                                            class="form-control readonly"
+                                            v-model="form.lugar"
+                                            readonly
+                                        />
+                                    </div>
                                     <div
                                         class="col-12"
                                         v-show="form.lugar == 'SUCURSAL'"
                                     >
-                                        <label>Seleccionar Sucursal*</label>
-                                        <select
-                                            class="form-select"
-                                            :class="{
-                                                'parsley-error':
-                                                    form.errors?.sucursal_id,
-                                            }"
-                                            v-model="form.sucursal_id"
-                                        >
-                                            <option value="">
-                                                - Seleccione -
-                                            </option>
-                                            <option
-                                                v-for="item in listSucursals"
-                                                :value="item.id"
+                                        <template v-if="accion_dialog == 0">
+                                            <label>Seleccionar Sucursal*</label>
+                                            <select
+                                                class="form-select"
+                                                :class="{
+                                                    'parsley-error':
+                                                        form.errors
+                                                            ?.sucursal_id,
+                                                }"
+                                                v-model="form.sucursal_id"
                                             >
-                                                {{ item.nombre }}
-                                            </option>
-                                        </select>
-                                        <ul
-                                            v-if="form.errors?.sucursal_id"
-                                            class="parsley-errors-list filled"
-                                        >
-                                            <li class="parsley-required">
-                                                {{ form.errors?.sucursal_id }}
-                                            </li>
-                                        </ul>
+                                                <option value="">
+                                                    - Seleccione -
+                                                </option>
+                                                <option
+                                                    v-for="item in listSucursals"
+                                                    :value="item.id"
+                                                >
+                                                    {{ item.nombre }}
+                                                </option>
+                                            </select>
+                                            <ul
+                                                v-if="form.errors?.sucursal_id"
+                                                class="parsley-errors-list filled"
+                                            >
+                                                <li class="parsley-required">
+                                                    {{
+                                                        form.errors?.sucursal_id
+                                                    }}
+                                                </li>
+                                            </ul>
+                                        </template>
+                                        <template v-else>
+                                            <label>Sucursal:</label>
+                                            <input
+                                                type="text"
+                                                class="form-control readonly"
+                                                v-if="form.sucursal"
+                                                v-model="form.sucursal.nombre"
+                                                readonly
+                                            />
+                                        </template>
                                     </div>
                                 </div>
                             </div>

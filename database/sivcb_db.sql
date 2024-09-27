@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 26-09-2024 a las 18:18:50
+-- Tiempo de generación: 27-09-2024 a las 17:13:45
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -34,13 +34,6 @@ CREATE TABLE `almacen_productos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `almacen_productos`
---
-
-INSERT INTO `almacen_productos` (`id`, `producto_id`, `stock_actual`, `created_at`, `updated_at`) VALUES
-(1, 1, 5, '2024-09-26 21:19:17', '2024-09-26 21:19:17');
 
 -- --------------------------------------------------------
 
@@ -165,7 +158,8 @@ CREATE TABLE `historial_accions` (
 --
 
 INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `datos_original`, `datos_nuevo`, `modulo`, `fecha`, `hora`, `created_at`, `updated_at`) VALUES
-(1, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTO', 'id: 1<br/>producto_id: 1<br/>proveedor_id: 1<br/>precio: 1600<br/>cantidad: 5<br/>tipo_ingreso_id: 1<br/>descripcion: PRIMER INGRESO ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_ingreso: 2024-09-26<br/>fecha_registro: 2024-09-26<br/>created_at: 2024-09-26 17:19:17<br/>updated_at: 2024-09-26 17:19:17<br/>', NULL, 'INGRESO DE PRODUCTOS', '2024-09-26', '17:19:17', '2024-09-26 21:19:17', '2024-09-26 21:19:17');
+(1, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN TIPO DE INGRESO', 'id: 1<br/>nombre: TIPO INGRESO #1<br/>descripcion: <br/>created_at: 2024-09-27 17:13:31<br/>updated_at: 2024-09-27 17:13:31<br/>', NULL, 'TIPO DE INGRESOS', '2024-09-27', '17:13:31', '2024-09-27 21:13:31', '2024-09-27 21:13:31'),
+(2, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN TIPO DE INGRESO', 'id: 2<br/>nombre: TIPO INGRESO #2<br/>descripcion: <br/>created_at: 2024-09-27 17:13:37<br/>updated_at: 2024-09-27 17:13:37<br/>', NULL, 'TIPO DE INGRESOS', '2024-09-27', '17:13:37', '2024-09-27 21:13:37', '2024-09-27 21:13:37');
 
 -- --------------------------------------------------------
 
@@ -188,13 +182,6 @@ CREATE TABLE `ingreso_productos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `ingreso_productos`
---
-
-INSERT INTO `ingreso_productos` (`id`, `producto_id`, `proveedor_id`, `precio`, `cantidad`, `tipo_ingreso_id`, `descripcion`, `lugar`, `sucursal_id`, `fecha_ingreso`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1600.00, 5, 1, 'PRIMER INGRESO ALMACEN', 'ALMACÉN', NULL, '2024-09-26', '2024-09-26', '2024-09-26 21:19:17', '2024-09-26 21:19:17');
 
 -- --------------------------------------------------------
 
@@ -223,13 +210,6 @@ CREATE TABLE `kardex_productos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `kardex_productos`
---
-
-INSERT INTO `kardex_productos` (`id`, `lugar`, `sucursal_id`, `tipo_registro`, `registro_id`, `producto_id`, `detalle`, `precio`, `tipo_is`, `cantidad_ingreso`, `cantidad_salida`, `cantidad_saldo`, `cu`, `monto_ingreso`, `monto_salida`, `monto_saldo`, `fecha`, `created_at`, `updated_at`) VALUES
-(1, 'ALMACÉN', NULL, 'INGRESO', 1, 1, 'VALOR INICIAL', 300.00, 'INGRESO', 5, NULL, 5, 300.00, 1500.00, NULL, 1500.00, '2024-09-26', '2024-09-26 21:19:17', '2024-09-26 21:19:17');
 
 -- --------------------------------------------------------
 
@@ -340,17 +320,6 @@ CREATE TABLE `producto_barras` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Volcado de datos para la tabla `producto_barras`
---
-
-INSERT INTO `producto_barras` (`id`, `producto_id`, `codigo`, `lugar`, `sucursal_id`, `ingreso_id`, `salida_id`, `venta_detalle_id`, `distribucion_detalle_id`, `created_at`, `updated_at`) VALUES
-(1, 1, '111', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-26 21:19:17', '2024-09-26 21:19:17'),
-(2, 1, '112', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-26 21:19:17', '2024-09-26 21:19:17'),
-(3, 1, '113', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-26 21:19:17', '2024-09-26 21:19:17'),
-(4, 1, '114', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-26 21:19:17', '2024-09-26 21:19:17'),
-(5, 1, '115', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-26 21:19:17', '2024-09-26 21:19:17');
-
 -- --------------------------------------------------------
 
 --
@@ -454,8 +423,8 @@ CREATE TABLE `tipo_ingresos` (
 --
 
 INSERT INTO `tipo_ingresos` (`id`, `nombre`, `descripcion`, `created_at`, `updated_at`) VALUES
-(1, 'TIPO INGRESO #1', 'DESC. 1', '2024-09-26 18:54:01', '2024-09-26 18:54:01'),
-(2, 'TIPO INGRESO #2', '', '2024-09-26 18:54:07', '2024-09-26 18:54:07');
+(1, 'TIPO INGRESO #1', '', '2024-09-27 21:13:31', '2024-09-27 21:13:31'),
+(2, 'TIPO INGRESO #2', '', '2024-09-27 21:13:37', '2024-09-27 21:13:37');
 
 -- --------------------------------------------------------
 
@@ -745,7 +714,7 @@ ALTER TABLE `venta_detalles`
 -- AUTO_INCREMENT de la tabla `almacen_productos`
 --
 ALTER TABLE `almacen_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -781,19 +750,19 @@ ALTER TABLE `distribucion_productos`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
 --
 ALTER TABLE `ingreso_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `kardex_productos`
 --
 ALTER TABLE `kardex_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `marcas`
@@ -817,7 +786,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `producto_barras`
 --
 ALTER TABLE `producto_barras`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedors`
@@ -841,7 +810,7 @@ ALTER TABLE `sucursals`
 -- AUTO_INCREMENT de la tabla `sucursal_productos`
 --
 ALTER TABLE `sucursal_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_ingresos`

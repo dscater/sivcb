@@ -46,7 +46,7 @@ class IngresoProductoController extends Controller
 
     public function listado()
     {
-        $ingreso_productos = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras"])->select("ingreso_productos.*")->get();
+        $ingreso_productos = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras", "sucursal"])->select("ingreso_productos.*")->get();
         return response()->JSON([
             "ingreso_productos" => $ingreso_productos
         ]);
@@ -54,7 +54,7 @@ class IngresoProductoController extends Controller
 
     public function api(Request $request)
     {
-        $usuarios = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras"])->select("ingreso_productos.*");
+        $usuarios = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras", "sucursal"])->select("ingreso_productos.*");
         $usuarios = $usuarios->get();
         return response()->JSON(["data" => $usuarios]);
     }
@@ -62,7 +62,7 @@ class IngresoProductoController extends Controller
     public function paginado(Request $request)
     {
         $search = $request->search;
-        $usuarios = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras"])->select("ingreso_productos.*");
+        $usuarios = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras", "sucursal"])->select("ingreso_productos.*");
 
         if (trim($search) != "") {
             $usuarios->where("nombre", "LIKE", "%$search%");
@@ -166,6 +166,9 @@ class IngresoProductoController extends Controller
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {
+            unset($ingreso_producto->producto);
+            unset($ingreso_producto->sucursal);
+            unset($ingreso_producto->proveedor);
             // descontar el stock
             if ($ingreso_producto->lugar == 'SUCURSAL') {
                 Producto::decrementarStock($ingreso_producto->producto, $ingreso_producto->cantidad, $ingreso_producto->lugar, $ingreso_producto->sucursal_id);
@@ -173,6 +176,7 @@ class IngresoProductoController extends Controller
                 Producto::decrementarStock($ingreso_producto->producto, $ingreso_producto->cantidad, $ingreso_producto->lugar);
             }
             $datos_original = HistorialAccion::getDetalleRegistro($ingreso_producto, "ingreso_productos");
+
             // actualizar ingreso
             $datos_ingreso = [
                 "producto_id" => $request->producto_id,
@@ -190,15 +194,17 @@ class IngresoProductoController extends Controller
             if ($ingreso_producto->lugar == 'ALMACÉN') {
                 $ingreso_producto->sucursal_id = null;
             }
-
             $ingreso_producto->save();
-
             // eliminados
             $eliminados = $request->eliminados;
             if (isset($request->eliminados) && $eliminados) {
                 foreach ($eliminados as $item_e) {
                     $producto_barra = ProductoBarra::find($item_e);
-                    $producto_barra->delete();
+                    if (!$producto_barra->salida_id && !$producto_barra->venta_detalle_id && !$producto_barra->distribucion_detalle_id) {
+                        $producto_barra->delete();
+                    } else {
+                        throw new Exception("No es posible eliminar el registro debido a que uno o mas registros del mismo fueron utilizados");
+                    }
                 }
             }
 
@@ -233,19 +239,29 @@ class IngresoProductoController extends Controller
                 }
             }
 
-            // INCREMENTAR STOCK
-            if ($request->lugar == 'ALMACÉN') {
-                Producto::incrementarStock($ingreso_producto->producto, $ingreso_producto->cantidad, $ingreso_producto->lugar);
-            } else {
-                Producto::incrementarStock($ingreso_producto->producto, $ingreso_producto->cantidad, $ingreso_producto->lugar, $ingreso_producto->sucursal_id);
-            }
-            // actualizar kardex
             $kardex = KardexProducto::where("lugar", $ingreso_producto->lugar)
                 ->where("producto_id", $ingreso_producto->producto_id)
                 ->where("tipo_registro", "INGRESO")
-                ->where("registro_id", $ingreso_producto->id)
-                ->get()->first();
-            KardexProducto::actualizaRegistrosKardex($kardex->id, $kardex->producto_id, $ingreso_producto->lugar);
+                ->where("registro_id", $ingreso_producto->id);
+            if ($request->lugar == 'SUCURSAL') {
+                $kardex->where("sucursal_id", $request->sucursal_id);
+            }
+            $kardex = $kardex->get()->first();
+            $id_kardex = 0;
+            if ($kardex) {
+                $id_kardex = $kardex->id;
+            }
+
+            // incrementar stock
+            if ($request->lugar == 'ALMACÉN') {
+                Producto::incrementarStock($ingreso_producto->producto, $ingreso_producto->cantidad, $ingreso_producto->lugar);
+                // actualizar kardex
+                KardexProducto::actualizaRegistrosKardex($id_kardex, $ingreso_producto->producto_id, $ingreso_producto->lugar);
+            } else {
+                Producto::incrementarStock($ingreso_producto->producto, $ingreso_producto->cantidad, $ingreso_producto->lugar, $ingreso_producto->sucursal_id);
+                KardexProducto::actualizaRegistrosKardex($id_kardex, $ingreso_producto->producto_id, $ingreso_producto->lugar, $request->sucursal_id);
+            }
+
             $datos_nuevo = HistorialAccion::getDetalleRegistro($ingreso_producto, "ingreso_productos");
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
@@ -262,7 +278,7 @@ class IngresoProductoController extends Controller
             return redirect()->route("ingreso_productos.index")->with("bien", "Registro actualizado");
         } catch (\Exception $e) {
             DB::rollBack();
-            // Log::debug($e->getMessage());
+            Log::debug($e->getMessage());
             throw ValidationException::withMessages([
                 'error' =>  $e->getMessage(),
             ]);
@@ -276,18 +292,24 @@ class IngresoProductoController extends Controller
             $eliminar_kardex = KardexProducto::where("lugar", $ingreso_producto->lugar)
                 ->where("tipo_registro", "INGRESO")
                 ->where("registro_id", $ingreso_producto->id)
-                ->where("producto_id", $ingreso_producto->producto_id)
-                ->get()
-                ->first();
+                ->where("producto_id", $ingreso_producto->producto_id);
+
+            if ($ingreso_producto->lugar == 'SUCURSAL') {
+                $eliminar_kardex->where("sucursal_id", $ingreso_producto->sucursal_id);
+            }
+            $eliminar_kardex = $eliminar_kardex->get()->first();
+
             $id_kardex = $eliminar_kardex->id;
             $id_producto = $eliminar_kardex->producto_id;
             $eliminar_kardex->delete();
 
             $anterior = KardexProducto::where("lugar", $ingreso_producto->lugar)
                 ->where("producto_id", $id_producto)
-                ->where("id", "<", $id_kardex)
-                ->get()
-                ->last();
+                ->where("id", "<", $id_kardex);
+            if ($ingreso_producto->lugar == 'SUCURSAL') {
+                $anterior->where("sucursal_id", $ingreso_producto->sucursal_id);
+            }
+            $anterior = $anterior->get()->last();
             $actualiza_desde = null;
             if ($anterior) {
                 $actualiza_desde = $anterior;
@@ -295,19 +317,42 @@ class IngresoProductoController extends Controller
                 // comprobar si existen registros posteriorres al actualizado
                 $siguiente = KardexProducto::where("lugar", $ingreso_producto->lugar)
                     ->where("producto_id", $id_producto)
-                    ->where("id", ">", $id_kardex)
-                    ->get()->first();
+                    ->where("id", ">", $id_kardex);
+                if ($ingreso_producto->lugar == 'SUCURSAL') {
+                    $siguiente->where("sucursal_id", $ingreso_producto->sucursal_id);
+                }
+                $siguiente = $siguiente->get()->first();
                 if ($siguiente)
                     $actualiza_desde = $siguiente;
             }
 
             if ($actualiza_desde) {
                 // actualizar a partir de este registro los sgtes. registros
-                KardexProducto::actualizaRegistrosKardex($actualiza_desde->id, $actualiza_desde->producto_id, $ingreso_producto->lugar);
+                if ($ingreso_producto->lugar == 'SUCURSAL') {
+                    KardexProducto::actualizaRegistrosKardex($actualiza_desde->id, $actualiza_desde->producto_id, $ingreso_producto->lugar, $ingreso_producto->sucursal_id);
+                } else {
+                    KardexProducto::actualizaRegistrosKardex($actualiza_desde->id, $actualiza_desde->producto_id, $ingreso_producto->lugar);
+                }
             }
 
-            // descontar el stock
-            Producto::decrementarStock($ingreso_producto->producto, $ingreso_producto->cantidad, $ingreso_producto->lugar);
+            if ($ingreso_producto->lugar == 'SUCURSAL') {
+                // descontar el stock
+                Producto::decrementarStock($ingreso_producto->producto, $ingreso_producto->cantidad, $ingreso_producto->lugar, $ingreso_producto->sucursal_id);
+            } else {
+                // descontar el stock
+                Producto::decrementarStock($ingreso_producto->producto, $ingreso_producto->cantidad, $ingreso_producto->lugar);
+            }
+
+            $producto_barras = $ingreso_producto->producto_barras;
+            foreach ($producto_barras as $pb) {
+                if (!$pb->salida_id && !$pb->venta_detalle_id && !$pb->distribucion_detalle_id) {
+                    $pb->delete();
+                } else {
+                    throw new Exception("No es posible eliminar el registro debido a que uno o mas registros del mismo fueron utilizados");
+                }
+            }
+
+
             $datos_original = HistorialAccion::getDetalleRegistro($ingreso_producto, "ingreso_productos");
             $ingreso_producto->delete();
             HistorialAccion::create([
