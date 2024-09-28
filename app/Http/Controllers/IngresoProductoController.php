@@ -109,6 +109,10 @@ class IngresoProductoController extends Controller
             }
             $producto_barras = $request->producto_barras;
             foreach ($producto_barras as $item) {
+                $existe = ProductoBarra::where("codigo", $item["codigo"])->get()->first();
+                if ($existe) {
+                    throw new Exception("Uno o mas códigos de los productos agregados ya éxisten");
+                }
                 $data_barras = [
                     "producto_id" => $nuevo_ingreso_producto->producto_id,
                     "codigo" => $item["codigo"],

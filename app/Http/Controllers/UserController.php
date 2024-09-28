@@ -62,6 +62,11 @@ class UserController extends Controller
             "ingreso_productos.edit",
             "ingreso_productos.destroy",
 
+            "salida_productos.index",
+            "salida_productos.create",
+            "salida_productos.edit",
+            "salida_productos.destroy",
+
             "configuracions.index",
             "configuracions.create",
             "configuracions.edit",

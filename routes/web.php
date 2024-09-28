@@ -7,6 +7,7 @@ use App\Http\Controllers\IngresoProductoController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\NotificacionUserController;
+use App\Http\Controllers\ProductoBarraController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProveedorController;
@@ -117,6 +118,8 @@ Route::middleware('auth')->prefix("admin")->group(function () {
     Route::resource("productos", ProductoController::class)->only(
         ["index", "store", "update", "show", "destroy"]
     );
+
+    Route::get("productos/barras/getByCod", [ProductoBarraController::class, 'getByCod'])->name("producto_barras.getByCod");
 
     // STOCK PRODUCTOS
     Route::get("productos/stock_productos/lista", [ProductoController::class, 'lista'])->name("stock_productos.lista");

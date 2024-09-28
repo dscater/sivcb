@@ -6,6 +6,10 @@ import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 
+// vue multiselect
+import "vue-multiselect/dist/vue-multiselect.css";
+import Multiselect from "vue-multiselect";
+
 // sweetalert2
 import Swal from "sweetalert2";
 window.Swal = Swal;
@@ -45,6 +49,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(pinia)
+            .component("multiselect", Multiselect)
             .mount(el);
     },
     progress: {

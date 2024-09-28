@@ -19,6 +19,7 @@
         <!-- ================== BEGIN page-css ================== -->
         
         <link href="{{ asset('assets/template/assets/plugins/switchery/dist/switchery.min.css')}}" rel="stylesheet"/>
+        {{-- <link href="{{ asset('assets/template/assets/plugins/select2/dist/css/select2.min.css')}}" rel="stylesheet"/> --}}
         <link href="{{ asset('assets/template/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet"/>
         <link href="{{ asset('assets/template/assets/plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css')}}" rel="stylesheet"/>
         <link href="{{ asset('assets/template/assets/plugins/gritter/css/jquery.gritter.css')}}" rel="stylesheet"/>
@@ -37,6 +38,7 @@
         <!-- ================== END core-js ================== -->
 
         <!-- ================== BEGIN page-js ================== -->
+        <script src="{{ asset('assets/template/assets/plugins/select2/dist/js/select2.min.js')}}"></script>
         <script src="{{ asset('assets/template/assets/plugins/datatables.net/js/dataTables.min.js')}}"></script>
         <script src="{{ asset('assets/template/assets/plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js')}}"></script>
         <script src="{{ asset('assets/template/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>

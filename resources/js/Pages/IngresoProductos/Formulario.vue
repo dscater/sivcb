@@ -37,7 +37,6 @@ watch(
     async (newValue) => {
         dialog.value = newValue;
         if (dialog.value) {
-            console.log(oIngresoProducto);
             cargarListas();
             await nextTick();
             cod_prod_ref.value.focus();
@@ -190,7 +189,7 @@ onMounted(() => {});
             display: dialog ? 'block' : 'none',
         }"
     >
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
                     <h4 class="modal-title" v-html="tituloDialog"></h4>

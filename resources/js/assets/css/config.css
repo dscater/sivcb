@@ -20,9 +20,9 @@ html {
     overflow-y: overlay;
 }
 
-.readonly{
+.readonly {
     cursor: not-allowed;
-    background-color: rgb(228, 228, 228)!important;
+    background-color: rgb(228, 228, 228) !important;
 }
 
 .mr-1 {
@@ -30,18 +30,6 @@ html {
 }
 .ml-1 {
     margin-left: 5px;
-}
-
-.modal_registro {
-    width: 100%;
-}
-.modal_registro .modal-dialog {
-    width: 100vw;
-    margin: 0px;
-}
-
-.modal_registro .modal-dialog .modal-content {
-    width: 100vw;
 }
 
 .text-right {

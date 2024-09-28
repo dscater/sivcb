@@ -18,6 +18,8 @@ return new class extends Migration
             $table->date("fecha_saida");
             $table->unsignedBigInteger("tipo_salida_id");
             $table->string("descripcion", 600)->nullable();
+            $table->string("lugar", 255);
+            $table->unsignedBigInteger("sucursal_id")->nullable();
             $table->date("fecha_registro");
             $table->timestamps();
 
