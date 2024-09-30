@@ -45,8 +45,13 @@ class KardexProducto extends Model
     {
         //buscar el ultimo registro y usar sus valores
         $ultimo = KardexProducto::where('producto_id', $producto->id)
-            ->where("lugar", $lugar)
-            ->orderBy('created_at', 'asc')
+            ->where("lugar", $lugar);
+
+        if ($sucursal_id) {
+            $ultimo->where("sucursal_id", $sucursal_id);
+        }
+
+        $ultimo = $ultimo->orderBy('created_at', 'asc')
             ->get()
             ->last();
         $monto = (float)$cantidad * (float)$precio;
@@ -56,6 +61,7 @@ class KardexProducto extends Model
             }
             KardexProducto::create([
                 'lugar' => $lugar,
+                "sucursal_id" => $sucursal_id,
                 'tipo_registro' => $tipo_registro, //INGRESO, EGRESO, VENTA, COMPRA,etc...
                 'registro_id' => $registro_id,
                 'producto_id' => $producto->id,
@@ -73,6 +79,7 @@ class KardexProducto extends Model
             $detalle = "VALOR INICIAL";
             KardexProducto::create([
                 'lugar' => $lugar,
+                "sucursal_id" => $sucursal_id,
                 'tipo_registro' => $tipo_registro, //INGRESO, EGRESO, VENTA,etc...
                 'registro_id' => $registro_id,
                 'producto_id' => $producto->id,
@@ -103,8 +110,11 @@ class KardexProducto extends Model
     {
         //buscar el ultimo registro y usar sus valores
         $ultimo = KardexProducto::where('producto_id', $producto->id)
-            ->where("lugar", $lugar)
-            ->orderBy('created_at', 'asc')
+            ->where("lugar", $lugar);
+        if ($sucursal_id) {
+            $ultimo->where("sucursal_id", $sucursal_id);
+        }
+        $ultimo = $ultimo->orderBy('created_at', 'asc')
             ->get()
             ->last();
         $monto = (float)$cantidad * (float)$precio;
@@ -115,6 +125,7 @@ class KardexProducto extends Model
 
         KardexProducto::create([
             'lugar' => $lugar,
+            "sucursal_id" => $sucursal_id,
             'tipo_registro' => $tipo_registro,
             'registro_id' => $registro_id,
             'producto_id' => $producto->id,
@@ -180,7 +191,6 @@ class KardexProducto extends Model
                     $ingreso_producto = IngresoProducto::find($item->registro_id);
                     $monto = (float)$ingreso_producto->cantidad * (float)$ingreso_producto->producto->precio;
                     if ($anterior) {
-                        Log::debug("AA");
                         $datos_actualizacion["precio"] = $ingreso_producto->producto->precio;
                         $datos_actualizacion["cantidad_ingreso"] =  $ingreso_producto->cantidad;
                         $datos_actualizacion["cantidad_saldo"] = (float)$anterior->cantidad_saldo + (float)$ingreso_producto->cantidad;
@@ -188,8 +198,6 @@ class KardexProducto extends Model
                         $datos_actualizacion["monto_ingreso"] = $monto;
                         $datos_actualizacion["monto_saldo"] = (float)$anterior->monto_saldo + $monto;
                     } else {
-                        Log::debug("BB");
-                        Log::debug($ingreso_producto->cantidad);
                         $datos_actualizacion["precio"] = $ingreso_producto->producto->precio;
                         $datos_actualizacion["cantidad_ingreso"] =  $ingreso_producto->cantidad;
                         $datos_actualizacion["cantidad_saldo"] = (float)$ingreso_producto->cantidad;

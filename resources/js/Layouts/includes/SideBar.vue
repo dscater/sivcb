@@ -549,6 +549,23 @@ const logout = () => {
                     </Link>
                 </div>
                 <div
+                    v-if="user_logeado.permisos.includes('clientes.index')"
+                    class="menu-item"
+                    :class="[
+                        route_current == 'clientes.index' ? 'active' : '',
+                    ]"
+                >
+                    <Link
+                        :href="route('clientes.index')"
+                        class="menu-link"
+                    >
+                        <div class="menu-icon">
+                            <i class="fa fa-user-friends"></i>
+                        </div>
+                        <div class="menu-text">Clientes</div>
+                    </Link>
+                </div>
+                <div
                     v-if="user_logeado.permisos.includes('ingreso_productos.index')"
                     class="menu-item"
                     :class="[

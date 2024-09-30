@@ -91,7 +91,7 @@ const columns = [
                 }"><i class="fa fa-edit"></i></button>
                 <button class="mx-0 rounded-0 btn btn-danger eliminar"
                  data-id="${row.id}" 
-                 data-nombre="${row.producto.nombre}-${row.lugar}" 
+                 data-nombre="${row.producto.nombre} - ${row.lugar}" 
                  data-url="${route(
                      "salida_productos.destroy",
                      row.id
@@ -116,7 +116,7 @@ const accionesRow = () => {
         e.preventDefault();
         let id = $(this).attr("data-id");
         axios.get(route("salida_productos.show", id)).then((response) => {
-            setSalidaProducto(response.data);
+            setSalidaProducto(response.data.salida_producto);
             accion_dialog.value = 1;
             open_dialog.value = true;
         });

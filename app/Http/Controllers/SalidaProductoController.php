@@ -3,38 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\AlmacenProducto;
+use App\Models\HistorialAccion;
 use App\Models\KardexProducto;
 use App\Models\Producto;
+use App\Models\ProductoBarra;
 use App\Models\SalidaProducto;
 use App\Models\SucursalProducto;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class SalidaProductoController extends Controller
 {
     public $validacion = [
         "producto_id" => "required",
-        "proveedor_id" => "required",
-        "precio" => "required",
-        "cantidad" => "required",
+        "fecha_salida" => "required",
         "tipo_salida_id" => "required",
-        "lugar" => "required",
-        "producto_barras" => "required|array|min:1"
     ];
 
     public $mensajes = [
         "producto_id.required" => "Este campo es obligatorio",
-        "proveedor_id.required" => "Este campo es obligatorio",
-        "precio.required" => "Este campo es obligatorio",
-        "cantidad.required" => "Este campo es obligatorio",
+        "fecha_salida.required" => "Este campo es obligatorio",
         "tipo_salida_id.required" => "Este campo es obligatorio",
-        "lugar.required" => "Este campo es obligatorio",
-        "sucursal_id.required" => "Este campo es obligatorio",
-        "producto_barras.required" => "Este campo es obligatorio",
-        "producto_barras.min" => "Debes ingresar al menos :min productos",
     ];
 
     public function index()
@@ -44,7 +38,7 @@ class SalidaProductoController extends Controller
 
     public function listado()
     {
-        $salida_productos = SalidaProducto::with(["producto", "tipo_salida", "producto_barras", "sucursal"])->select("salida_productos.*")->get();
+        $salida_productos = SalidaProducto::with(["producto", "tipo_salida", "sucursal"])->select("salida_productos.*")->get();
         return response()->JSON([
             "salida_productos" => $salida_productos
         ]);
@@ -52,7 +46,7 @@ class SalidaProductoController extends Controller
 
     public function api(Request $request)
     {
-        $usuarios = SalidaProducto::with(["producto", "tipo_salida", "producto_barras", "sucursal"])->select("salida_productos.*");
+        $usuarios = SalidaProducto::with(["producto", "tipo_salida", "sucursal"])->select("salida_productos.*");
         $usuarios = $usuarios->get();
         return response()->JSON(["data" => $usuarios]);
     }
@@ -60,7 +54,7 @@ class SalidaProductoController extends Controller
     public function paginado(Request $request)
     {
         $search = $request->search;
-        $usuarios = SalidaProducto::with(["producto", "tipo_salida", "producto_barras", "sucursal"])->select("salida_productos.*");
+        $usuarios = SalidaProducto::with(["producto", "tipo_salida", "sucursal"])->select("salida_productos.*");
 
         if (trim($search) != "") {
             $usuarios->where("nombre", "LIKE", "%$search%");
@@ -77,25 +71,42 @@ class SalidaProductoController extends Controller
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {
-            $producto = Producto::find($request->producto_id);
-            if ($producto->descontar_stock == 'SI') {
-                // VALIDAR STOCK
-                if ($request->lugar == 'ALMACEN') {
-                    $stock_producto = AlmacenProducto::where("producto_id", $request->producto_id)->get()->first();
-                } else {
-                    $stock_producto = SucursalProducto::where("producto_id", $request->producto_id)->get()->first();
-                }
-                if (!$stock_producto) {
-                    throw new Exception('No es posible realizar el registro debido a que el stock disponible es de 0');
-                } elseif ($stock_producto->stock_actual < $request->cantidad) {
-                    throw new Exception('No es posible realizar el registro debido a que la cantidad supera al stock actual ' . $stock_producto->stock_actual);
-                }
+            $request["fecha_registro"] = date("Y-m-d");
+            $producto_barra = ProductoBarra::find($request["producto_id"]["id"]);
+
+            if (!$producto_barra) {
+                throw new Exception("Ocurrió un error. No se pudo encontrar el producto");
+            }
+            // VALIDAR STOCK
+            if ($producto_barra->lugar == 'ALMACÉN') {
+                $stock_producto = AlmacenProducto::where("producto_id", $producto_barra->producto_id)->get()->first();
+            } else {
+                $stock_producto = SucursalProducto::where("producto_id", $producto_barra->producto_id)
+                    ->where("sucursal_id", $producto_barra->sucursal_id)
+                    ->get()->first();
+            }
+            Log::debug($stock_producto);
+            if (!$stock_producto) {
+                throw new Exception('No es posible realizar el registro debido a que el stock disponible es de 0');
+            } elseif ($stock_producto->stock_actual < $request->cantidad) {
+                throw new Exception('No es posible realizar el registro debido a que la cantidad supera al stock actual ' . $stock_producto->stock_actual);
             }
             // crear SalidaProducto
-            $request["fecha_registro"] = date("Y-m-d");
-            $nueva_salida_producto = SalidaProducto::create(array_map('mb_strtoupper', $request->all()));
+            $data_salida =  [
+                "producto_id" => $producto_barra->producto_id,
+                "cantidad" => 1,
+                "fecha_salida" => $request->fecha_salida,
+                "tipo_salida_id" => $request->tipo_salida_id,
+                "descripcion" => mb_strtoupper($request->descripcion),
+                "lugar" => $producto_barra->lugar,
+                "sucursal_id" => $producto_barra->sucursal_id,
+                "fecha_registro" => $request->fecha_registro
+            ];
+            $nueva_salida_producto = SalidaProducto::create($data_salida);
+            $producto_barra->salida_id = $nueva_salida_producto->id;
+            $producto_barra->save();
             // registrar kardex
-            KardexProducto::registroEgreso($nueva_salida_producto->lugar, "SALIDA", $nueva_salida_producto->id, $nueva_salida_producto->producto, $nueva_salida_producto->cantidad, $nueva_salida_producto->producto->precio, $nueva_salida_producto->descripcion);
+            KardexProducto::registroEgreso($nueva_salida_producto->lugar, "SALIDA", $nueva_salida_producto->id, $nueva_salida_producto->producto, $nueva_salida_producto->cantidad, $nueva_salida_producto->producto->precio, $nueva_salida_producto->descripcion, $nueva_salida_producto->sucursal_id);
             $datos_original = HistorialAccion::getDetalleRegistro($nueva_salida_producto, "salida_productos");
             HistorialAccion::create([
                 'user_id' => Auth::user()->id,
@@ -108,11 +119,7 @@ class SalidaProductoController extends Controller
             ]);
 
             DB::commit();
-            return response()->JSON([
-                'sw' => true,
-                'salida_producto' => $nueva_salida_producto,
-                'msj' => 'El registro se realizó de forma correcta',
-            ], 200);
+            return redirect()->route("salida_productos.index")->with("bien", "Registro realizado");
         } catch (\Exception $e) {
             DB::rollBack();
             throw ValidationException::withMessages([
@@ -134,39 +141,13 @@ class SalidaProductoController extends Controller
         } else {
             DB::beginTransaction();
             try {
-                if ($salida_producto->producto->descontar_stock == 'SI') {
-                    // incrementar el stock
-                    Producto::incrementarStock($salida_producto->producto, $salida_producto->cantidad, $salida_producto->lugar);
-
-                    // VALIDAR STOCK
-                    if ($salida_producto->lugar == 'ALMACEN') {
-                        $stock_producto = Almacen::where("producto_id", $request->producto_id)->get()->first();
-                    } else {
-                        $stock_producto = SucursalStock::where("producto_id", $request->producto_id)->get()->first();
-                    }
-                    if (!$stock_producto) {
-                        throw new Exception('No es posible realizar el registro debido a que el stock disponible es de 0');
-                    } elseif ($stock_producto->stock_actual < $request->cantidad) {
-                        throw new Exception('No es posible realizar el registro debido a que la cantidad supera al stock disponible ' . $stock_producto->stock_actual);
-                    }
-                }
-
                 $datos_original = HistorialAccion::getDetalleRegistro($salida_producto, "salida_productos");
-                $salida_producto->update(array_map('mb_strtoupper', $request->all()));
-
-                if ($salida_producto->producto->descontar_stock == 'SI') {
-                    // DESCONTAR STOCK
-                    Producto::decrementarStock($salida_producto->producto, $salida_producto->cantidad, $salida_producto->lugar);
-                }
-
-                // actualizar kardex
-                $kardex = KardexProducto::where("lugar", $salida_producto->lugar)
-                    ->where("producto_id", $salida_producto->producto_id)
-                    ->where("tipo_registro", "SALIDA")
-                    ->where("registro_id", $salida_producto->id)
-                    ->get()->first();
-                KardexProducto::actualizaRegistrosKardex($kardex->id, $kardex->producto_id, $salida_producto->lugar);
-
+                $data_salida =  [
+                    "fecha_salida" => $request->fecha_salida,
+                    "tipo_salida_id" => $request->tipo_salida_id,
+                    "descripcion" => mb_strtoupper($request->descripcion),
+                ];
+                $salida_producto->update($data_salida);
                 $datos_nuevo = HistorialAccion::getDetalleRegistro($salida_producto, "salida_productos");
                 HistorialAccion::create([
                     'user_id' => Auth::user()->id,
@@ -180,11 +161,7 @@ class SalidaProductoController extends Controller
                 ]);
 
                 DB::commit();
-                return response()->JSON([
-                    'sw' => true,
-                    'salida_producto' => $salida_producto,
-                    'msj' => 'El registro se actualizó de forma correcta'
-                ], 200);
+                return redirect()->route("salida_productos.index")->with("bien", "Registro actualizado");
             } catch (\Exception $e) {
                 DB::rollBack();
                 throw ValidationException::withMessages([
@@ -198,7 +175,7 @@ class SalidaProductoController extends Controller
     {
         return response()->JSON([
             'sw' => true,
-            'salida_producto' => $salida_producto
+            'salida_producto' => $salida_producto->load(["producto"])
         ], 200);
     }
 
@@ -209,8 +186,11 @@ class SalidaProductoController extends Controller
             $eliminar_kardex = KardexProducto::where("lugar", $salida_producto->lugar)
                 ->where("tipo_registro", "SALIDA")
                 ->where("registro_id", $salida_producto->id)
-                ->where("producto_id", $salida_producto->producto_id)
-                ->get()
+                ->where("producto_id", $salida_producto->producto_id);
+            if ($salida_producto->lugar == 'SUCURSAL') {
+                $eliminar_kardex->where("sucursal_id", $salida_producto->sucursal_id);
+            }
+            $eliminar_kardex = $eliminar_kardex->get()
                 ->first();
             $id_kardex = $eliminar_kardex->id;
             $id_producto = $eliminar_kardex->producto_id;
@@ -218,8 +198,12 @@ class SalidaProductoController extends Controller
 
             $anterior = KardexProducto::where("lugar", $salida_producto->lugar)
                 ->where("producto_id", $id_producto)
-                ->where("id", "<", $id_kardex)
-                ->get()
+                ->where("id", "<", $id_kardex);
+
+            if ($salida_producto->lugar == 'SUCURSAL') {
+                $anterior->where("sucursal_id", $salida_producto->sucursal_id);
+            }
+            $anterior = $anterior->get()
                 ->last();
             $actualiza_desde = null;
             if ($anterior) {
@@ -228,19 +212,24 @@ class SalidaProductoController extends Controller
                 // comprobar si existen registros posteriorres al actualizado
                 $siguiente = KardexProducto::where("lugar", $salida_producto->lugar)
                     ->where("producto_id", $id_producto)
-                    ->where("id", ">", $id_kardex)
-                    ->get()->first();
+                    ->where("id", ">", $id_kardex);
+                if ($salida_producto->lugar == 'SUCURSAL') {
+                    $siguiente->where("sucursal_id", $salida_producto->sucursal_id);
+                }
+                $siguiente = $siguiente->get()->first();
                 if ($siguiente)
                     $actualiza_desde = $siguiente;
             }
 
             if ($actualiza_desde) {
                 // actualizar a partir de este registro los sgtes. registros
-                KardexProducto::actualizaRegistrosKardex($actualiza_desde->id, $actualiza_desde->producto_id, $salida_producto->lugar);
+                KardexProducto::actualizaRegistrosKardex($actualiza_desde->id, $actualiza_desde->producto_id, $salida_producto->lugar, $salida_producto->sucursal_id);
             }
 
             // incrementar el stock
-            if ($salida_producto->producto->descontar_stock == 'SI') {
+            if ($salida_producto->lugar == 'SUCURSAL') {
+                Producto::incrementarStock($salida_producto->producto, $salida_producto->cantidad, $salida_producto->lugar, $salida_producto->sucursal_id);
+            } else {
                 Producto::incrementarStock($salida_producto->producto, $salida_producto->cantidad, $salida_producto->lugar);
             }
 

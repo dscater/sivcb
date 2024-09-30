@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use App\Models\Lote;
 use App\Models\User;
 use App\Models\VentaLote;
@@ -67,6 +68,11 @@ class UserController extends Controller
             "salida_productos.edit",
             "salida_productos.destroy",
 
+            "clientes.index",
+            "clientes.create",
+            "clientes.edit",
+            "clientes.destroy",
+
             "configuracions.index",
             "configuracions.create",
             "configuracions.edit",
@@ -128,7 +134,7 @@ class UserController extends Controller
         if (in_array('clientes.index', self::$permisos[$tipo])) {
             $array_infos[] = [
                 'label' => 'CLIENTES',
-                'cantidad' => User::where("tipo", "CLIENTE")->count(),
+                'cantidad' => Cliente::count(),
                 'color' => 'bg-info',
                 'icon' => "fa-user-friends",
                 "url" => "clientes.index"

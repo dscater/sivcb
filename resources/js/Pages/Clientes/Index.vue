@@ -40,42 +40,24 @@ const columns = [
         data: "id",
     },
     {
-        title: "",
-        data: "url_foto",
-        render: function (data, type, row) {
-            return `<img src="${data}" class="rounded h-30px my-n1 mx-n1"/>`;
-        },
-    },
-    {
-        title: "USUARIO",
-        data: "usuario",
-    },
-    {
         title: "NOMBRE COMPLETO",
-        data: "full_name",
+        data: "nombre",
     },
     {
-        title: "C.I.",
-        data: "full_ci",
+        title: "C.I./NIT",
+        data: "ci",
     },
     {
         title: "TELÉFONO/CELULAR",
         data: "fono",
     },
     {
-        title: "ESTADO DEL CLIENTE",
-        data: "cliente.estado_cliente",
+        title: "CORREO ELECTRÓNICO",
+        data: "correo",
     },
     {
-        title: "ACCESO",
-        data: "acceso",
-        render: function (data, type, row) {
-            if (data == 1) {
-                return `<span class="badge bg-success">HABILITADO</span>`;
-            } else {
-                return `<span class="badge bg-danger">DESHABILITADO</span>`;
-            }
-        },
+        title: "DIRECCIÓN",
+        data: "dir",
     },
     {
         title: "FECHA DE REGISTRO",
@@ -86,18 +68,12 @@ const columns = [
         data: null,
         render: function (data, type, row) {
             return `
-                <button class="mx-0 rounded-0 btn btn-info password" data-id="${
-                    row.cliente.id
-                }"><i class="fa fa-key"></i></button>
-                <button class="mx-0 rounded-0 btn btn-primary estado" data-id="${
-                    row.cliente.id
-                }"><i class="fa fa-id-card"></i></button>
                 <button class="mx-0 rounded-0 btn btn-warning editar" data-id="${
-                    row.cliente.id
+                    row.id
                 }"><i class="fa fa-edit"></i></button>
                 <button class="mx-0 rounded-0 btn btn-danger eliminar"
-                 data-id="${row.cliente.id}" 
-                 data-nombre="${row.full_name}" 
+                 data-id="${row.id}" 
+                 data-nombre="${row.nombre}" 
                  data-url="${route(
                      "clientes.destroy",
                      row.id
@@ -122,9 +98,7 @@ const accionesRow = () => {
         e.preventDefault();
         let id = $(this).attr("data-id");
         axios.get(route("clientes.show", id)).then((response) => {
-            let item = response.data.user;
-            item.cliente_id = response.data.id;
-            setCliente(item);
+            setCliente(response.data);
             accion_dialog.value = 1;
             open_dialog.value = true;
         });
@@ -157,7 +131,7 @@ const accionesRow = () => {
 var datatable = null;
 const datatableInitialized = ref(false);
 const updateDatatable = () => {
-    accion_dialog.value = false;
+    accion_dialog.value = 0;
     datatable.ajax.reload();
 };
 
@@ -216,7 +190,16 @@ onBeforeUnmount(() => {
                         width="100%"
                         class="table table-striped table-bordered align-middle text-nowrap tabla_datos"
                     >
-                        <thead></thead>
+                        <thead>
+                            <tr>
+                                <th width="5%"></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th width="5%"></th>
+                            </tr>
+                        </thead>
                         <tbody></tbody>
                     </table>
                 </div>

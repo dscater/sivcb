@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 28-09-2024 a las 17:01:51
+-- Tiempo de generación: 30-09-2024 a las 17:01:23
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -41,7 +41,7 @@ CREATE TABLE `almacen_productos` (
 
 INSERT INTO `almacen_productos` (`id`, `producto_id`, `stock_actual`, `created_at`, `updated_at`) VALUES
 (1, 1, 10, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
-(2, 2, 6, '2024-09-28 19:22:04', '2024-09-28 19:22:04');
+(2, 2, 5, '2024-09-28 19:22:04', '2024-09-30 20:30:21');
 
 -- --------------------------------------------------------
 
@@ -73,7 +73,7 @@ INSERT INTO `categorias` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
 CREATE TABLE `clientes` (
   `id` bigint UNSIGNED NOT NULL,
   `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ci` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ci` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fono` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `correo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dir` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -81,6 +81,15 @@ CREATE TABLE `clientes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` (`id`, `nombre`, `ci`, `fono`, `correo`, `dir`, `fecha_registro`, `created_at`, `updated_at`) VALUES
+(1, 'FELIPE GONZALES', '1122', '77777777', 'FELIPE@GMAIL.COM', 'ZONA LOS OLIVOS C.11 #322', '2024-09-30', '2024-09-30 20:47:02', '2024-09-30 20:47:02'),
+(2, 'JESUS RAMIRES', '0', '78787878', '', '', '2024-09-30', '2024-09-30 20:48:50', '2024-09-30 20:48:50'),
+(3, 'MARIA MAMANI', '3333', '67676767', '', '', '2024-09-30', '2024-09-30 20:52:02', '2024-09-30 20:52:02');
 
 -- --------------------------------------------------------
 
@@ -172,7 +181,28 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (4, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTO', 'id: 2<br/>producto_id: 2<br/>proveedor_id: 2<br/>precio: 35400<br/>cantidad: 6<br/>tipo_ingreso_id: 1<br/>descripcion: DESC. PRIMER INGRESO PROD. 2 ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_ingreso: 2024-09-28<br/>fecha_registro: 2024-09-28<br/>created_at: 2024-09-28 15:22:04<br/>updated_at: 2024-09-28 15:22:04<br/>', NULL, 'INGRESO DE PRODUCTOS', '2024-09-28', '15:22:04', '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
 (5, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTO', 'id: 5<br/>producto_id: 1<br/>proveedor_id: 1<br/>precio: 1400<br/>cantidad: 5<br/>tipo_ingreso_id: 2<br/>descripcion: INGRESO DIRECTO SUCURSAL PROD. 1<br/>lugar: SUCURSAL<br/>sucursal_id: 1<br/>fecha_ingreso: 2024-09-28<br/>fecha_registro: 2024-09-28<br/>created_at: 2024-09-28 15:24:03<br/>updated_at: 2024-09-28 15:24:03<br/>', NULL, 'INGRESO DE PRODUCTOS', '2024-09-28', '15:24:03', '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
 (6, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTO', 'id: 6<br/>producto_id: 2<br/>proveedor_id: 2<br/>precio: 1400<br/>cantidad: 5<br/>tipo_ingreso_id: 2<br/>descripcion: INGRESO DIRECTO A SUCURSAL 2 PROD 1<br/>lugar: SUCURSAL<br/>sucursal_id: 2<br/>fecha_ingreso: 2024-09-28<br/>fecha_registro: 2024-09-28<br/>created_at: 2024-09-28 15:24:40<br/>updated_at: 2024-09-28 15:24:40<br/>', NULL, 'INGRESO DE PRODUCTOS', '2024-09-28', '15:24:40', '2024-09-28 19:24:40', '2024-09-28 19:24:40'),
-(7, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN INGRESO DE PRODUCTO', 'id: 6<br/>producto_id: 2<br/>proveedor_id: 2<br/>precio: 1400.00<br/>cantidad: 5<br/>tipo_ingreso_id: 2<br/>descripcion: INGRESO DIRECTO A SUCURSAL 2 PROD 1<br/>lugar: SUCURSAL<br/>sucursal_id: 2<br/>fecha_ingreso: 2024-09-28<br/>fecha_registro: 2024-09-28<br/>created_at: 2024-09-28 15:24:40<br/>updated_at: 2024-09-28 15:24:40<br/>', 'id: 6<br/>producto_id: 2<br/>proveedor_id: 2<br/>precio: 1400.00<br/>cantidad: 5<br/>tipo_ingreso_id: 2<br/>descripcion: INGRESO DIRECTO A SUCURSAL 2 PROD 2<br/>lugar: SUCURSAL<br/>sucursal_id: 2<br/>fecha_ingreso: 2024-09-28<br/>fecha_registro: 2024-09-28<br/>created_at: 2024-09-28 15:24:40<br/>updated_at: 2024-09-28 15:24:52<br/>', 'INGRESO DE PRODUCTOS', '2024-09-28', '15:24:52', '2024-09-28 19:24:52', '2024-09-28 19:24:52');
+(7, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN INGRESO DE PRODUCTO', 'id: 6<br/>producto_id: 2<br/>proveedor_id: 2<br/>precio: 1400.00<br/>cantidad: 5<br/>tipo_ingreso_id: 2<br/>descripcion: INGRESO DIRECTO A SUCURSAL 2 PROD 1<br/>lugar: SUCURSAL<br/>sucursal_id: 2<br/>fecha_ingreso: 2024-09-28<br/>fecha_registro: 2024-09-28<br/>created_at: 2024-09-28 15:24:40<br/>updated_at: 2024-09-28 15:24:40<br/>', 'id: 6<br/>producto_id: 2<br/>proveedor_id: 2<br/>precio: 1400.00<br/>cantidad: 5<br/>tipo_ingreso_id: 2<br/>descripcion: INGRESO DIRECTO A SUCURSAL 2 PROD 2<br/>lugar: SUCURSAL<br/>sucursal_id: 2<br/>fecha_ingreso: 2024-09-28<br/>fecha_registro: 2024-09-28<br/>created_at: 2024-09-28 15:24:40<br/>updated_at: 2024-09-28 15:24:52<br/>', 'INGRESO DE PRODUCTOS', '2024-09-28', '15:24:52', '2024-09-28 19:24:52', '2024-09-28 19:24:52'),
+(8, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA SALIDA DE PRODUCTO', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:18:55<br/>', NULL, 'SALIDA DE PRODUCTOS', '2024-09-30', '16:18:55', '2024-09-30 20:18:55', '2024-09-30 20:18:55'),
+(9, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA SALIDA DE PRODUCTO', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:18:55<br/>', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACENXD<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:23:04<br/>', 'SALIDA DE PRODUCTOS', '2024-09-30', '16:23:04', '2024-09-30 20:23:04', '2024-09-30 20:23:04'),
+(10, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA SALIDA DE PRODUCTO', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACENXD<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:23:04<br/>', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACENXDE<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:23:27<br/>', 'SALIDA DE PRODUCTOS', '2024-09-30', '16:23:27', '2024-09-30 20:23:27', '2024-09-30 20:23:27'),
+(11, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA SALIDA DE PRODUCTO', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACENXDE<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:23:27<br/>', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACENXDE<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:23:27<br/>', 'SALIDA DE PRODUCTOS', '2024-09-30', '16:24:20', '2024-09-30 20:24:20', '2024-09-30 20:24:20'),
+(12, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA SALIDA DE PRODUCTO', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACENXDE<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:23:27<br/>', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACENXDE<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:23:27<br/>', 'SALIDA DE PRODUCTOS', '2024-09-30', '16:26:09', '2024-09-30 20:26:09', '2024-09-30 20:26:09'),
+(13, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA SALIDA DE PRODUCTO', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACENXDE<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:23:27<br/>', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACENXDE<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:23:27<br/>', 'SALIDA DE PRODUCTOS', '2024-09-30', '16:26:47', '2024-09-30 20:26:47', '2024-09-30 20:26:47'),
+(14, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA SALIDA DE PRODUCTO', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACENXDE<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:23:27<br/>', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 2<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACENXDEEE<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:26:56<br/>', 'SALIDA DE PRODUCTOS', '2024-09-30', '16:26:56', '2024-09-30 20:26:56', '2024-09-30 20:26:56'),
+(15, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA SALIDA DE PRODUCTO', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 2<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACENXDEEE<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:26:56<br/>', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:27:02<br/>', 'SALIDA DE PRODUCTOS', '2024-09-30', '16:27:02', '2024-09-30 20:27:02', '2024-09-30 20:27:02'),
+(16, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA SALIDA DE PRODUCTO', 'id: 2<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA PROD 2 ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:18:55<br/>updated_at: 2024-09-30 16:27:02<br/>', NULL, 'SALIDA DE PRODUCTOS', '2024-09-30', '16:28:06', '2024-09-30 20:28:06', '2024-09-30 20:28:06'),
+(17, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA SALIDA DE PRODUCTO', 'id: 1<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: SALIDA ALMACEN PRUEBA<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:28:34<br/>updated_at: 2024-09-30 16:28:34<br/>', NULL, 'SALIDA DE PRODUCTOS', '2024-09-30', '16:28:34', '2024-09-30 20:28:34', '2024-09-30 20:28:34'),
+(18, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UNA SALIDA DE PRODUCTO', 'id: 1<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: SALIDA ALMACEN PRUEBA<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:28:34<br/>updated_at: 2024-09-30 16:28:34<br/>', NULL, 'SALIDA DE PRODUCTOS', '2024-09-30', '16:29:41', '2024-09-30 20:29:41', '2024-09-30 20:29:41'),
+(19, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA SALIDA DE PRODUCTO', 'id: 1<br/>producto_id: 2<br/>cantidad: 1<br/>fecha_salida: 2024-09-30<br/>tipo_salida_id: 1<br/>descripcion: PRUEBA SALIDA DE ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:30:21<br/>updated_at: 2024-09-30 16:30:21<br/>', NULL, 'SALIDA DE PRODUCTOS', '2024-09-30', '16:30:21', '2024-09-30 20:30:21', '2024-09-30 20:30:21'),
+(20, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN CLIENTE', 'id: 1<br/>nombre: FELIPE GONZALES<br/>ci: 1122<br/>fono: 77777777<br/>correo: FELIPE@GMAIL.COM<br/>dir: ZONA LOS OLIVOS C.11 #322<br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:47:02<br/>updated_at: 2024-09-30 16:47:02<br/>', NULL, 'CLIENTES', '2024-09-30', '16:47:02', '2024-09-30 20:47:02', '2024-09-30 20:47:02'),
+(21, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN CLIENTE', 'id: 1<br/>nombre: FELIPE GONZALES<br/>ci: 1122<br/>fono: 77777777<br/>correo: FELIPE@GMAIL.COM<br/>dir: ZONA LOS OLIVOS C.11 #322<br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:47:02<br/>updated_at: 2024-09-30 16:47:02<br/>', 'id: 1<br/>nombre: FELIPE GONZALES<br/>ci: 1122<br/>fono: 77777777<br/>correo: FELIPE@GMAIL.COM<br/>dir: ZONA LOS OLIVOS C.11 #322<br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:47:02<br/>updated_at: 2024-09-30 16:47:02<br/>', 'CLIENTES', '2024-09-30', '16:48:14', '2024-09-30 20:48:14', '2024-09-30 20:48:14'),
+(22, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN CLIENTE', 'id: 1<br/>nombre: FELIPE GONZALES<br/>ci: 1122<br/>fono: 77777777<br/>correo: FELIPE@GMAIL.COM<br/>dir: ZONA LOS OLIVOS C.11 #322<br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:47:02<br/>updated_at: 2024-09-30 16:47:02<br/>', 'id: 1<br/>nombre: FELIPE GONZALES<br/>ci: 1122<br/>fono: 77777777<br/>correo: FELIPE@GMAIL.COM<br/>dir: ZONA LOS OLIVOS C.11 #322<br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:47:02<br/>updated_at: 2024-09-30 16:47:02<br/>', 'CLIENTES', '2024-09-30', '16:48:35', '2024-09-30 20:48:35', '2024-09-30 20:48:35'),
+(23, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN CLIENTE', 'id: 2<br/>nombre: JESUS RAMIRES<br/>ci: 0<br/>fono: 78787878<br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:48:50<br/>updated_at: 2024-09-30 16:48:50<br/>', NULL, 'CLIENTES', '2024-09-30', '16:48:50', '2024-09-30 20:48:50', '2024-09-30 20:48:50'),
+(24, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN CLIENTE', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 0<br/>fono: <br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:50:48<br/>updated_at: 2024-09-30 16:50:48<br/>', NULL, 'CLIENTES', '2024-09-30', '16:50:48', '2024-09-30 20:50:48', '2024-09-30 20:50:48'),
+(25, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN CLIENTE', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 0<br/>fono: <br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:50:48<br/>updated_at: 2024-09-30 16:50:48<br/>', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 0<br/>fono: <br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:50:48<br/>updated_at: 2024-09-30 16:50:48<br/>', 'CLIENTES', '2024-09-30', '16:51:29', '2024-09-30 20:51:29', '2024-09-30 20:51:29'),
+(26, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN CLIENTE', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 0<br/>fono: <br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:50:48<br/>updated_at: 2024-09-30 16:50:48<br/>', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 0<br/>fono: <br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:50:48<br/>updated_at: 2024-09-30 16:50:48<br/>', 'CLIENTES', '2024-09-30', '16:51:39', '2024-09-30 20:51:39', '2024-09-30 20:51:39'),
+(27, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN CLIENTE', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 0<br/>fono: <br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:50:48<br/>updated_at: 2024-09-30 16:50:48<br/>', NULL, 'CLIENTES', '2024-09-30', '16:51:44', '2024-09-30 20:51:44', '2024-09-30 20:51:44'),
+(28, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN CLIENTE', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 3333<br/>fono: 67676767<br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:52:02<br/>updated_at: 2024-09-30 16:52:02<br/>', NULL, 'CLIENTES', '2024-09-30', '16:52:02', '2024-09-30 20:52:02', '2024-09-30 20:52:02');
 
 -- --------------------------------------------------------
 
@@ -240,9 +270,10 @@ CREATE TABLE `kardex_productos` (
 
 INSERT INTO `kardex_productos` (`id`, `lugar`, `sucursal_id`, `tipo_registro`, `registro_id`, `producto_id`, `detalle`, `precio`, `tipo_is`, `cantidad_ingreso`, `cantidad_salida`, `cantidad_saldo`, `cu`, `monto_ingreso`, `monto_salida`, `monto_saldo`, `fecha`, `created_at`, `updated_at`) VALUES
 (1, 'ALMACÉN', NULL, 'INGRESO', 1, 1, 'VALOR INICIAL', 300.00, 'INGRESO', 10, NULL, 10, 300.00, 3000.00, NULL, 3000.00, '2024-09-28', '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
-(2, 'ALMACÉN', NULL, 'INGRESO', 2, 2, 'VALOR INICIAL', 150.00, 'INGRESO', 6, NULL, 6, 150.00, 900.00, NULL, 900.00, '2024-09-28', '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
-(3, 'SUCURSAL', NULL, 'INGRESO', 5, 1, 'VALOR INICIAL', 300.00, 'INGRESO', 5, NULL, 5, 300.00, 1500.00, NULL, 1500.00, '2024-09-28', '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
-(4, 'SUCURSAL', NULL, 'INGRESO', 6, 2, 'VALOR INICIAL', 150.00, 'INGRESO', 5, NULL, 5, 150.00, 750.00, NULL, 750.00, '2024-09-28', '2024-09-28 19:24:40', '2024-09-28 19:24:40');
+(2, 'ALMACÉN', NULL, 'INGRESO', 2, 2, 'VALOR INICIAL', 150.00, 'INGRESO', 6, NULL, 6, 150.00, 900.00, NULL, 900.00, '2024-09-28', '2024-09-28 19:22:04', '2024-09-30 20:29:41'),
+(3, 'SUCURSAL', 1, 'INGRESO', 5, 1, 'VALOR INICIAL', 300.00, 'INGRESO', 5, NULL, 5, 300.00, 1500.00, NULL, 1500.00, '2024-09-28', '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
+(4, 'SUCURSAL', 2, 'INGRESO', 6, 2, 'VALOR INICIAL', 150.00, 'INGRESO', 5, NULL, 5, 150.00, 750.00, NULL, 750.00, '2024-09-28', '2024-09-28 19:24:40', '2024-09-28 19:24:40'),
+(5, 'ALMACÉN', NULL, 'SALIDA', 1, 2, 'PRUEBA SALIDA DE ALMACEN', 150.00, 'EGRESO', NULL, 1, 5, 150.00, NULL, 150.00, 750.00, '2024-09-30', '2024-09-30 20:30:21', '2024-09-30 20:30:21');
 
 -- --------------------------------------------------------
 
@@ -372,7 +403,7 @@ INSERT INTO `producto_barras` (`id`, `producto_id`, `codigo`, `lugar`, `sucursal
 (12, 2, '212', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
 (13, 2, '213', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
 (14, 2, '214', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
-(15, 2, '215', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
+(15, 2, '215', 'ALMACÉN', NULL, 2, 1, NULL, NULL, '2024-09-28 19:22:04', '2024-09-30 20:30:21'),
 (16, 2, '216', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
 (18, 1, '1111', 'SUCURSAL', 1, 5, NULL, NULL, NULL, '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
 (19, 1, '1112', 'SUCURSAL', 1, 5, NULL, NULL, NULL, '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
@@ -422,7 +453,7 @@ CREATE TABLE `salida_productos` (
   `id` bigint UNSIGNED NOT NULL,
   `producto_id` bigint UNSIGNED NOT NULL,
   `cantidad` double NOT NULL,
-  `fecha_saida` date NOT NULL,
+  `fecha_salida` date NOT NULL,
   `tipo_salida_id` bigint UNSIGNED NOT NULL,
   `descripcion` varchar(600) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `lugar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -431,6 +462,13 @@ CREATE TABLE `salida_productos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `salida_productos`
+--
+
+INSERT INTO `salida_productos` (`id`, `producto_id`, `cantidad`, `fecha_salida`, `tipo_salida_id`, `descripcion`, `lugar`, `sucursal_id`, `fecha_registro`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, '2024-09-30', 1, 'PRUEBA SALIDA DE ALMACEN', 'ALMACÉN', NULL, '2024-09-30', '2024-09-30 20:30:21', '2024-09-30 20:30:21');
 
 -- --------------------------------------------------------
 
@@ -637,8 +675,7 @@ ALTER TABLE `categorias`
 -- Indices de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `clientes_ci_unique` (`ci`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `configuracions`
@@ -801,7 +838,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `configuracions`
@@ -825,7 +862,7 @@ ALTER TABLE `distribucion_productos`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
@@ -837,7 +874,7 @@ ALTER TABLE `ingreso_productos`
 -- AUTO_INCREMENT de la tabla `kardex_productos`
 --
 ALTER TABLE `kardex_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `marcas`
@@ -873,7 +910,7 @@ ALTER TABLE `proveedors`
 -- AUTO_INCREMENT de la tabla `salida_productos`
 --
 ALTER TABLE `salida_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `sucursals`

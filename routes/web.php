@@ -119,6 +119,7 @@ Route::middleware('auth')->prefix("admin")->group(function () {
         ["index", "store", "update", "show", "destroy"]
     );
 
+    Route::get("productos/barras/getProductos", [ProductoBarraController::class, 'getProductos'])->name("producto_barras.getProductos");
     Route::get("productos/barras/getByCod", [ProductoBarraController::class, 'getByCod'])->name("producto_barras.getByCod");
 
     // STOCK PRODUCTOS

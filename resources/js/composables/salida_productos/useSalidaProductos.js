@@ -6,11 +6,9 @@ const oSalidaProducto = reactive({
     id: 0,
     producto_id: "",
     cantidad: "",
-    fecha_saida: "",
+    fecha_salida: "",
     tipo_salida_id: "",
     descripcion: "",
-    producto_barras: reactive([]),
-    eliminados: reactive([]),
     _method: "POST",
 });
 
@@ -155,14 +153,12 @@ export const useSalidaProductos = () => {
             oSalidaProducto.id = item.id;
             oSalidaProducto.producto_id = item.producto_id;
             oSalidaProducto.cantidad = item.cantidad;
-            oSalidaProducto.fecha_saida = item.fecha_saida;
+            oSalidaProducto.fecha_salida = item.fecha_salida;
             oSalidaProducto.tipo_salida_id = item.tipo_salida_id;
             oSalidaProducto.descripcion = item.descripcion;
-            oSalidaProducto.producto_barras = [...item.producto_barras];
             oSalidaProducto._method = "PUT";
             oSalidaProducto.producto = item.producto ? item.producto : null;
             oSalidaProducto.sucursal = item.sucursal ? item.sucursal : null;
-            oSalidaProducto.eliminados = [];
             return oSalidaProducto;
         }
         return false;
@@ -172,11 +168,9 @@ export const useSalidaProductos = () => {
         oSalidaProducto.id = 0;
         oSalidaProducto.producto_id = "";
         oSalidaProducto.cantidad = "";
-        oSalidaProducto.fecha_saida = "";
+        oSalidaProducto.fecha_salida = "";
         oSalidaProducto.tipo_salida_id = "";
         oSalidaProducto.descripcion = "";
-        oSalidaProducto.producto_barras = [];
-        oSalidaProducto.eliminados = [];
         oSalidaProducto._method = "POST";
     };
 

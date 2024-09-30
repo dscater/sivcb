@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("producto_id");
             $table->double("cantidad", 8, 2);
-            $table->date("fecha_saida");
+            $table->date("fecha_salida");
             $table->unsignedBigInteger("tipo_salida_id");
             $table->string("descripcion", 600)->nullable();
             $table->string("lugar", 255);

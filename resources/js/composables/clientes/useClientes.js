@@ -5,7 +5,9 @@ import { usePage } from "@inertiajs/vue3";
 const oCliente = ref({
     id: 0,
     nombre: "",
+    ci: "",
     fono: "",
+    correo: "",
     dir: "",
     _method: "POST",
 });
@@ -138,7 +140,9 @@ export const useClientes = () => {
         if (item) {
             oCliente.value.id = item.id;
             oCliente.value.nombre = item.nombre;
+            oCliente.value.ci = item.ci;
             oCliente.value.fono = item.fono;
+            oCliente.value.correo = item.correo;
             oCliente.value.dir = item.dir;
             oCliente.value._method = "PUT";
             return oCliente;
@@ -149,7 +153,9 @@ export const useClientes = () => {
     const limpiarCliente = () => {
         oCliente.value.id = 0;
         oCliente.value.nombre = "";
+        oCliente.value.ci = "";
         oCliente.value.fono = "";
+        oCliente.value.correo = "";
         oCliente.value.dir = "";
         oCliente.value._method = "POST";
     };

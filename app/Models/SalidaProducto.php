@@ -12,7 +12,7 @@ class SalidaProducto extends Model
     protected $fillable = [
         "producto_id",
         "cantidad",
-        "fecha_saida",
+        "fecha_salida",
         "tipo_salida_id",
         "descripcion",
         "lugar",
