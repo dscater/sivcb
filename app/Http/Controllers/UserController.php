@@ -73,6 +73,11 @@ class UserController extends Controller
             "clientes.edit",
             "clientes.destroy",
 
+            "ventas.index",
+            "ventas.create",
+            "ventas.edit",
+            "ventas.destroy",
+
             "configuracions.index",
             "configuracions.create",
             "configuracions.edit",

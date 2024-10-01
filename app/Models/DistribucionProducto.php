@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class DistribucionProducto extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        "sucursal_id",
+        "fecha_registro",
+    ];
 }

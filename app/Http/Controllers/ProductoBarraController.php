@@ -22,8 +22,25 @@ class ProductoBarraController extends Controller
         $codigo = $request->codigo;
         $producto_barra = null;
         if ($codigo) {
-            $producto_barra = ProductoBarra::where("codigo", $codigo)->get()->first();
+            $producto_barra = ProductoBarra::where("codigo", $codigo)->where("lugar", "SUCURSAL");
+            if (isset($request->sucursal_id) && $request->sucursal_id) {
+                $producto_barra->where("sucursal_id", $request->sucursal_id);
+            }
+            if (isset($request->venta) && $request->venta) {
+                $producto_barra->where("salida_id", null);
+                $producto_barra->where("venta_id", null);
+                $producto_barra->where("venta_detalle_id", null);
+            }
+            
+            $producto_barra = $producto_barra->get()->first();
+            if ($producto_barra) {
+                if (isset($request->venta) && $request->venta) {
+                    $producto_barra = $producto_barra->load(["producto"]);
+                }
+
+                return response()->JSON($producto_barra);
+            }
         }
-        return response()->JSON($producto_barra);
+        return response()->JSON(null);
     }
 }

@@ -74,6 +74,11 @@ class SalidaProductoController extends Controller
             $request["fecha_registro"] = date("Y-m-d");
             $producto_barra = ProductoBarra::find($request["producto_id"]["id"]);
 
+
+            if ($producto_barra->venta_id || $producto_barra->venta_detalle_id) {
+                throw new Exception("Ocurrió un error. El producto fue vendido");
+            }
+
             if (!$producto_barra) {
                 throw new Exception("Ocurrió un error. No se pudo encontrar el producto");
             }
@@ -183,6 +188,13 @@ class SalidaProductoController extends Controller
     {
         DB::beginTransaction();
         try {
+            $producto_barras = ProductoBarra::where("salida_id", $salida_producto->id)->get();
+            foreach ($producto_barras as $producto_barra) {
+                if ($producto_barra->venta_id || $producto_barra->venta_detalle_id) {
+                    throw new Exception("No es posible eliminar este registro debido a que el producto registr");
+                }
+                $producto_barra->update(["salida_id", null]);
+            }
             $eliminar_kardex = KardexProducto::where("lugar", $salida_producto->lugar)
                 ->where("tipo_registro", "SALIDA")
                 ->where("registro_id", $salida_producto->id)

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 30-09-2024 a las 17:01:23
+-- Tiempo de generación: 01-10-2024 a las 19:22:10
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -202,7 +202,26 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (25, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN CLIENTE', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 0<br/>fono: <br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:50:48<br/>updated_at: 2024-09-30 16:50:48<br/>', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 0<br/>fono: <br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:50:48<br/>updated_at: 2024-09-30 16:50:48<br/>', 'CLIENTES', '2024-09-30', '16:51:29', '2024-09-30 20:51:29', '2024-09-30 20:51:29'),
 (26, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN CLIENTE', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 0<br/>fono: <br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:50:48<br/>updated_at: 2024-09-30 16:50:48<br/>', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 0<br/>fono: <br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:50:48<br/>updated_at: 2024-09-30 16:50:48<br/>', 'CLIENTES', '2024-09-30', '16:51:39', '2024-09-30 20:51:39', '2024-09-30 20:51:39'),
 (27, 1, 'ELIMINACIÓN', 'EL USUARIO admin ELIMINÓ UN CLIENTE', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 0<br/>fono: <br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:50:48<br/>updated_at: 2024-09-30 16:50:48<br/>', NULL, 'CLIENTES', '2024-09-30', '16:51:44', '2024-09-30 20:51:44', '2024-09-30 20:51:44'),
-(28, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN CLIENTE', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 3333<br/>fono: 67676767<br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:52:02<br/>updated_at: 2024-09-30 16:52:02<br/>', NULL, 'CLIENTES', '2024-09-30', '16:52:02', '2024-09-30 20:52:02', '2024-09-30 20:52:02');
+(28, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN CLIENTE', 'id: 3<br/>nombre: MARIA MAMANI<br/>ci: 3333<br/>fono: 67676767<br/>correo: <br/>dir: <br/>fecha_registro: 2024-09-30<br/>created_at: 2024-09-30 16:52:02<br/>updated_at: 2024-09-30 16:52:02<br/>', NULL, 'CLIENTES', '2024-09-30', '16:52:02', '2024-09-30 20:52:02', '2024-09-30 20:52:02'),
+(29, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTO', 'id: 7<br/>producto_id: 1<br/>proveedor_id: 2<br/>precio: 3000<br/>cantidad: 7<br/>tipo_ingreso_id: 2<br/>descripcion: INGRESO PROD 2 SUCURSAL 1<br/>lugar: SUCURSAL<br/>sucursal_id: 1<br/>fecha_ingreso: 2024-10-01<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 16:26:54<br/>updated_at: 2024-10-01 16:26:54<br/>', NULL, 'INGRESO DE PRODUCTOS', '2024-10-01', '16:26:54', '2024-10-01 20:26:54', '2024-10-01 20:26:54'),
+(30, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN INGRESO DE PRODUCTO', 'id: 7<br/>producto_id: 1<br/>proveedor_id: 2<br/>precio: 3000.00<br/>cantidad: 7<br/>tipo_ingreso_id: 2<br/>descripcion: INGRESO PROD 2 SUCURSAL 1<br/>lugar: SUCURSAL<br/>sucursal_id: 1<br/>fecha_ingreso: 2024-10-01<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 16:26:54<br/>updated_at: 2024-10-01 16:26:54<br/>', 'id: 7<br/>producto_id: 1<br/>proveedor_id: 2<br/>precio: 3000.00<br/>cantidad: 7<br/>tipo_ingreso_id: 2<br/>descripcion: INGRESO PROD 1 SUCURSAL 1<br/>lugar: SUCURSAL<br/>sucursal_id: 1<br/>fecha_ingreso: 2024-10-01<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 16:26:54<br/>updated_at: 2024-10-01 16:27:44<br/>', 'INGRESO DE PRODUCTOS', '2024-10-01', '16:27:44', '2024-10-01 20:27:44', '2024-10-01 20:27:44'),
+(31, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTO', 'id: 8<br/>producto_id: 2<br/>proveedor_id: 2<br/>precio: 3000<br/>cantidad: 7<br/>tipo_ingreso_id: 2<br/>descripcion: INGRESO PROD. 2 SUCURSAL 1<br/>lugar: SUCURSAL<br/>sucursal_id: 1<br/>fecha_ingreso: 2024-10-01<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 16:28:24<br/>updated_at: 2024-10-01 16:28:24<br/>', NULL, 'INGRESO DE PRODUCTOS', '2024-10-01', '16:28:24', '2024-10-01 20:28:24', '2024-10-01 20:28:24'),
+(32, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 450.00<br/>descuento: 0<br/>total_final: 450.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 17:12:08<br/>', NULL, 'VENTAS', '2024-10-01', '17:12:08', '2024-10-01 21:12:08', '2024-10-01 21:12:08'),
+(33, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 450.00<br/>descuento: 0<br/>total_final: 450.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 17:12:08<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 450.00<br/>descuento: 0<br/>total_final: 450.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 17:12:08<br/>', 'VENTAS', '2024-10-01', '19:01:24', '2024-10-01 23:01:24', '2024-10-01 23:01:24'),
+(34, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 450.00<br/>descuento: 0<br/>total_final: 450.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 17:12:08<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 450.00<br/>descuento: 10<br/>total_final: 405.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:01:37<br/>', 'VENTAS', '2024-10-01', '19:01:37', '2024-10-01 23:01:37', '2024-10-01 23:01:37'),
+(35, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 450.00<br/>descuento: 10<br/>total_final: 405.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:01:37<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 750.00<br/>descuento: 10<br/>total_final: 675.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:01:54<br/>', 'VENTAS', '2024-10-01', '19:01:54', '2024-10-01 23:01:54', '2024-10-01 23:01:54'),
+(36, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 750.00<br/>descuento: 10<br/>total_final: 675.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:01:54<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 750.00<br/>descuento: 10<br/>total_final: 675.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:01:54<br/>', 'VENTAS', '2024-10-01', '19:06:03', '2024-10-01 23:06:03', '2024-10-01 23:06:03'),
+(37, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 750.00<br/>descuento: 10<br/>total_final: 675.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:01:54<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 750.00<br/>descuento: 10<br/>total_final: 675.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:01:54<br/>', 'VENTAS', '2024-10-01', '19:06:32', '2024-10-01 23:06:32', '2024-10-01 23:06:32'),
+(38, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 750.00<br/>descuento: 10<br/>total_final: 675.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:01:54<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 750.00<br/>descuento: 10<br/>total_final: 675.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:01:54<br/>', 'VENTAS', '2024-10-01', '19:07:03', '2024-10-01 23:07:03', '2024-10-01 23:07:03'),
+(39, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 750.00<br/>descuento: 10<br/>total_final: 675.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:01:54<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 750.00<br/>descuento: 10<br/>total_final: 675.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:01:54<br/>', 'VENTAS', '2024-10-01', '19:07:52', '2024-10-01 23:07:52', '2024-10-01 23:07:52'),
+(40, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 750.00<br/>descuento: 10<br/>total_final: 675.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:01:54<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 1050.00<br/>descuento: 10<br/>total_final: 945.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:09:42<br/>', 'VENTAS', '2024-10-01', '19:09:42', '2024-10-01 23:09:42', '2024-10-01 23:09:42'),
+(41, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 1050.00<br/>descuento: 10<br/>total_final: 945.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:09:42<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 150.00<br/>descuento: 10<br/>total_final: 135.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:10:36<br/>', 'VENTAS', '2024-10-01', '19:10:36', '2024-10-01 23:10:36', '2024-10-01 23:10:36'),
+(42, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 150.00<br/>descuento: 10<br/>total_final: 135.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:10:36<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 450.00<br/>descuento: 10<br/>total_final: 405.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:10:59<br/>', 'VENTAS', '2024-10-01', '19:10:59', '2024-10-01 23:10:59', '2024-10-01 23:10:59'),
+(43, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 450.00<br/>descuento: 10<br/>total_final: 405.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:10:59<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 450.00<br/>descuento: 10<br/>total_final: 405.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:10:59<br/>', 'VENTAS', '2024-10-01', '19:16:10', '2024-10-01 23:16:10', '2024-10-01 23:16:10'),
+(44, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 450.00<br/>descuento: 10<br/>total_final: 405.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:10:59<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 150.00<br/>descuento: 10<br/>total_final: 135.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:16:51<br/>', 'VENTAS', '2024-10-01', '19:16:51', '2024-10-01 23:16:51', '2024-10-01 23:16:51'),
+(45, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 150.00<br/>descuento: 10<br/>total_final: 135.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:16:51<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 750.00<br/>descuento: 10<br/>total_final: 675.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:17:10<br/>', 'VENTAS', '2024-10-01', '19:17:10', '2024-10-01 23:17:10', '2024-10-01 23:17:10'),
+(46, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 750.00<br/>descuento: 10<br/>total_final: 675.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:17:10<br/>', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 450.00<br/>descuento: 10<br/>total_final: 405.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 17:12:08<br/>updated_at: 2024-10-01 19:17:26<br/>', 'VENTAS', '2024-10-01', '19:17:26', '2024-10-01 23:17:26', '2024-10-01 23:17:26'),
+(47, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA VENTA', 'id: 5<br/>sucursal_id: 2<br/>cliente_id: 3<br/>user_id: 1<br/>nit: 3333<br/>total: 300.00<br/>descuento: 0<br/>total_final: 300.00<br/>fecha_registro: 2024-10-01<br/>created_at: 2024-10-01 19:20:51<br/>updated_at: 2024-10-01 19:20:51<br/>', NULL, 'VENTAS', '2024-10-01', '19:20:51', '2024-10-01 23:20:51', '2024-10-01 23:20:51');
 
 -- --------------------------------------------------------
 
@@ -234,7 +253,9 @@ INSERT INTO `ingreso_productos` (`id`, `producto_id`, `proveedor_id`, `precio`, 
 (1, 1, 1, 3400.00, 10, 1, 'PRIMER INGRESO ALMACEN', 'ALMACÉN', NULL, '2024-09-28', '2024-09-28', '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
 (2, 2, 2, 35400.00, 6, 1, 'DESC. PRIMER INGRESO PROD. 2 ALMACEN', 'ALMACÉN', NULL, '2024-09-28', '2024-09-28', '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
 (5, 1, 1, 1400.00, 5, 2, 'INGRESO DIRECTO SUCURSAL PROD. 1', 'SUCURSAL', 1, '2024-09-28', '2024-09-28', '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
-(6, 2, 2, 1400.00, 5, 2, 'INGRESO DIRECTO A SUCURSAL 2 PROD 2', 'SUCURSAL', 2, '2024-09-28', '2024-09-28', '2024-09-28 19:24:40', '2024-09-28 19:24:52');
+(6, 2, 2, 1400.00, 5, 2, 'INGRESO DIRECTO A SUCURSAL 2 PROD 2', 'SUCURSAL', 2, '2024-09-28', '2024-09-28', '2024-09-28 19:24:40', '2024-09-28 19:24:52'),
+(7, 1, 2, 3000.00, 7, 2, 'INGRESO PROD 1 SUCURSAL 1', 'SUCURSAL', 1, '2024-10-01', '2024-10-01', '2024-10-01 20:26:54', '2024-10-01 20:27:44'),
+(8, 2, 2, 3000.00, 7, 2, 'INGRESO PROD. 2 SUCURSAL 1', 'SUCURSAL', 1, '2024-10-01', '2024-10-01', '2024-10-01 20:28:24', '2024-10-01 20:28:24');
 
 -- --------------------------------------------------------
 
@@ -273,7 +294,12 @@ INSERT INTO `kardex_productos` (`id`, `lugar`, `sucursal_id`, `tipo_registro`, `
 (2, 'ALMACÉN', NULL, 'INGRESO', 2, 2, 'VALOR INICIAL', 150.00, 'INGRESO', 6, NULL, 6, 150.00, 900.00, NULL, 900.00, '2024-09-28', '2024-09-28 19:22:04', '2024-09-30 20:29:41'),
 (3, 'SUCURSAL', 1, 'INGRESO', 5, 1, 'VALOR INICIAL', 300.00, 'INGRESO', 5, NULL, 5, 300.00, 1500.00, NULL, 1500.00, '2024-09-28', '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
 (4, 'SUCURSAL', 2, 'INGRESO', 6, 2, 'VALOR INICIAL', 150.00, 'INGRESO', 5, NULL, 5, 150.00, 750.00, NULL, 750.00, '2024-09-28', '2024-09-28 19:24:40', '2024-09-28 19:24:40'),
-(5, 'ALMACÉN', NULL, 'SALIDA', 1, 2, 'PRUEBA SALIDA DE ALMACEN', 150.00, 'EGRESO', NULL, 1, 5, 150.00, NULL, 150.00, 750.00, '2024-09-30', '2024-09-30 20:30:21', '2024-09-30 20:30:21');
+(5, 'ALMACÉN', NULL, 'SALIDA', 1, 2, 'PRUEBA SALIDA DE ALMACEN', 150.00, 'EGRESO', NULL, 1, 5, 150.00, NULL, 150.00, 750.00, '2024-09-30', '2024-09-30 20:30:21', '2024-09-30 20:30:21'),
+(6, 'SUCURSAL', 1, 'INGRESO', 7, 1, 'INGRESO PROD 2 SUCURSAL 1', 300.00, 'INGRESO', 7, NULL, 12, 300.00, 2100.00, NULL, 3600.00, '2024-10-01', '2024-10-01 20:26:54', '2024-10-01 23:17:26'),
+(7, 'SUCURSAL', 1, 'INGRESO', 8, 2, 'VALOR INICIAL', 150.00, 'INGRESO', 7, NULL, 7, 150.00, 1050.00, NULL, 1050.00, '2024-10-01', '2024-10-01 20:28:24', '2024-10-01 20:28:24'),
+(8, 'SUCURSAL', 1, 'VENTA', 1, 2, 'VENTA DE PRODUCTO', 150.00, 'EGRESO', NULL, 1, 6, 150.00, NULL, 150.00, 900.00, '2024-10-01', '2024-10-01 21:12:08', '2024-10-01 23:17:26'),
+(13, 'SUCURSAL', 1, 'VENTA', 7, 1, 'VENTA DE PRODUCTO', 300.00, 'EGRESO', NULL, 1, 11, 300.00, NULL, 300.00, 3300.00, '2024-10-01', '2024-10-01 23:17:26', '2024-10-01 23:17:26'),
+(14, 'SUCURSAL', 2, 'VENTA', 9, 2, 'VENTA DE PRODUCTO', 150.00, 'EGRESO', NULL, 2, 3, 150.00, NULL, 300.00, 450.00, '2024-10-01', '2024-10-01 23:20:51', '2024-10-01 23:20:51');
 
 -- --------------------------------------------------------
 
@@ -378,6 +404,7 @@ CREATE TABLE `producto_barras` (
   `sucursal_id` bigint UNSIGNED DEFAULT NULL,
   `ingreso_id` bigint UNSIGNED DEFAULT NULL,
   `salida_id` bigint UNSIGNED DEFAULT NULL,
+  `venta_id` bigint UNSIGNED DEFAULT NULL,
   `venta_detalle_id` bigint UNSIGNED DEFAULT NULL,
   `distribucion_detalle_id` bigint UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -388,33 +415,47 @@ CREATE TABLE `producto_barras` (
 -- Volcado de datos para la tabla `producto_barras`
 --
 
-INSERT INTO `producto_barras` (`id`, `producto_id`, `codigo`, `lugar`, `sucursal_id`, `ingreso_id`, `salida_id`, `venta_detalle_id`, `distribucion_detalle_id`, `created_at`, `updated_at`) VALUES
-(1, 1, '111', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
-(2, 1, '112', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
-(3, 1, '113', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
-(4, 1, '114', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
-(5, 1, '115', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
-(6, 1, '116', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
-(7, 1, '117', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
-(8, 1, '118', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
-(9, 1, '119', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
-(10, 1, '110', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
-(11, 2, '211', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
-(12, 2, '212', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
-(13, 2, '213', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
-(14, 2, '214', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
-(15, 2, '215', 'ALMACÉN', NULL, 2, 1, NULL, NULL, '2024-09-28 19:22:04', '2024-09-30 20:30:21'),
-(16, 2, '216', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
-(18, 1, '1111', 'SUCURSAL', 1, 5, NULL, NULL, NULL, '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
-(19, 1, '1112', 'SUCURSAL', 1, 5, NULL, NULL, NULL, '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
-(20, 1, '1113', 'SUCURSAL', 1, 5, NULL, NULL, NULL, '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
-(21, 1, '1114', 'SUCURSAL', 1, 5, NULL, NULL, NULL, '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
-(22, 1, '1115', 'SUCURSAL', 1, 5, NULL, NULL, NULL, '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
-(23, 2, '1116', 'SUCURSAL', 2, 6, NULL, NULL, NULL, '2024-09-28 19:24:40', '2024-09-28 19:24:40'),
-(24, 2, '1117', 'SUCURSAL', 2, 6, NULL, NULL, NULL, '2024-09-28 19:24:40', '2024-09-28 19:24:40'),
-(25, 2, '1118', 'SUCURSAL', 2, 6, NULL, NULL, NULL, '2024-09-28 19:24:40', '2024-09-28 19:24:40'),
-(26, 2, '1119', 'SUCURSAL', 2, 6, NULL, NULL, NULL, '2024-09-28 19:24:40', '2024-09-28 19:24:40'),
-(27, 2, '1110', 'SUCURSAL', 2, 6, NULL, NULL, NULL, '2024-09-28 19:24:40', '2024-09-28 19:24:40');
+INSERT INTO `producto_barras` (`id`, `producto_id`, `codigo`, `lugar`, `sucursal_id`, `ingreso_id`, `salida_id`, `venta_id`, `venta_detalle_id`, `distribucion_detalle_id`, `created_at`, `updated_at`) VALUES
+(1, 1, '111', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
+(2, 1, '112', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
+(3, 1, '113', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
+(4, 1, '114', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
+(5, 1, '115', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
+(6, 1, '116', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
+(7, 1, '117', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
+(8, 1, '118', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
+(9, 1, '119', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
+(10, 1, '110', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-09-28 19:21:31', '2024-09-28 19:21:31'),
+(11, 2, '211', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
+(12, 2, '212', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
+(13, 2, '213', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
+(14, 2, '214', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
+(15, 2, '215', 'ALMACÉN', NULL, 2, 1, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-30 20:30:21'),
+(16, 2, '216', 'ALMACÉN', NULL, 2, NULL, NULL, NULL, NULL, '2024-09-28 19:22:04', '2024-09-28 19:22:04'),
+(18, 1, '1111', 'SUCURSAL', 1, 5, NULL, NULL, NULL, NULL, '2024-09-28 19:24:03', '2024-10-01 23:17:26'),
+(19, 1, '1112', 'SUCURSAL', 1, 5, NULL, NULL, NULL, NULL, '2024-09-28 19:24:03', '2024-10-01 23:17:26'),
+(20, 1, '1113', 'SUCURSAL', 1, 5, NULL, NULL, NULL, NULL, '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
+(21, 1, '1114', 'SUCURSAL', 1, 5, NULL, NULL, NULL, NULL, '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
+(22, 1, '1115', 'SUCURSAL', 1, 5, NULL, NULL, NULL, NULL, '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
+(23, 2, '1116', 'SUCURSAL', 2, 6, NULL, 5, 9, NULL, '2024-09-28 19:24:40', '2024-10-01 23:20:51'),
+(24, 2, '1117', 'SUCURSAL', 2, 6, NULL, 5, 9, NULL, '2024-09-28 19:24:40', '2024-10-01 23:20:51'),
+(25, 2, '1118', 'SUCURSAL', 2, 6, NULL, NULL, NULL, NULL, '2024-09-28 19:24:40', '2024-09-28 19:24:40'),
+(26, 2, '1119', 'SUCURSAL', 2, 6, NULL, NULL, NULL, NULL, '2024-09-28 19:24:40', '2024-09-28 19:24:40'),
+(27, 2, '1110', 'SUCURSAL', 2, 6, NULL, NULL, NULL, NULL, '2024-09-28 19:24:40', '2024-09-28 19:24:40'),
+(28, 1, '2221', 'SUCURSAL', 1, 7, NULL, 3, 1, NULL, '2024-10-01 20:26:54', '2024-10-01 23:17:26'),
+(29, 1, '2222', 'SUCURSAL', 1, 7, NULL, NULL, NULL, NULL, '2024-10-01 20:26:54', '2024-10-01 23:10:36'),
+(30, 1, '2223', 'SUCURSAL', 1, 7, NULL, NULL, NULL, NULL, '2024-10-01 20:26:54', '2024-10-01 23:10:36'),
+(31, 1, '2224', 'SUCURSAL', 1, 7, NULL, NULL, NULL, NULL, '2024-10-01 20:26:54', '2024-10-01 20:26:54'),
+(32, 1, '2225', 'SUCURSAL', 1, 7, NULL, NULL, NULL, NULL, '2024-10-01 20:26:54', '2024-10-01 20:26:54'),
+(33, 1, '2226', 'SUCURSAL', 1, 7, NULL, NULL, NULL, NULL, '2024-10-01 20:26:54', '2024-10-01 20:26:54'),
+(34, 1, '2227', 'SUCURSAL', 1, 7, NULL, NULL, NULL, NULL, '2024-10-01 20:26:54', '2024-10-01 20:26:54'),
+(35, 2, '3331', 'SUCURSAL', 1, 8, NULL, 3, 1, NULL, '2024-10-01 20:28:24', '2024-10-01 23:17:26'),
+(36, 2, '3332', 'SUCURSAL', 1, 8, NULL, NULL, NULL, NULL, '2024-10-01 20:28:24', '2024-10-01 20:28:24'),
+(37, 2, '3333', 'SUCURSAL', 1, 8, NULL, NULL, NULL, NULL, '2024-10-01 20:28:24', '2024-10-01 20:28:24'),
+(38, 2, '3334', 'SUCURSAL', 1, 8, NULL, NULL, NULL, NULL, '2024-10-01 20:28:24', '2024-10-01 20:28:24'),
+(39, 2, '3335', 'SUCURSAL', 1, 8, NULL, NULL, NULL, NULL, '2024-10-01 20:28:24', '2024-10-01 20:28:24'),
+(40, 2, '3336', 'SUCURSAL', 1, 8, NULL, NULL, NULL, NULL, '2024-10-01 20:28:24', '2024-10-01 20:28:24'),
+(41, 2, '3337', 'SUCURSAL', 1, 8, NULL, NULL, NULL, NULL, '2024-10-01 20:28:24', '2024-10-01 20:28:24');
 
 -- --------------------------------------------------------
 
@@ -514,8 +555,9 @@ CREATE TABLE `sucursal_productos` (
 --
 
 INSERT INTO `sucursal_productos` (`id`, `producto_id`, `sucursal_id`, `stock_actual`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 5, '2024-09-28 19:24:03', '2024-09-28 19:24:03'),
-(2, 2, 2, 5, '2024-09-28 19:24:40', '2024-09-28 19:24:52');
+(1, 1, 1, 11, '2024-09-28 19:24:03', '2024-10-01 23:17:26'),
+(2, 2, 2, 3, '2024-09-28 19:24:40', '2024-10-01 23:20:51'),
+(3, 2, 1, 6, '2024-10-01 20:28:24', '2024-10-01 23:17:26');
 
 -- --------------------------------------------------------
 
@@ -625,6 +667,7 @@ INSERT INTO `users` (`id`, `usuario`, `nombre`, `paterno`, `materno`, `ci`, `ci_
 
 CREATE TABLE `ventas` (
   `id` bigint UNSIGNED NOT NULL,
+  `sucursal_id` bigint UNSIGNED NOT NULL,
   `cliente_id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
   `nit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -635,6 +678,14 @@ CREATE TABLE `ventas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `ventas`
+--
+
+INSERT INTO `ventas` (`id`, `sucursal_id`, `cliente_id`, `user_id`, `nit`, `total`, `descuento`, `total_final`, `fecha_registro`, `created_at`, `updated_at`) VALUES
+(3, 1, 1, 1, '1122', 450.00, 10, 405.00, '2024-10-01', '2024-10-01 21:12:08', '2024-10-01 23:17:26'),
+(5, 2, 3, 1, '3333', 300.00, 0, 300.00, '2024-10-01', '2024-10-01 23:20:51', '2024-10-01 23:20:51');
 
 -- --------------------------------------------------------
 
@@ -652,6 +703,15 @@ CREATE TABLE `venta_detalles` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `venta_detalles`
+--
+
+INSERT INTO `venta_detalles` (`id`, `venta_id`, `producto_id`, `cantidad`, `precio`, `subtotal`, `created_at`, `updated_at`) VALUES
+(1, 3, 2, 1, 150.00, 150.00, '2024-10-01 21:12:08', '2024-10-01 21:12:08'),
+(7, 3, 1, 1, 300.00, 300.00, '2024-10-01 23:17:26', '2024-10-01 23:17:26'),
+(9, 5, 2, 2, 150.00, 300.00, '2024-10-01 23:20:51', '2024-10-01 23:20:51');
 
 --
 -- Índices para tablas volcadas
@@ -862,19 +922,19 @@ ALTER TABLE `distribucion_productos`
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
 --
 ALTER TABLE `ingreso_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `kardex_productos`
 --
 ALTER TABLE `kardex_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `marcas`
@@ -898,7 +958,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `producto_barras`
 --
 ALTER TABLE `producto_barras`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedors`
@@ -922,7 +982,7 @@ ALTER TABLE `sucursals`
 -- AUTO_INCREMENT de la tabla `sucursal_productos`
 --
 ALTER TABLE `sucursal_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_ingresos`
@@ -952,13 +1012,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `venta_detalles`
 --
 ALTER TABLE `venta_detalles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restricciones para tablas volcadas

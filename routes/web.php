@@ -19,6 +19,7 @@ use App\Http\Controllers\TipoSalidaController;
 use App\Http\Controllers\UnidadMedidaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -164,6 +165,14 @@ Route::middleware('auth')->prefix("admin")->group(function () {
     Route::get("clientes/listado", [ClienteController::class, 'listado'])->name("clientes.listado");
     Route::resource("clientes", ClienteController::class)->only(
         ["index", "store", "update", "show", "destroy"]
+    );
+
+    // VENTAS
+    Route::get("ventas/api", [VentaController::class, 'api'])->name("ventas.api");
+    Route::get("ventas/paginado", [VentaController::class, 'paginado'])->name("ventas.paginado");
+    Route::get("ventas/listado", [VentaController::class, 'listado'])->name("ventas.listado");
+    Route::resource("ventas", VentaController::class)->only(
+        ["index", "create", "edit", "store", "update", "show", "destroy"]
     );
 
     // REPORTES

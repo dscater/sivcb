@@ -16,6 +16,7 @@ class ProductoBarra extends Model
         "sucursal_id",
         "ingreso_id",
         "salida_id",
+        "venta_id",
         "venta_detalle_id",
         "distribucion_detalle_id",
     ];
@@ -39,6 +40,11 @@ class ProductoBarra extends Model
     public function salida()
     {
         return $this->belongsTo(SalidaProducto::class, 'salida_id');
+    }
+
+    public function venta()
+    {
+        return $this->belongsTo(Venta::class, 'venta_id');
     }
 
     public function venta_detalle()
