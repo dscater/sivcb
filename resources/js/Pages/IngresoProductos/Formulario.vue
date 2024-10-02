@@ -54,7 +54,8 @@ watch(
     }
 );
 
-const { flash } = usePage().props;
+const { flash, auth } = usePage().props;
+const user = auth.user;
 
 const tituloDialog = computed(() => {
     return accion.value == 0
@@ -411,53 +412,79 @@ onMounted(() => {});
                                             readonly
                                         />
                                     </div>
-                                    <div
-                                        class="col-12"
-                                        v-show="form.lugar == 'SUCURSAL'"
+                                    <template
+                                        v-if="user.tipo == 'ADMINISTRADOR'"
                                     >
-                                        <template v-if="accion_dialog == 0">
-                                            <label>Seleccionar Sucursal*</label>
-                                            <select
-                                                class="form-select"
-                                                :class="{
-                                                    'parsley-error':
-                                                        form.errors
-                                                            ?.sucursal_id,
-                                                }"
-                                                v-model="form.sucursal_id"
-                                            >
-                                                <option value="">
-                                                    - Seleccione -
-                                                </option>
-                                                <option
-                                                    v-for="item in listSucursals"
-                                                    :value="item.id"
+                                        <div
+                                            class="col-12"
+                                            v-if="form.lugar == 'SUCURSAL'"
+                                        >
+                                            <template v-if="accion_dialog == 0">
+                                                <label
+                                                    >Seleccionar
+                                                    Sucursal*</label
                                                 >
-                                                    {{ item.nombre }}
-                                                </option>
-                                            </select>
-                                            <ul
-                                                v-if="form.errors?.sucursal_id"
-                                                class="parsley-errors-list filled"
-                                            >
-                                                <li class="parsley-required">
-                                                    {{
+                                                <select
+                                                    class="form-select"
+                                                    :class="{
+                                                        'parsley-error':
+                                                            form.errors
+                                                                ?.sucursal_id,
+                                                    }"
+                                                    v-model="form.sucursal_id"
+                                                >
+                                                    <option value="">
+                                                        - Seleccione -
+                                                    </option>
+                                                    <option
+                                                        v-for="item in listSucursals"
+                                                        :value="item.id"
+                                                    >
+                                                        {{ item.nombre }}
+                                                    </option>
+                                                </select>
+                                                <ul
+                                                    v-if="
                                                         form.errors?.sucursal_id
-                                                    }}
-                                                </li>
-                                            </ul>
-                                        </template>
-                                        <template v-else>
-                                            <label>Sucursal:</label>
-                                            <input
-                                                type="text"
-                                                class="form-control readonly"
-                                                v-if="form.sucursal"
-                                                v-model="form.sucursal.nombre"
-                                                readonly
-                                            />
-                                        </template>
-                                    </div>
+                                                    "
+                                                    class="parsley-errors-list filled"
+                                                >
+                                                    <li
+                                                        class="parsley-required"
+                                                    >
+                                                        {{
+                                                            form.errors
+                                                                ?.sucursal_id
+                                                        }}
+                                                    </li>
+                                                </ul>
+                                            </template>
+                                            <template v-else>
+                                                <label>Sucursal:</label>
+                                                <input
+                                                    type="text"
+                                                    class="form-control readonly"
+                                                    v-if="form.sucursal"
+                                                    v-model="
+                                                        form.sucursal.nombre
+                                                    "
+                                                    readonly
+                                                />
+                                            </template>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <div
+                                            class="col-12 mt-1 mx-0 px-4 py-2 font-weight-bold bg-gray-600 text-white"
+                                            v-if="form.lugar == 'SUCURSAL'"
+                                        >
+                                            {{
+                                                user.sucursal
+                                                    ? user.sucursal.nombre
+                                                    : ""
+                                            }}
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
                             <div class="col-md-4 border p-2">

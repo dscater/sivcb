@@ -372,21 +372,33 @@ class ReporteController extends Controller
         ]);
     }
 
-    public function r_pdf_stock_productos(Request $request)
+    public function ingreso_productos()
     {
-        $urbanizacion_id =  $request->urbanizacion_id;
+        return Inertia::render("Reportes/IngresoProductos");
+    }
 
-        $urbanizacions = Urbanizacion::select("urbanizacions.*");
+    public function r_ingreso_productos(Request $request)
+    {
+        $lugar = $request->lugar;
+        $producto_id = $request->producto_id;
+        $categoria_id = $request->categoria_id;
+        $marca_id = $request->marca_id;
+        $unidad_medida_id = $request->unidad_medida_id;
+        $sucursal_id = $request->sucursal_id;
+        $fecha_ini = $request->fecha_ini;
+        $fecha_fin = $request->fecha_fin;
 
-        if ($urbanizacion_id != 'todos') {
-            $urbanizacions->where("id", $urbanizacion_id);
+        $sucursals = [];
+        if ($lugar == 'SUCURSAL') {
+            $sucursals = Sucursal::select("sucursals.*");
+            if ($sucursal_id != 'todos') {
+                $sucursals->where("id", $sucursal_id);
+            }
+            $sucursals = $sucursals->get();
         }
+        $pdf = PDF::loadView('reportes.ingreso_productos', compact('sucursals', "lugar", "producto_id", "categoria_id", "marca_id", "unidad_medida_id", "fecha_ini", "fecha_fin"))->setPaper('letter', 'landscape');
 
-        $urbanizacions = $urbanizacions->get();
-
-        $pdf = PDF::loadView('reportes.pdf_stock_productos', compact('urbanizacions'))->setPaper('letter', 'portrait');
-
-        // ENUMERAR LAS PÁGINAS USANDO CANVAS
+        // ENUMERAR LAS PÁGINAS
         $pdf->output();
         $dom_pdf = $pdf->getDomPDF();
         $canvas = $dom_pdf->get_canvas();
@@ -394,60 +406,36 @@ class ReporteController extends Controller
         $ancho = $canvas->get_width();
         $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
 
-        return $pdf->stream('stock_productos.pdf');
+        return $pdf->stream('ventas.pdf');
     }
 
-    public function g_venta_lotes()
+    public function salida_productos()
     {
-        return Inertia::render("Reportes/GVentaLotes");
+        return Inertia::render("Reportes/SalidaProductos");
     }
 
-    public function r_g_venta_lotes(Request $request)
+    public function r_salida_productos(Request $request)
     {
-        $urbanizacion_id =  $request->urbanizacion_id;
+        $lugar = $request->lugar;
+        $producto_id = $request->producto_id;
+        $categoria_id = $request->categoria_id;
+        $marca_id = $request->marca_id;
+        $unidad_medida_id = $request->unidad_medida_id;
+        $sucursal_id = $request->sucursal_id;
+        $fecha_ini = $request->fecha_ini;
+        $fecha_fin = $request->fecha_fin;
 
-        $urbanizacions = Urbanizacion::select("urbanizacions.*");
-
-        if ($urbanizacion_id != 'todos') {
-            $urbanizacions->where("id", $urbanizacion_id);
+        $sucursals = [];
+        if ($lugar == 'SUCURSAL') {
+            $sucursals = Sucursal::select("sucursals.*");
+            if ($sucursal_id != 'todos') {
+                $sucursals->where("id", $sucursal_id);
+            }
+            $sucursals = $sucursals->get();
         }
+        $pdf = PDF::loadView('reportes.salida_productos', compact('sucursals', "lugar", "producto_id", "categoria_id", "marca_id", "unidad_medida_id", "fecha_ini", "fecha_fin"))->setPaper('letter', 'landscape');
 
-        $urbanizacions = $urbanizacions->get();
-        $categories = [];
-        $series = [
-            [
-                "name" => "Total",
-                "data" => [],
-                "color" => "#06bb7f",
-            ],
-        ];
-        foreach ($urbanizacions as $item) {
-            $categories[] = $item->nombre;
-            $total = VentaLote::where("urbanizacion_id", $item->id)->sum("total_venta");
-            $series[0]["data"][] = (float)$total;
-        }
-
-        return response()->JSON([
-            "categories" => $categories,
-            "series" => $series,
-        ]);
-    }
-
-    public function r_pdf_venta_lotes(Request $request)
-    {
-        $urbanizacion_id =  $request->urbanizacion_id;
-
-        $urbanizacions = Urbanizacion::select("urbanizacions.*");
-
-        if ($urbanizacion_id != 'todos') {
-            $urbanizacions->where("id", $urbanizacion_id);
-        }
-
-        $urbanizacions = $urbanizacions->get();
-
-        $pdf = PDF::loadView('reportes.venta_lotes', compact('urbanizacions'))->setPaper('letter', 'portrait');
-
-        // ENUMERAR LAS PÁGINAS USANDO CANVAS
+        // ENUMERAR LAS PÁGINAS
         $pdf->output();
         $dom_pdf = $pdf->getDomPDF();
         $canvas = $dom_pdf->get_canvas();
@@ -455,6 +443,46 @@ class ReporteController extends Controller
         $ancho = $canvas->get_width();
         $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
 
-        return $pdf->stream('venta_lotes.pdf');
+        return $pdf->stream('ventas.pdf');
+    }
+
+    public function productos()
+    {
+        return Inertia::render("Reportes/Productos");
+    }
+
+    public function r_productos(Request $request)
+    {
+        $producto_id = $request->producto_id;
+        $categoria_id = $request->categoria_id;
+        $marca_id = $request->marca_id;
+        $unidad_medida_id = $request->unidad_medida_id;
+
+        $productos = Producto::select("productos.*");
+        if ($producto_id != 'todos') {
+            $productos->where("id", $producto_id);
+        }
+        if ($categoria_id != 'todos') {
+            $productos->where("categoria_id", $categoria_id);
+        }
+        if ($marca_id != 'todos') {
+            $productos->where("marca_id", $marca_id);
+        }
+        if ($unidad_medida_id != 'todos') {
+            $productos->where("unidad_medida_id", $unidad_medida_id);
+        }
+        $productos = $productos->get();
+
+        $pdf = PDF::loadView('reportes.productos', compact('productos'))->setPaper('letter', 'portrait');
+
+        // ENUMERAR LAS PÁGINAS
+        $pdf->output();
+        $dom_pdf = $pdf->getDomPDF();
+        $canvas = $dom_pdf->get_canvas();
+        $alto = $canvas->get_height();
+        $ancho = $canvas->get_width();
+        $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
+
+        return $pdf->stream('ventas.pdf');
     }
 }

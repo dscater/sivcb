@@ -7,12 +7,12 @@ import { useMenu } from "@/composables/useMenu";
 import { watch, ref, reactive, computed, onMounted } from "vue";
 import PanelToolbar from "@/Components/PanelToolbar.vue";
 
+const { flash, auth } = usePage().props;
+const user = ref(auth.user);
 const { mobile, cambiarUrl } = useMenu();
 const { oVenta, limpiarVenta } = useVentas();
 const loading = ref(true);
 let form = useForm(oVenta);
-const { flash, auth } = usePage().props;
-const user = ref(auth.user);
 const cod_prod = ref("");
 const cod_prod_ref = ref(null);
 const { getClientes } = useClientes();
@@ -127,7 +127,7 @@ const agregarProducto = () => {
                             Swal.fire({
                                 icon: "info",
                                 title: "Error",
-                                text: `No se encontro ningun producto con ese código`,
+                                text: `No se encontro ningun producto con ese código; o el producto ya fue vendido`,
                                 confirmButtonColor: "#3085d6",
                                 confirmButtonText: `Aceptar`,
                             });
@@ -214,7 +214,7 @@ const calculaTotal = () => {
 onMounted(() => {
     cargarListas();
     if (user.value.tipo != "ADMINISTRADOR") {
-        form.sucursal_id = user.sucursal_id;
+        form.sucursal_id = user.value.sucursal_id;
     }
 });
 </script>
@@ -480,6 +480,14 @@ onMounted(() => {
                                         "
                                     >
                                         <i class="fa fa-file-alt"></i> Imprimir
+                                    </Link>
+                                </div>
+                                <div class="col-12 mt-1">
+                                    <Link
+                                        class="btn btn-default w-100 mt-2"
+                                        :href="route('ventas.index')"
+                                    >
+                                        <i class="fa fa-arrow-left"></i> Volver
                                     </Link>
                                 </div>
                             </div>

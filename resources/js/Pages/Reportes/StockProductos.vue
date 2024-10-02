@@ -24,6 +24,8 @@ import { useMarcas } from "@/composables/marcas/useMarcas";
 import { useUnidadMedidas } from "@/composables/unidad_medidas/useUnidadMedidas";
 import { useSucursals } from "@/composables/sucursals/useSucursals";
 
+const { auth } = usePage().props;
+const user = ref(auth.user);
 const { getCategorias } = useCategorias();
 const { getMarcas } = useMarcas();
 const { getUnidadMedidas } = useUnidadMedidas();
@@ -79,11 +81,12 @@ onMounted(() => {
 });
 
 const form = ref({
-    lugar: "ALMACÉN",
+    lugar: user.value.tipo != "OPERADOR" ? "ALMACÉN" : "SUCURSAL",
     categoria_id: "todos",
     marca_id: "todos",
     unidad_medida_id: "todos",
-    sucursal_id: "todos",
+    sucursal_id:
+        user.value.tipo == "ADMINISTRADOR" ? "todos" : user.value.sucursal_id,
 });
 
 const generando = ref(false);
@@ -173,7 +176,10 @@ const generarReporte = () => {
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-md-12">
+                            <div
+                                class="col-md-12"
+                                v-if="user.tipo != 'OPERADOR'"
+                            >
                                 <label>Seleccionar ubicación*</label>
                                 <select
                                     :hide-details="
@@ -198,7 +204,10 @@ const generarReporte = () => {
                             </div>
                             <div
                                 class="col-12"
-                                v-show="form.lugar == 'SUCURSAL'"
+                                v-if="
+                                    form.lugar == 'SUCURSAL' &&
+                                    user.tipo == 'ADMINISTRADOR'
+                                "
                             >
                                 <label>Seleccionar Sucursal*</label>
                                 <select

@@ -21,6 +21,13 @@ class ProductoBarra extends Model
         "distribucion_id",
     ];
 
+    protected $appends = ["cod_prod"];
+
+    public function getCodProdAttribute()
+    {
+        return $this->codigo . ' 1 ' . $this->producto->nombre;
+    }
+
     // relaciones
     public function producto()
     {

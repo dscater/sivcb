@@ -142,7 +142,11 @@ const updateDatatable = () => {
 };
 
 onMounted(async () => {
-    datatable = initDataTable("#table-producto", columns, route("productos.api"));
+    datatable = initDataTable(
+        "#table-producto",
+        columns,
+        route("productos.api")
+    );
     datatableInitialized.value = true;
     accionesRow();
 });
@@ -174,17 +178,20 @@ onBeforeUnmount(() => {
             <div class="panel panel-inverse">
                 <!-- BEGIN panel-heading -->
                 <div class="panel-heading">
-                    <h4 class="panel-title btn-nuevo">
-                        <button
-                            type="button"
-                            class="btn btn-primary mr-1 mt-1"
-                            @click="agregarRegistro"
-                        >
-                            <i class="fa fa-plus"></i> Nuevo
-                        </button>
-                        <button class="btn btn-warning mt-1"><i class="fa fa-list"></i> Stock productos</button>
-                    </h4>
+                    <button
+                        type="button"
+                        class="btn btn-primary mr-1 mt-1"
+                        @click="agregarRegistro"
+                    >
+                        <i class="fa fa-plus"></i> Nuevo
+                    </button>
+                    <Link
+                        :href="route('productos.stock_productos')"
+                        class="btn btn-warning mt-1"
+                        ><i class="fa fa-list"></i> Stock productos</Link
+                    >
                     <panel-toolbar
+                        style="margin-left: auto"
                         :mostrar_loading="loading"
                         @loading="updateDatatable"
                     />

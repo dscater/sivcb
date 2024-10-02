@@ -43,7 +43,12 @@ class VentaController extends Controller
 
     public function listado()
     {
-        $ventas = Venta::with(["venta_detalles", "producto_barras", "sucursal", "user", "cliente"])->select("ventas.*")->get();
+        $ventas = Venta::with(["venta_detalles", "producto_barras", "sucursal", "user", "cliente"])->select("ventas.*");
+
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+            $ventas->where("sucursal_id", Auth::user()->sucursal_id);
+        }
+        $ventas = $ventas->get();
         return response()->JSON([
             "ventas" => $ventas
         ]);
@@ -51,23 +56,28 @@ class VentaController extends Controller
 
     public function api(Request $request)
     {
-        $usuarios = Venta::with(["venta_detalles", "producto_barras", "sucursal", "user", "cliente"])->select("ventas.*");
-        $usuarios = $usuarios->get();
-        return response()->JSON(["data" => $usuarios]);
+        $ventas = Venta::with(["venta_detalles", "producto_barras", "sucursal", "user", "cliente"])->select("ventas.*");
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+            $ventas->where("sucursal_id", Auth::user()->sucursal_id);
+        }
+        $ventas = $ventas->get();
+        return response()->JSON(["data" => $ventas]);
     }
 
     public function paginado(Request $request)
     {
         $search = $request->search;
-        $usuarios = Venta::with(["venta_detalles", "producto_barras", "sucursal", "user", "cliente"])->select("ventas.*");
-
+        $ventas = Venta::with(["venta_detalles", "producto_barras", "sucursal", "user", "cliente"])->select("ventas.*");
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+            $ventas->where("sucursal_id", Auth::user()->sucursal_id);
+        }
         if (trim($search) != "") {
-            $usuarios->where("nombre", "LIKE", "%$search%");
+            $ventas->where("nombre", "LIKE", "%$search%");
         }
 
-        $usuarios = $usuarios->paginate($request->itemsPerPage);
+        $ventas = $ventas->paginate($request->itemsPerPage);
         return response()->JSON([
-            "usuarios" => $usuarios
+            "ventas" => $ventas
         ]);
     }
 
@@ -80,6 +90,8 @@ class VentaController extends Controller
     {
         if (Auth::user()->tipo == 'ADMINISTRADOR') {
             $this->validacion["sucursal_id"] = "required";
+        } else {
+            $request["sucursal_id"] = Auth::user()->sucursal_id;
         }
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();

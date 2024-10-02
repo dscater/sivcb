@@ -745,8 +745,19 @@ const logout = () => {
                     v-if="
                         user_logeado.permisos.includes('reportes.usuarios') ||
                         user_logeado.permisos.includes(
-                            'reportes.lotes_terrenos'
-                        )
+                            'reportes.stock_productos'
+                        ) ||
+                        user_logeado.permisos.includes(
+                            'reportes.kardex_productos'
+                        ) ||
+                        user_logeado.permisos.includes('reportes.ventas') ||
+                        user_logeado.permisos.includes(
+                            'reportes.ingreso_productos'
+                        ) ||
+                        user_logeado.permisos.includes(
+                            'reportes.salida_productos'
+                        ) ||
+                        user_logeado.permisos.includes('reportes.productos')
                     "
                 >
                     <a href="javascript:;" class="menu-link">
@@ -837,9 +848,71 @@ const logout = () => {
                                 ><div class="menu-text">Ventas</div></Link
                             >
                         </div>
+                        <div
+                            v-if="
+                                user_logeado.permisos.includes(
+                                    'reportes.ingreso_productos'
+                                )
+                            "
+                            class="menu-item"
+                            :class="[
+                                route_current == 'reportes.ingreso_productos'
+                                    ? 'active'
+                                    : '',
+                            ]"
+                        >
+                            <Link
+                                :href="route('reportes.ingreso_productos')"
+                                class="menu-link"
+                                ><div class="menu-text">
+                                    Ingreso de Productos
+                                </div></Link
+                            >
+                        </div>
+                        <div
+                            v-if="
+                                user_logeado.permisos.includes(
+                                    'reportes.salida_productos'
+                                )
+                            "
+                            class="menu-item"
+                            :class="[
+                                route_current == 'reportes.salida_productos'
+                                    ? 'active'
+                                    : '',
+                            ]"
+                        >
+                            <Link
+                                :href="route('reportes.salida_productos')"
+                                class="menu-link"
+                                ><div class="menu-text">
+                                    Salida de Productos
+                                </div></Link
+                            >
+                        </div>
+                        <div
+                            v-if="
+                                user_logeado.permisos.includes(
+                                    'reportes.productos'
+                                )
+                            "
+                            class="menu-item"
+                            :class="[
+                                route_current == 'reportes.productos'
+                                    ? 'active'
+                                    : '',
+                            ]"
+                        >
+                            <Link
+                                :href="route('reportes.productos')"
+                                class="menu-link"
+                                ><div class="menu-text">Productos</div></Link
+                            >
+                        </div>
                     </div>
                 </div>
                 <div
+                    v-if="user_logeado.permisos.includes('configuracions.index')"
                     class="menu-item"
                     :class="[
                         route_current == 'configuracions.index' ? 'active' : '',

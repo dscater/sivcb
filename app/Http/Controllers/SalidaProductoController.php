@@ -38,7 +38,17 @@ class SalidaProductoController extends Controller
 
     public function listado()
     {
-        $salida_productos = SalidaProducto::with(["producto", "tipo_salida", "sucursal"])->select("salida_productos.*")->get();
+        $salida_productos = SalidaProducto::with(["producto", "tipo_salida", "sucursal"])->select("salida_productos.*");
+
+
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+            $salida_productos->where("sucursal_id", Auth::user()->sucursal_id);
+            if (Auth::user()->tipo == 'SUPERVISOR DE SUCURSAL') {
+                $salida_productos->orWhere("sucursal_id", nulL);
+            }
+        }
+        $salida_productos = $salida_productos->get();
+
         return response()->JSON([
             "salida_productos" => $salida_productos
         ]);
@@ -46,23 +56,35 @@ class SalidaProductoController extends Controller
 
     public function api(Request $request)
     {
-        $usuarios = SalidaProducto::with(["producto", "tipo_salida", "sucursal"])->select("salida_productos.*");
-        $usuarios = $usuarios->get();
-        return response()->JSON(["data" => $usuarios]);
+        $salida_productos = SalidaProducto::with(["producto", "tipo_salida", "sucursal"])->select("salida_productos.*");
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+            $salida_productos->where("sucursal_id", Auth::user()->sucursal_id);
+            if (Auth::user()->tipo == 'SUPERVISOR DE SUCURSAL') {
+                $salida_productos->orWhere("sucursal_id", nulL);
+            }
+        }
+        $salida_productos = $salida_productos->get();
+        return response()->JSON(["data" => $salida_productos]);
     }
 
     public function paginado(Request $request)
     {
         $search = $request->search;
-        $usuarios = SalidaProducto::with(["producto", "tipo_salida", "sucursal"])->select("salida_productos.*");
-
-        if (trim($search) != "") {
-            $usuarios->where("nombre", "LIKE", "%$search%");
+        $salida_productos = SalidaProducto::with(["producto", "tipo_salida", "sucursal"])->select("salida_productos.*");
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+            $salida_productos->where("sucursal_id", Auth::user()->sucursal_id);
+            if (Auth::user()->tipo == 'SUPERVISOR DE SUCURSAL') {
+                $salida_productos->orWhere("sucursal_id", nulL);
+            }
         }
 
-        $usuarios = $usuarios->paginate($request->itemsPerPage);
+        if (trim($search) != "") {
+            $salida_productos->where("nombre", "LIKE", "%$search%");
+        }
+
+        $salida_productos = $salida_productos->paginate($request->itemsPerPage);
         return response()->JSON([
-            "usuarios" => $usuarios
+            "salida_productos" => $salida_productos
         ]);
     }
 

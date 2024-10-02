@@ -46,7 +46,16 @@ class IngresoProductoController extends Controller
 
     public function listado()
     {
-        $ingreso_productos = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras", "sucursal"])->select("ingreso_productos.*")->get();
+        $ingreso_productos = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras", "sucursal"])->select("ingreso_productos.*");
+
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+            $ingreso_productos->where("sucursal_id", Auth::user()->sucursal_id);
+            if (Auth::user()->tipo == 'SUPERVISOR DE SUCURSAL') {
+                $ingreso_productos->orWhere("sucursal_id", nulL);
+            }
+        }
+
+        $ingreso_productos = $ingreso_productos->get();
         return response()->JSON([
             "ingreso_productos" => $ingreso_productos
         ]);
@@ -54,30 +63,47 @@ class IngresoProductoController extends Controller
 
     public function api(Request $request)
     {
-        $usuarios = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras", "sucursal"])->select("ingreso_productos.*");
-        $usuarios = $usuarios->get();
-        return response()->JSON(["data" => $usuarios]);
+        $ingreso_productos = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras", "sucursal"])->select("ingreso_productos.*");
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+            $ingreso_productos->where("sucursal_id", Auth::user()->sucursal_id);
+            if (Auth::user()->tipo == 'SUPERVISOR DE SUCURSAL') {
+                $ingreso_productos->orWhere("sucursal_id", nulL);
+            }
+        }
+        $ingreso_productos = $ingreso_productos->get();
+        return response()->JSON(["data" => $ingreso_productos]);
     }
 
     public function paginado(Request $request)
     {
         $search = $request->search;
-        $usuarios = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras", "sucursal"])->select("ingreso_productos.*");
+        $ingreso_productos = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras", "sucursal"])->select("ingreso_productos.*");
 
-        if (trim($search) != "") {
-            $usuarios->where("nombre", "LIKE", "%$search%");
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+            $ingreso_productos->where("sucursal_id", Auth::user()->sucursal_id);
+            if (Auth::user()->tipo == 'SUPERVISOR DE SUCURSAL') {
+                $ingreso_productos->orWhere("sucursal_id", nulL);
+            }
         }
 
-        $usuarios = $usuarios->paginate($request->itemsPerPage);
+        if (trim($search) != "") {
+            $ingreso_productos->where("nombre", "LIKE", "%$search%");
+        }
+
+        $ingreso_productos = $ingreso_productos->paginate($request->itemsPerPage);
         return response()->JSON([
-            "usuarios" => $usuarios
+            "ingreso_productos" => $ingreso_productos
         ]);
     }
 
     public function store(Request $request)
     {
         if ($request->lugar == 'SUCURSAL') {
-            $this->validacion["sucursal_id"] = "required";
+            if (Auth::user()->tipo == 'ADMINISTRADOR') {
+                $this->validacion["sucursal_id"] = "required";
+            } else {
+                $request["sucursal_id"] = Auth::user()->sucursal_id;
+            }
         }
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
@@ -165,7 +191,11 @@ class IngresoProductoController extends Controller
     public function update(IngresoProducto $ingreso_producto, Request $request)
     {
         if ($request->lugar == 'SUCURSAL') {
-            $this->validacion["sucursal_id"] = "required";
+            if (Auth::user()->tipo == 'ADMINISTRADOR') {
+                $this->validacion["sucursal_id"] = "required";
+            } else {
+                $request["sucursal_id"] = Auth::user()->sucursal_id;
+            }
         }
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
@@ -248,7 +278,11 @@ class IngresoProductoController extends Controller
                 ->where("tipo_registro", "INGRESO")
                 ->where("registro_id", $ingreso_producto->id);
             if ($request->lugar == 'SUCURSAL') {
-                $kardex->where("sucursal_id", $request->sucursal_id);
+                if (Auth::user()->tipo == 'ADMINISTRADOR') {
+                    $kardex->where("sucursal_id", $request->sucursal_id);
+                } else {
+                    $request["sucursal_id"] = Auth::user()->sucursal_id;
+                }
             }
             $kardex = $kardex->get()->first();
             $id_kardex = 0;

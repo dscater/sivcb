@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AlmacenProducto;
 use App\Models\HistorialAccion;
 use App\Models\Producto;
 use App\Models\ProductoBarra;
@@ -41,6 +42,34 @@ class ProductoController extends Controller
         return Inertia::render("Productos/Index");
     }
 
+    public function stock_productos()
+    {
+        return Inertia::render("Productos/StockProductos");
+    }
+
+
+    public function api_stock(Request $request)
+    {
+        $lugar = $request->lugar;
+        $sucursal_id = $request->sucursal_id;
+
+        $productos = Producto::with(["categoria", "marca", "unidad_medida"]);
+
+        if ($lugar == 'ALMACÉN') {
+            $productos = $productos->leftJoin("almacen_productos", "almacen_productos.producto_id", "=", "productos.id")
+                ->select("productos.*", DB::raw("COALESCE(almacen_productos.stock_actual, 0) as stock_actual"));
+        } else {
+            $productos = $productos->leftJoin("sucursal_productos", function ($join) use ($sucursal_id) {
+                $join->on("sucursal_productos.producto_id", "=", "productos.id")
+                    ->where("sucursal_productos.sucursal_id", $sucursal_id);
+            })
+                ->select("productos.*", DB::raw("COALESCE(sucursal_productos.stock_actual, 0) as stock_actual"));
+        }
+
+        $productos = $productos->get();
+
+        return response()->JSON(["data" => $productos]);
+    }
     public function listado()
     {
         $productos = Producto::with(["categoria", "marca", "unidad_medida"])->select("productos.*")->get();

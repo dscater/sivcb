@@ -114,6 +114,8 @@ Route::middleware('auth')->prefix("admin")->group(function () {
     );
 
     // PRODUCTOS
+    Route::get("productos/stock_productos", [ProductoController::class, 'stock_productos'])->name("productos.stock_productos");
+    Route::get("productos/api_stock", [ProductoController::class, 'api_stock'])->name("productos.api_stock");
     Route::get("productos/api", [ProductoController::class, 'api'])->name("productos.api");
     Route::get("productos/paginado", [ProductoController::class, 'paginado'])->name("productos.paginado");
     Route::get("productos/listado", [ProductoController::class, 'listado'])->name("productos.listado");
@@ -123,10 +125,6 @@ Route::middleware('auth')->prefix("admin")->group(function () {
 
     Route::get("productos/barras/getProductos", [ProductoBarraController::class, 'getProductos'])->name("producto_barras.getProductos");
     Route::get("productos/barras/getByCod", [ProductoBarraController::class, 'getByCod'])->name("producto_barras.getByCod");
-
-    // STOCK PRODUCTOS
-    Route::get("productos/stock_productos/lista", [ProductoController::class, 'lista'])->name("stock_productos.lista");
-    Route::get("productos/stock_productos", [ProductoController::class, 'stock_productos'])->name("stock_productos.index");
 
     // TIPO INGRESOS
     Route::get("tipo_ingresos/api", [TipoIngresoController::class, 'api'])->name("tipo_ingresos.api");

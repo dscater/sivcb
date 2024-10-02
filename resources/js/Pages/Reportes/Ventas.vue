@@ -41,6 +41,8 @@ Highcharts.setOptions({
     },
 });
 
+const { auth } = usePage().props;
+const user = ref(auth.user);
 const { getProductos } = useProductos();
 const { getCategorias } = useCategorias();
 const { getMarcas } = useMarcas();
@@ -110,7 +112,8 @@ const form = ref({
     categoria_id: "todos",
     marca_id: "todos",
     unidad_medida_id: "todos",
-    sucursal_id: "todos",
+    sucursal_id:
+        user.value.tipo == "ADMINISTRADOR" ? "todos" : user.value.sucursal_id,
     fecha_ini: "",
     fecha_fin: "",
 });
@@ -294,7 +297,7 @@ const generarReporteG = () => {
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-12">
+                            <div class="col-12" v-if="user.tipo == 'ADMINISTRADOR'">
                                 <label>Seleccionar Sucursal*</label>
                                 <select
                                     class="form-select"
