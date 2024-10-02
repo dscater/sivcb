@@ -818,6 +818,25 @@ const logout = () => {
                                 </div></Link
                             >
                         </div>
+                        <div
+                            v-if="
+                                user_logeado.permisos.includes(
+                                    'reportes.ventas'
+                                )
+                            "
+                            class="menu-item"
+                            :class="[
+                                route_current == 'reportes.ventas'
+                                    ? 'active'
+                                    : '',
+                            ]"
+                        >
+                            <Link
+                                :href="route('reportes.ventas')"
+                                class="menu-link"
+                                ><div class="menu-text">Ventas</div></Link
+                            >
+                        </div>
                     </div>
                 </div>
                 <div

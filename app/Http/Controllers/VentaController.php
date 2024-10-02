@@ -120,11 +120,16 @@ class VentaController extends Controller
 
             $venta_detalles = $request->venta_detalles;
             foreach ($venta_detalles as $vd) {
+                $p_desc = round($nueva_venta->descuento / 100, 2);
+                $sub_desc = (float)$vd["subtotal"] * (1 - $p_desc);
+                $sub_desc = round($sub_desc, 2);
                 $nuevo_detalle = $nueva_venta->venta_detalles()->create([
                     "producto_id" => $vd["producto_id"],
                     "cantidad" => $vd["cantidad"],
                     "precio" => $vd["precio"],
-                    "subtotal" => $vd["subtotal"]
+                    "subtotal" => $vd["subtotal"],
+                    "descuento" => $nueva_venta->descuento,
+                    "subtotaltotal" => $sub_desc,
                 ]);
 
                 foreach ($array_update[$vd["producto_id"]] as $value) {
@@ -298,6 +303,9 @@ class VentaController extends Controller
             $venta_detalles = $request->venta_detalles;
 
             foreach ($venta_detalles as $vd) {
+                $p_desc = round($venta->descuento / 100, 2);
+                $sub_desc = (float)$vd["subtotal"] * (1 - $p_desc);
+                $sub_desc = round($sub_desc, 2);
                 if ($vd["id"] != 0) {
                     $venta_detalle = VentaDetalle::find($vd["id"]);
 
@@ -314,11 +322,12 @@ class VentaController extends Controller
                     }
 
                     $venta_detalle = VentaDetalle::find($vd["id"]);
-
                     $venta_detalle->update([
                         "cantidad" => $vd["cantidad"],
                         "precio" => $vd["precio"],
-                        "subtotal" => $vd["subtotal"]
+                        "subtotal" => $vd["subtotal"],
+                        "descuento" => $venta->descuento,
+                        "subtotaltotal" => $sub_desc,
                     ]);
 
                     Producto::decrementarStock($producto, $vd["cantidad"], "SUCURSAL", $venta->sucursal_id);
@@ -341,7 +350,9 @@ class VentaController extends Controller
                         "producto_id" => $vd["producto_id"],
                         "cantidad" => $vd["cantidad"],
                         "precio" => $vd["precio"],
-                        "subtotal" => $vd["subtotal"]
+                        "subtotal" => $vd["subtotal"],
+                        "descuento" => $venta->descuento,
+                        "subtotaltotal" => $sub_desc,
                     ]);
 
                     foreach ($array_update[$vd["producto_id"]] as $value) {

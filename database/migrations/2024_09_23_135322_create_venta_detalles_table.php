@@ -16,8 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger("venta_id");
             $table->unsignedBigInteger("producto_id");
             $table->double("cantidad", 8, 2);
-            $table->decimal("precio");
-            $table->decimal("subtotal");
+            $table->decimal("precio", 24, 2);
+            $table->decimal("subtotal", 24, 2);
+            $table->double("descuento");
+            $table->decimal("subtotaltotal", 24, 2);
             $table->timestamps();
         });
     }

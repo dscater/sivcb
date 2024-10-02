@@ -15,6 +15,8 @@ class VentaDetalle extends Model
         "cantidad",
         "precio",
         "subtotal",
+        "descuento",
+        "subtotaltotal",
     ];
 
     public function venta()

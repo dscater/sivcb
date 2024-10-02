@@ -21,7 +21,20 @@ class Venta extends Model
         "fecha_registro",
     ];
 
-    protected $appends = ["fecha_registro_t","fecha_hora_t", "qr"];
+    protected $appends = ["fecha_registro_t", "fecha_hora_t", "qr", "nro_orden"];
+
+    public function getNroOrdenAttribute()
+    {
+        $nro_factura = (int)$this->id;
+        if ($nro_factura < 10) {
+            $nro_factura = '000' . $nro_factura;
+        } else if ($nro_factura < 100) {
+            $nro_factura = '00' . $nro_factura;
+        } else if ($nro_factura < 1000) {
+            $nro_factura = '0' . $nro_factura;
+        }
+        return $nro_factura;
+    }
 
     public function getQrAttribute()
     {

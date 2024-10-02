@@ -106,6 +106,8 @@ const agregarProducto = () => {
                                     producto: producto_barra.producto,
                                     precio: producto_barra.producto.precio,
                                     subtotal: producto_barra.producto.precio,
+                                    descuento: 0,
+                                    subtotaltotal: 0,
                                 });
                             } else {
                                 let cantidad_actual =
