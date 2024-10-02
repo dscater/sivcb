@@ -127,7 +127,7 @@ const agregarProducto = () => {
                 ingreso_id: 0,
                 salida_id: 0,
                 venta_detalle_id: 0,
-                distribucion_detalle_id: 0,
+                distribucion_id: 0,
             });
         }
         cod_prod.value = "";

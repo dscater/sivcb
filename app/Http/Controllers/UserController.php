@@ -78,12 +78,23 @@ class UserController extends Controller
             "ventas.edit",
             "ventas.destroy",
 
+            "distribucion_productos.index",
+            "distribucion_productos.create",
+            "distribucion_productos.edit",
+            "distribucion_productos.destroy",
+
             "configuracions.index",
             "configuracions.create",
             "configuracions.edit",
             "configuracions.destroy",
 
             "reportes.usuarios",
+            "reportes.stock_productos",
+            "reportes.kardex_productos",
+            "reportes.ventas",
+            "reportes.ingreso_productos",
+            "reportes.salida_productos",
+            "reportes.productos",
         ],
         "SUPERVISOR DE SUCURSAL" => [],
         "OPERADOR" => [],

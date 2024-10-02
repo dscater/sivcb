@@ -204,7 +204,7 @@ class IngresoProductoController extends Controller
             if (isset($request->eliminados) && $eliminados) {
                 foreach ($eliminados as $item_e) {
                     $producto_barra = ProductoBarra::find($item_e);
-                    if (!$producto_barra->salida_id && !$producto_barra->venta_detalle_id && !$producto_barra->distribucion_detalle_id) {
+                    if (!$producto_barra->salida_id && !$producto_barra->venta_detalle_id && !$producto_barra->distribucion_id) {
                         $producto_barra->delete();
                     } else {
                         throw new Exception("No es posible eliminar el registro debido a que uno o mas registros del mismo fueron utilizados");
@@ -349,7 +349,7 @@ class IngresoProductoController extends Controller
 
             $producto_barras = $ingreso_producto->producto_barras;
             foreach ($producto_barras as $pb) {
-                if (!$pb->salida_id && !$pb->venta_id && !$pb->venta_detalle_id && !$pb->distribucion_detalle_id) {
+                if (!$pb->salida_id && !$pb->venta_id && !$pb->venta_detalle_id && !$pb->distribucion_id) {
                     $pb->delete();
                 } else {
                     throw new Exception("No es posible eliminar el registro debido a que uno o mas registros del mismo fueron utilizados");

@@ -103,7 +103,7 @@ class User extends Authenticatable
     // RELACIONES
     public function sucursal()
     {
-        return $this->hasOne(Sucursal::class, 'sucursal_id');
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
     }
 
     // FUNCIONES

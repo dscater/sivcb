@@ -19,16 +19,34 @@ const breadbrums = [
 import { useApp } from "@/composables/useApp";
 import { computed, onMounted, ref } from "vue";
 import { Head, usePage } from "@inertiajs/vue3";
+import { useSucursals } from "@/composables/sucursals/useSucursals";
+
+const { getSucursals } = useSucursals();
 const { setLoading } = useApp();
 
+const cargarListas = () => {
+    cargarSucursals();
+};
+
+const listSucursals = ref([]);
+const cargarSucursals = async () => {
+    listSucursals.value = await getSucursals();
+    listSucursals.value.unshift({
+        id: "todos",
+        nombre: "TODOS",
+    });
+};
+
 onMounted(() => {
+    cargarListas();
     setTimeout(() => {
         setLoading(false);
     }, 300);
 });
 
 const form = ref({
-    tipo: "TODOS",
+    tipo: "todos",
+    sucursal_id: "todos",
 });
 
 const generando = ref(false);
@@ -40,10 +58,10 @@ const txtBtn = computed(() => {
 });
 
 const listTipos = ref([
-    { value: "TODOS", label: "TODOS" },
+    { value: "todos", label: "TODOS" },
     { value: "ADMINISTRADOR", label: "ADMINISTRADOR" },
-    { value: "SUPERVISOR", label: "SUPERVISOR" },
-    { value: "AGENTE INMOBILIARIO", label: "AGENTE INMOBILIARIO" },
+    { value: "SUPERVISOR DE SUCURSAL", label: "SUPERVISOR DE SUCURSAL" },
+    { value: "OPERADOR", label: "OPERADOR" },
 ]);
 
 const generarReporte = () => {
@@ -73,6 +91,7 @@ const generarReporte = () => {
                     <form @submit.prevent="generarReporte">
                         <div class="row">
                             <div class="col-md-12">
+                                <label>Seleccionar tipo de usuario*</label>
                                 <select
                                     :hide-details="
                                         form.errors?.tipo ? false : true
@@ -91,6 +110,25 @@ const generarReporte = () => {
                                         :value="item.value"
                                     >
                                         {{ item.label }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label>Seleccionar Sucursal*</label>
+                                <select
+                                    class="form-select"
+                                    :class="{
+                                        'parsley-error':
+                                            form.errors?.sucursal_id,
+                                    }"
+                                    v-model="form.sucursal_id"
+                                >
+                                    <option value="">- Seleccione -</option>
+                                    <option
+                                        v-for="item in listSucursals"
+                                        :value="item.id"
+                                    >
+                                        {{ item.nombre }}
                                     </option>
                                 </select>
                             </div>

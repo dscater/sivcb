@@ -18,7 +18,7 @@ class ProductoBarra extends Model
         "salida_id",
         "venta_id",
         "venta_detalle_id",
-        "distribucion_detalle_id",
+        "distribucion_id",
     ];
 
     // relaciones
@@ -52,8 +52,8 @@ class ProductoBarra extends Model
         return $this->belongsTo(VentaDetalle::class, 'venta_detalle_id');
     }
 
-    public function distribucion_detalle()
+    public function distribucion_producto()
     {
-        return $this->belongsTo(DistribucionDetalle::class, 'distribucion_detalle_id');
+        return $this->belongsTo(DistribucionProducto::class, 'distribucion_id');
     }
 }

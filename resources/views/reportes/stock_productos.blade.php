@@ -3,17 +3,17 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>LotesTerrenos</title>
+    <title>StockProductos</title>
     <style type="text/css">
         * {
             font-family: sans-serif;
         }
 
         @page {
-            margin-top: 1cm;
-            margin-bottom: 1cm;
+            margin-top: 0.5cm;
+            margin-bottom: 0.5cm;
             margin-left: 1.5cm;
-            margin-right: 1cm;
+            margin-right: 0.5cm;
         }
 
         table {
@@ -134,7 +134,7 @@
         }
 
         .bg-principal {
-            background: #1867C0;
+            background: #153f59;
             color: white;
         }
 
@@ -142,6 +142,11 @@
 
         .img_celda img {
             width: 45px;
+        }
+
+        .title_lugar {
+            font-size: 9pt;
+            margin-bottom: 0px;
         }
     </style>
 </head>
@@ -155,68 +160,79 @@
         <h2 class="titulo">
             {{ $configuracion->first()->razon_social }}
         </h2>
-        <h4 class="texto">LOTES DE TERRENOS</h4>
+        <h4 class="texto">STOCK DE PRODUCTOS</h4>
         <h4 class="fecha">Expedido: {{ date('d-m-Y') }}</h4>
     </div>
-    @foreach ($urbanizacions as $urbanizacion)
-        <h4>{{ $urbanizacion->nombre }}</h4>
-        @php
-            $manzanos = App\Models\Manzano::where('urbanizacion_id', $urbanizacion->id)->get();
-            if ($manzano_id != 'todos') {
-                $manzanos = App\Models\Manzano::where('id', $manzano_id)->get();
-            }
-        @endphp
-        @forelse ($manzanos as $manzano)
-            <table border="1">
-                <thead>
+
+    @if ($lugar == 'ALMACÉN')
+        <h4 class="title_lugar">STOCK DE ALMÁCEN</h4>
+        <table border="1" style="margin-top:0px">
+            <thead>
+                <tr class="bg-principal">
+                    <th width="4%">#</th>
+                    <th>PRODUCTO</th>
+                    <th>CATEGORÍA</th>
+                    <th>MARCA</th>
+                    <th>UNIDAD DE MEDIDA</th>
+                    <th>STOCK ACTUAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $cont = 1;
+                @endphp
+                @foreach ($productos as $producto)
                     <tr>
-                        <th colspan="9">{{ $manzano->nombre }}</th>
+                        <td>{{ $cont++ }}</td>
+                        <td>{{ $producto->nombre }}</td>
+                        <td>{{ $producto->categoria->nombre }}</td>
+                        <td>{{ $producto->marca->nombre }}</td>
+                        <td>{{ $producto->unidad_medida->nombre }}</td>
+                        <td class="centreado">
+                            {{ $producto->almacen_producto ? $producto->almacen_producto->stock_actual : 0 }}</td>
                     </tr>
-                    <tr>
-                        <th width="3%">N°</th>
-                        <th>NOMBRE</th>
-                        <th>UBICACIÓN</th>
-                        <th>ESQUINA</th>
-                        <th>ESQUINA ÁREA VERDE</th>
-                        <th>ESQUINA ÁREA DE EQUIPAMIENTO</th>
-                        <th>AVENIDA ESTRUCTURANTE</th>
-                        <th>AVENIDA UNIÓNDE DOS CIUDADES</th>
-                        <th>ESTADO</th>
+                @endforeach
+            </tbody>
+        </table>
+    @else
+        @foreach ($sucursals as $sucursal)
+            <h4 class="title_lugar">{{ $sucursal->nombre }}</h4>
+            <table border="1" style="margin-top:0px">
+                <thead>
+                    <tr class="bg-principal">
+                        <th width="4%">#</th>
+                        <th>PRODUCTO</th>
+                        <th>CATEGORÍA</th>
+                        <th>MARCA</th>
+                        <th>UNIDAD DE MEDIDA</th>
+                        <th>STOCK ACTUAL</th>
                     </tr>
                 </thead>
                 <tbody>
                     @php
-                        $lotes = App\Models\Lote::where('manzano_id', $manzano->id)->get();
-                        if ($ocupado != 'todos') {
-                            $lotes = App\Models\Lote::where('manzano_id', $manzano->id)
-                                ->where('vendido', $ocupado)
-                                ->get();
-                        }
                         $cont = 1;
                     @endphp
-                    @forelse ($lotes as $lote)
+                    @foreach ($productos as $producto)
+                        @php
+                            $sucursal_producto = App\Models\SucursalProducto::where('producto_id', $producto->id)
+                                ->where('sucursal_id', $sucursal->id)
+                                ->get()
+                                ->first();
+                        @endphp
                         <tr>
                             <td>{{ $cont++ }}</td>
-                            <td>{{ $lote->nombre }}</td>
-                            <td>{{ $lote->ubicacion }}</td>
-                            <td>{{ $lote->esquina }}</td>
-                            <td>{{ $lote->esquina_area }}</td>
-                            <td>{{ $lote->esquina_equipamiento }}</td>
-                            <td>{{ $lote->avenida_estr }}</td>
-                            <td>{{ $lote->avenida_union }}</td>
-                            <td>{{ $lote->vendido == 1 ? 'VENDIDO' : 'DISPONIBLE' }}</td>
+                            <td>{{ $producto->nombre }}</td>
+                            <td>{{ $producto->categoria->nombre }}</td>
+                            <td>{{ $producto->marca->nombre }}</td>
+                            <td>{{ $producto->unidad_medida->nombre }}</td>
+                            <td class="centreado">
+                                {{ $sucursal_producto ? $sucursal_producto->stock_actual : 0 }}</td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="9" class="centreado">Sin registros</td>
-                        </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
-        @empty
-            <h5 class="centreado">Sin registros</h5>
-        @endforelse
-    @endforeach
+        @endforeach
+    @endif
 </body>
 
 </html>

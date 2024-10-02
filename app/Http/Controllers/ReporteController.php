@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\KardexProducto;
 use App\Models\Lote;
+use App\Models\Producto;
+use App\Models\Sucursal;
 use App\Models\Urbanizacion;
 use App\Models\User;
 use App\Models\VentaLote;
@@ -22,14 +25,22 @@ class ReporteController extends Controller
     public function r_usuarios(Request $request)
     {
         $tipo =  $request->tipo;
-        $usuarios = User::where('id', '!=', 1)->where("tipo", "!=", "CLIENTE")->orderBy("paterno", "ASC")->get();
+        $sucursal_id =  $request->sucursal_id;
+        $usuarios = User::select("users.*")
+            ->where('id', '!=', 1);
 
-        if ($tipo != 'TODOS') {
+        if ($tipo != 'todos') {
             $request->validate([
                 'tipo' => 'required',
             ]);
-            $usuarios = User::where('id', '!=', 1)->where('tipo', $request->tipo)->orderBy("paterno", "ASC")->get();
+            $usuarios->where('tipo', $tipo);
         }
+
+        if ($sucursal_id != 'todos') {
+            $usuarios->where('sucursal_id', $sucursal_id);
+        }
+
+        $usuarios = $usuarios->orderBy("paterno", "ASC")->get();
 
         $pdf = PDF::loadView('reportes.usuarios', compact('usuarios'))->setPaper('legal', 'landscape');
 
@@ -44,24 +55,43 @@ class ReporteController extends Controller
         return $pdf->stream('usuarios.pdf');
     }
 
-    public function lotes_terrenos()
+    public function stock_productos()
     {
-        return Inertia::render("Reportes/LotesTerrenos");
+        return Inertia::render("Reportes/StockProductos");
     }
 
-    public function r_lotes_terrenos(Request $request)
+    public function r_stock_productos(Request $request)
     {
-        $urbanizacion_id = $request->urbanizacion_id;
-        $manzano_id = $request->manzano_id;
-        $ocupado = $request->ocupado;
+        $lugar = $request->lugar;
+        $categoria_id = $request->categoria_id;
+        $marca_id = $request->marca_id;
+        $unidad_medida_id = $request->unidad_medida_id;
+        $sucursal_id = $request->sucursal_id;
 
-        $urbanizacions = Urbanizacion::select("urbanizacions.*");
-        if ($urbanizacion_id != 'todos') {
-            $urbanizacions->where("id", $urbanizacion_id);
+        $productos = Producto::select("productos.*");
+        if ($categoria_id != 'todos') {
+            $productos->where("categoria_id", $categoria_id);
         }
-        $urbanizacions = $urbanizacions->get();
 
-        $pdf = PDF::loadView('reportes.lotes_terrenos', compact('urbanizacions', 'manzano_id', 'ocupado'))->setPaper('letter', 'portrait');
+        if ($marca_id != 'todos') {
+            $productos->where("marca_id", $marca_id);
+        }
+
+        if ($unidad_medida_id != 'todos') {
+            $productos->where("unidad_medida_id", $unidad_medida_id);
+        }
+        $productos = $productos->get();
+
+        $sucursals = [];
+        if ($lugar == 'SUCURSAL') {
+            $sucursals = Sucursal::select("sucursals.*");
+            if ($sucursal_id != 'todos') {
+                $sucursals->where("id", $sucursal_id);
+            }
+            $sucursals = $sucursals->get();
+        }
+
+        $pdf = PDF::loadView('reportes.stock_productos', compact('productos', 'sucursals', 'lugar'))->setPaper('letter', 'portrait');
 
         // ENUMERAR LAS PÁGINAS USANDO CANVAS
         $pdf->output();
@@ -71,37 +101,105 @@ class ReporteController extends Controller
         $ancho = $canvas->get_width();
         $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
 
-        return $pdf->stream('lotes_terrenos.pdf');
+        return $pdf->stream('stock_productos.pdf');
     }
 
-    public function clientes()
+    public function kardex_productos()
     {
-        return Inertia::render("Reportes/Clientes");
+        return Inertia::render("Reportes/KardexProductos");
     }
 
-    public function r_clientes(Request $request)
+    public function r_kardex_productos(Request $request)
     {
-        $estado_cliente =  $request->estado_cliente;
-        $fecha_ini =  $request->fecha_ini;
-        $fecha_fin =  $request->fecha_fin;
+        $producto_id = $request->producto_id;
+        $categoria_id = $request->categoria_id;
+        $marca_id = $request->marca_id;
+        $unidad_medida_id = $request->unidad_medida_id;
+        $sucursal_id = $request->sucursal_id;
+        $fecha_ini = $request->fecha_ini;
+        $fecha_fin = $request->fecha_fin;
 
-        $clientes = Cliente::select("clientes.*")
-            ->join("users", "users.id", "=", "clientes.user_id");
-
-        if ($estado_cliente != 'todos') {
-            $clientes->where("clientes.estado_cliente", $estado_cliente);
+        if ($request->filtro == 'Producto') {
+            $request->validate([
+                'producto_id' => 'required',
+            ]);
         }
 
-        if ($fecha_ini && $fecha_fin) {
-            $clientes->whereBetween("users.fecha_registro", [$fecha_ini, $fecha_fin]);
+        if ($request->fecha_ini || $request->fecha_fin) {
+            $request->validate([
+                'fecha_ini' => 'required|date',
+                'fecha_fin' => 'required|date',
+            ]);
+        }
+        $productos = Producto::select("productos.*");
+        if ($producto_id != 'todos') {
+            $productos->where("id", $producto_id);
+        }
+        if ($categoria_id != 'todos') {
+            $productos->where("categoria_id", $categoria_id);
         }
 
-        $clientes = $clientes->get();
+        if ($marca_id != 'todos') {
+            $productos->where("marca_id", $marca_id);
+        }
 
+        if ($unidad_medida_id != 'todos') {
+            $productos->where("unidad_medida_id", $unidad_medida_id);
+        }
+        $productos = $productos->get();
 
-        $pdf = PDF::loadView('reportes.clientes', compact('clientes'))->setPaper('letter', 'portrait');
+        $sucursals = Sucursal::select("sucursals.*");
+        if ($sucursal_id != 'todos') {
+            $sucursals->where("id", $sucursal_id);
+        }
+        $sucursals = $sucursals->get();
 
-        // ENUMERAR LAS PÁGINAS USANDO CANVAS
+        $kardex_sucursals = [];
+        foreach ($sucursals as $sucursal) {
+            $kardex_sucursals[$sucursal->id] = [
+                "array_kardex" => [],
+                "array_saldo_anterior" => [],
+            ];
+            $array_kardex = [];
+            $array_saldo_anterior = [];
+            foreach ($productos as $registro) {
+                $kardex = KardexProducto::where('producto_id', $registro->id)
+                    ->where("sucursal_id", $sucursal->id)->get();
+                $array_saldo_anterior[$registro->id] = [
+                    'sw' => false,
+                    'saldo_anterior' => []
+                ];
+                if ($fecha_ini && $fecha_fin) {
+                    $kardex = KardexProducto::where('producto_id', $registro->id)
+                        ->where("sucursal_id", $sucursal->id)
+                        ->whereBetween('fecha', [$fecha_ini, $fecha_fin])->get();
+                    // buscar saldo anterior si existe
+                    $saldo_anterior = KardexProducto::where('producto_id', $registro->id)
+                        ->where("sucursal_id", $sucursal->id)
+                        ->where('fecha', '<', $fecha_ini)
+                        ->orderBy('created_at', 'asc')->get()->last();
+                    if ($saldo_anterior) {
+                        $cantidad_saldo = $saldo_anterior->cantidad_saldo;
+                        $monto_saldo = $saldo_anterior->monto_saldo;
+                        $array_saldo_anterior[$registro->id] = [
+                            'sw' => true,
+                            'saldo_anterior' => [
+                                'cantidad_saldo' => $cantidad_saldo,
+                                'monto_saldo' => $monto_saldo,
+                            ]
+                        ];
+                    }
+                }
+
+                $array_kardex[$registro->id] = $kardex;
+            }
+            $kardex_sucursals[$sucursal->id]["array_kardex"] = $array_kardex;
+            $kardex_sucursals[$sucursal->id]["array_saldo_anterior"] = $array_saldo_anterior;
+        }
+
+        $pdf = PDF::loadView('reportes.kardex_productos', compact('productos', 'sucursals', "kardex_sucursals", 'array_kardex', 'array_saldo_anterior'))->setPaper('letter', 'portrait');
+
+        // ENUMERAR LAS PÁGINAS
         $pdf->output();
         $dom_pdf = $pdf->getDomPDF();
         $canvas = $dom_pdf->get_canvas();
@@ -109,67 +207,11 @@ class ReporteController extends Controller
         $ancho = $canvas->get_width();
         $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
 
-        return $pdf->stream('clientes.pdf');
-    }
-
-    public function planilla_pagos()
-    {
-        return Inertia::render("Reportes/PlanillaPagos");
-    }
-
-    public function r_planilla_pagos(Request $request)
-    {
-        $cliente_id =  $request->cliente_id;
-
-        $clientes = Cliente::select("clientes.*");
-
-        if ($cliente_id != 'todos') {
-            $clientes->where("id", $cliente_id);
-        }
-
-        $clientes = $clientes->get();
-
-        $pdf = PDF::loadView('reportes.planilla_pagos', compact('clientes'))->setPaper('letter', 'portrait');
-
-        // ENUMERAR LAS PÁGINAS USANDO CANVAS
-        $pdf->output();
-        $dom_pdf = $pdf->getDomPDF();
-        $canvas = $dom_pdf->get_canvas();
-        $alto = $canvas->get_height();
-        $ancho = $canvas->get_width();
-        $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
-
-        return $pdf->stream('planilla_pagos.pdf');
-    }
-
-    public function planilla_venta(Request $request)
-    {
-        $venta_lote_id =  $request->venta_lote_id;
-        $venta_lote = VentaLote::find($venta_lote_id);
-        $clientes = Cliente::select("clientes.*");
-        $clientes->where("id", $venta_lote->cliente_id);
-        $clientes = $clientes->get();
-
-        $pdf = PDF::loadView('reportes.planilla_pagos', compact('clientes'))->setPaper('letter', 'portrait');
-
-        // ENUMERAR LAS PÁGINAS USANDO CANVAS
-        $pdf->output();
-        $dom_pdf = $pdf->getDomPDF();
-        $canvas = $dom_pdf->get_canvas();
-        $alto = $canvas->get_height();
-        $ancho = $canvas->get_width();
-        $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
-
-        return $pdf->stream('planilla_pagos.pdf');
+        return $pdf->stream('kardex.pdf');
     }
 
 
-    public function g_lotes_terrenos()
-    {
-        return Inertia::render("Reportes/GLotesTerrenos");
-    }
-
-    public function r_g_lotes_terrenos(Request $request)
+    public function r_g_stock_productos(Request $request)
     {
         $urbanizacion_id =  $request->urbanizacion_id;
 
@@ -208,7 +250,7 @@ class ReporteController extends Controller
         ]);
     }
 
-    public function r_pdf_lotes_terrenos(Request $request)
+    public function r_pdf_stock_productos(Request $request)
     {
         $urbanizacion_id =  $request->urbanizacion_id;
 
@@ -220,7 +262,7 @@ class ReporteController extends Controller
 
         $urbanizacions = $urbanizacions->get();
 
-        $pdf = PDF::loadView('reportes.pdf_lotes_terrenos', compact('urbanizacions'))->setPaper('letter', 'portrait');
+        $pdf = PDF::loadView('reportes.pdf_stock_productos', compact('urbanizacions'))->setPaper('letter', 'portrait');
 
         // ENUMERAR LAS PÁGINAS USANDO CANVAS
         $pdf->output();
@@ -230,7 +272,7 @@ class ReporteController extends Controller
         $ancho = $canvas->get_width();
         $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
 
-        return $pdf->stream('lotes_terrenos.pdf');
+        return $pdf->stream('stock_productos.pdf');
     }
 
     public function g_venta_lotes()

@@ -227,43 +227,6 @@ class KardexProducto extends Model
                     }
 
                     break;
-                case 'DISTRIBUCION':
-                    $distribucion_detalle = DistribucionDetalle::find($item->registro_id);
-                    $monto = (float)$distribucion_detalle->cantidad * (float)$distribucion_detalle->producto->precio;
-                    if ($item->tipo_is == 'INGRESO') {
-                        if ($anterior) {
-                            $datos_actualizacion["precio"] = $distribucion_detalle->producto->precio;
-                            $datos_actualizacion["cantidad_ingreso"] =  $distribucion_detalle->cantidad;
-                            $datos_actualizacion["cantidad_saldo"] = (float)$anterior->cantidad_saldo + (float)$distribucion_detalle->cantidad;
-                            $datos_actualizacion["cu"] = $distribucion_detalle->producto->precio;
-                            $datos_actualizacion["monto_ingreso"] = $monto;
-                            $datos_actualizacion["monto_saldo"] = (float)$anterior->monto_saldo + $monto;
-                        } else {
-                            $datos_actualizacion["precio"] = $distribucion_detalle->producto->precio;
-                            $datos_actualizacion["cantidad_ingreso"] =  $distribucion_detalle->cantidad;
-                            $datos_actualizacion["cantidad_saldo"] = (float)$distribucion_detalle->cantidad;
-                            $datos_actualizacion["cu"] = $distribucion_detalle->producto->precio;
-                            $datos_actualizacion["monto_ingreso"] = $monto;
-                            $datos_actualizacion["monto_saldo"] = $monto;
-                        }
-                    } else {
-                        if ($anterior) {
-                            $datos_actualizacion["precio"] = $distribucion_detalle->producto->precio;
-                            $datos_actualizacion["cantidad_salida"] =  $distribucion_detalle->cantidad;
-                            $datos_actualizacion["cantidad_saldo"] = (float)$anterior->cantidad_saldo - (float)$distribucion_detalle->cantidad;
-                            $datos_actualizacion["cu"] = $distribucion_detalle->producto->precio;
-                            $datos_actualizacion["monto_salida"] = $monto;
-                            $datos_actualizacion["monto_saldo"] =  (float)$anterior->monto_saldo - $monto;
-                        } else {
-                            $datos_actualizacion["precio"] = $distribucion_detalle->producto->precio;
-                            $datos_actualizacion["cantidad_salida"] =  $distribucion_detalle->cantidad;
-                            $datos_actualizacion["cantidad_saldo"] = (float)$distribucion_detalle->cantidad * (-1);
-                            $datos_actualizacion["cu"] = $distribucion_detalle->producto->precio;
-                            $datos_actualizacion["monto_salida"] = $monto;
-                            $datos_actualizacion["monto_saldo"] = $monto * (-1);
-                        }
-                    }
-                    break;
                 case 'VENTA':
                     $venta_detalle = VentaDetalle::find($item->registro_id);
                     $monto = (float)$venta_detalle->cantidad * (float)$venta_detalle->precio;

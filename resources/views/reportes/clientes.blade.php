@@ -134,7 +134,7 @@
         }
 
         .bg-principal {
-            background: #1867C0;
+            background: #153f59;
             color: white;
         }
 
