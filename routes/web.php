@@ -171,6 +171,7 @@ Route::middleware('auth')->prefix("admin")->group(function () {
     Route::get("ventas/api", [VentaController::class, 'api'])->name("ventas.api");
     Route::get("ventas/paginado", [VentaController::class, 'paginado'])->name("ventas.paginado");
     Route::get("ventas/listado", [VentaController::class, 'listado'])->name("ventas.listado");
+    Route::get("ventas/imprimir/{venta}", [VentaController::class, 'imprimir'])->name("ventas.imprimir");
     Route::resource("ventas", VentaController::class)->only(
         ["index", "create", "edit", "store", "update", "show", "destroy"]
     );

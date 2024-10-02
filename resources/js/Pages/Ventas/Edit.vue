@@ -36,7 +36,6 @@ const props = defineProps({
         type: Object,
     },
 });
-console.log(props.venta)
 setVenta(props.venta);
 
 onMounted(() => {

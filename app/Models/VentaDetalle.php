@@ -27,8 +27,8 @@ class VentaDetalle extends Model
         return $this->belongsTo(Producto::class, 'producto_id');
     }
 
-    public function producto_barra()
+    public function producto_barras()
     {
-        return $this->hasOne(ProductoBarra::class, 'venta_detalle_id');
+        return $this->hasMany(ProductoBarra::class, 'venta_detalle_id');
     }
 }

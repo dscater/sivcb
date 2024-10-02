@@ -41,7 +41,7 @@ class HandleInertiaRequests extends Middleware
                 'error' => fn() => $request->session()->get('error'),
                 'planilla' => fn() => $request->session()->get('planilla'),
             ],
-            'imprime_planilla' => session('imprime_planilla')
+            'venta_id' => session('venta_id')
         ];
     }
 }

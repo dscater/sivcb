@@ -1,5 +1,5 @@
 <script setup>
-import { useForm, usePage, Link } from "@inertiajs/vue3";
+import { useForm, usePage, router, Link } from "@inertiajs/vue3";
 import { useVentas } from "@/composables/ventas/useVentas";
 import { useSucursals } from "@/composables/sucursals/useSucursals";
 import { useClientes } from "@/composables/clientes/useClientes";
@@ -34,7 +34,7 @@ const enviarFormulario = () => {
     form.post(url, {
         preserveScroll: true,
         forceFormData: true,
-        onSuccess: () => {
+        onSuccess: (response) => {
             Swal.fire({
                 icon: "success",
                 title: "Correcto",
@@ -43,7 +43,9 @@ const enviarFormulario = () => {
                 confirmButtonText: `Aceptar`,
             });
             limpiarVenta();
-            cambiarUrl(route("ventas.index"));
+            router.get(route("ventas.imprimir", response.props.venta_id), {
+                imprime: true,
+            });
         },
         onError: (err) => {
             Swal.fire({
@@ -468,9 +470,15 @@ onMounted(() => {
                                     </button>
                                 </div>
                                 <div class="col-12 mt-1" v-if="form.id != 0">
-                                    <button class="btn btn-info w-100 mt-2">
+                                    <Link
+                                        class="btn btn-info w-100 mt-2"
+                                        :href="
+                                            route('ventas.imprimir', form.id) +
+                                            '?imprime=true'
+                                        "
+                                    >
                                         <i class="fa fa-file-alt"></i> Imprimir
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

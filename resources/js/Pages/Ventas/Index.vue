@@ -16,7 +16,7 @@ const breadbrums = [
 </script>
 <script setup>
 import { useApp } from "@/composables/useApp";
-import { Head, Link, router } from "@inertiajs/vue3";
+import { Head, Link, router, usePage } from "@inertiajs/vue3";
 import { useVentas } from "@/composables/Ventas/useVentas";
 import { initDataTable } from "@/composables/datatable.js";
 import { ref, onMounted, onBeforeUnmount } from "vue";
@@ -29,6 +29,9 @@ onMounted(() => {
         setLoading(false);
     }, 300);
 });
+
+const { flash, auth } = usePage().props;
+const user = ref(auth.user);
 
 const { getVentas, setVenta, limpiarVenta, deleteVenta } = useVentas();
 
@@ -73,26 +76,34 @@ const columns = [
         title: "ACCIONES",
         data: null,
         render: function (data, type, row) {
-            return `
-                <button class="mx-0 rounded-0 btn btn-warning editar" data-id="${
+            let opciones = ``;
+            opciones += `<button class="mx-0 rounded-0 btn btn-info imprimir" data-id="${row.id}"><i class="fa fa-print"></i></button>`;
+            opciones += `<button class="mx-0 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
+            if (user.value.permisos.includes("ventas.destroy")) {
+                opciones += `<button class="mx-0 rounded-0 btn btn-danger eliminar" data-id="${
                     row.id
-                }"><i class="fa fa-edit"></i></button>
-                <button class="mx-0 rounded-0 btn btn-danger eliminar"
-                 data-id="${row.id}" 
-                 data-nombre="${row.fecha_registro_t} | ${
-                row.sucursal.nombre
-            } | ${row.cliente.nombre} | ${row.total_final}" 
+                }" data-nombre="${row.fecha_registro_t} | ${
+                    row.sucursal.nombre
+                } | ${row.cliente.nombre} | ${row.total_final}"
                  data-url="${route(
                      "ventas.destroy",
                      row.id
-                 )}"><i class="fa fa-trash"></i></button>
-            `;
+                 )}"><i class="fa fa-trash"></i></button>`;
+            }
+
+            return opciones;
         },
     },
 ];
 const loading = ref(true);
 
 const accionesRow = () => {
+    // imprimir
+    $("#table-Venta").on("click", "button.imprimir", function (e) {
+        e.preventDefault();
+        let id = $(this).attr("data-id");
+        router.get(route("ventas.imprimir", id));
+    });
     // editar
     $("#table-Venta").on("click", "button.editar", function (e) {
         e.preventDefault();

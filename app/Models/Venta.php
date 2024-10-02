@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Venta extends Model
 {
@@ -20,11 +21,23 @@ class Venta extends Model
         "fecha_registro",
     ];
 
-    protected $appends = ["fecha_registro_t"];
+    protected $appends = ["fecha_registro_t","fecha_hora_t", "qr"];
+
+    public function getQrAttribute()
+    {
+        $codigo = $this->id . "|" . $this->cliente->nombre . "|" . $this->nit . "|" . $this->fecha_registro . "|" . $this->total_final;
+        $url_base64 = "data:image/png;base64," . base64_encode(QrCode::format("png")->size(150)->generate($codigo));
+        return $url_base64;
+    }
 
     public function getFechaRegistroTAttribute()
     {
         return date("d/m/Y", strtotime($this->fecha_registro));
+    }
+
+    public function getFechaHoraTAttribute()
+    {
+        return date("d/m/Y H:i", strtotime($this->fecha_registro));
     }
 
     public function sucursal()

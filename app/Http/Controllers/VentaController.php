@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\library\numero_a_letras\src\NumeroALetras;
 use App\Models\Cliente;
 use App\Models\HistorialAccion;
 use App\Models\KardexProducto;
@@ -146,7 +147,8 @@ class VentaController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route("ventas.index")->with("bien", "Registro realizado");
+            return redirect()->route("ventas.index")->with("bien", "Registro realizado")
+                ->with("venta_id", $nueva_venta->id);
         } catch (\Exception $e) {
             DB::rollBack();
             throw ValidationException::withMessages([
@@ -160,6 +162,31 @@ class VentaController extends Controller
         return response()->JSON($venta->load(["venta_detalles.producto", "producto_barras", "sucursal", "user", "cliente"]));
     }
 
+    public function imprimir(Venta $venta, Request $request)
+    {
+        $convertir = new NumeroALetras();
+        $array_monto = explode('.', $venta->total_final);
+        $literal = $convertir->convertir($array_monto[0]);
+        $literal .= " " . $array_monto[1] . "/100." . " BOLIVIANOS";
+
+        $nro_factura = (int)$venta->id;
+        if ($nro_factura < 10) {
+            $nro_factura = '000' . $nro_factura;
+        } else if ($nro_factura < 100) {
+            $nro_factura = '00' . $nro_factura;
+        } else if ($nro_factura < 1000) {
+            $nro_factura = '0' . $nro_factura;
+        }
+
+        $imprime = null;
+        if (isset($request->imprime)) {
+            $imprime = $request->imprime;
+        }
+
+        $customPaper = array(0, 0, 360, 600);
+        $venta = $venta->load(["venta_detalles.producto", "venta_detalles.producto_barras", "sucursal", "user", "cliente"]);
+        return Inertia::render("Ventas/Imprimir", compact("venta", "nro_factura", "literal", "imprime"));
+    }
 
     public function edit(Venta $venta)
     {
@@ -338,7 +365,8 @@ class VentaController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route("ventas.index")->with("bien", "Registro actualizado");
+            return redirect()->route("ventas.index")->with("bien", "Registro actualizado")
+                ->with("venta_id", $venta->id);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::debug($e->getMessage());
