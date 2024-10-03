@@ -285,8 +285,11 @@ onMounted(() => {});
                                                             item.producto.nombre
                                                         }}
                                                     </td>
-                                                    <td class="align-middle">
+                                                    <td class="align-middle text-center">
                                                         <button
+                                                            v-if="
+                                                                !item.venta_id
+                                                            "
                                                             class="btn btn-sm btn-danger w-100px"
                                                             @click.prevent="
                                                                 eliminaProducto(
@@ -298,6 +301,11 @@ onMounted(() => {});
                                                                 class="fa fa-trash"
                                                             ></i>
                                                         </button>
+                                                        <span
+                                                            v-else
+                                                            class="font-weight-bold"
+                                                            ></span
+                                                        >
                                                     </td>
                                                 </tr>
                                                 <tr

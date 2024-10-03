@@ -16,7 +16,7 @@ const breadbrums = [
 </script>
 <script setup>
 import { useApp } from "@/composables/useApp";
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, usePage } from "@inertiajs/vue3";
 import { useProductos } from "@/composables/productos/useProductos";
 import { initDataTable } from "@/composables/datatable.js";
 import { ref, onMounted, onBeforeUnmount } from "vue";
@@ -24,6 +24,9 @@ import PanelToolbar from "@/Components/PanelToolbar.vue";
 // import { useMenu } from "@/composables/useMenu";
 import Formulario from "./Formulario.vue";
 // const { mobile, identificaDispositivo } = useMenu();
+
+const { flash, auth } = usePage().props;
+const user = ref(auth.user);
 const { setLoading } = useApp();
 onMounted(() => {
     setTimeout(() => {
@@ -34,7 +37,7 @@ onMounted(() => {
 const { getProductos, setProducto, limpiarProducto, deleteProducto } =
     useProductos();
 
-const columns = [
+let columns = [
     {
         title: "",
         data: "id",
@@ -89,6 +92,72 @@ const columns = [
         },
     },
 ];
+
+if (user.value.tipo != "ADMINISTRADOR") {
+    columns = [
+        {
+            title: "",
+            data: "id",
+        },
+        {
+            title: "",
+            data: "url_foto",
+            render: function (data, type, row) {
+                return `<img src="${data}" class="rounded h-30px my-n1 mx-n1"/>`;
+            },
+        },
+        {
+            title: "NOMBRE",
+            data: "nombre",
+        },
+        {
+            title: "CATEGORÍA",
+            data: "categoria.nombre",
+        },
+        {
+            title: "MARCA",
+            data: "marca.nombre",
+        },
+        {
+            title: "UNIDAD DE MEDIDA",
+            data: "unidad_medida.nombre",
+        },
+        {
+            title: "PRECIO",
+            data: "precio",
+        },
+        {
+            title: "STOCK MIN.",
+            data: "stock_min",
+        },
+        {
+            title: "STOCK ACTUAL",
+            data: "stock_sucursal",
+        },
+        {
+            title: "ACCIONES",
+            data: null,
+            render: function (data, type, row) {
+                let buttons = ``;
+                if (user.value.permisos.includes("productos.edit")) {
+                    buttons += `<button class="mx-0 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
+                }
+                if (user.value.permisos.includes("productos.destroy")) {
+                    buttons += `<button class="mx-0 rounded-0 btn btn-danger eliminar"
+                 data-id="${row.id}"
+                 data-nombre="${row.nombre}"
+                 data-url="${route(
+                     "productos.destroy",
+                     row.id
+                 )}"><i class="fa fa-trash"></i></button>
+            `;
+                }
+                return buttons;
+            },
+        },
+    ];
+}
+
 const loading = ref(true);
 const accion_dialog = ref(0);
 const open_dialog = ref(false);
@@ -142,11 +211,45 @@ const updateDatatable = () => {
 };
 
 onMounted(async () => {
-    datatable = initDataTable(
-        "#table-producto",
-        columns,
-        route("productos.api")
-    );
+    if (user.value.tipo == "ADMINISTRADOR") {
+        datatable = initDataTable(
+            "#table-producto",
+            columns,
+            route("productos.api")
+        );
+    } else {
+        datatable = initDataTable(
+            "#table-producto",
+            columns,
+            route("productos.api"),
+            {
+                rowCallback: function (row, data) {
+                    // Cambia el color según el valor de stock_sucursal
+                    if (
+                        typeof data.stock_sucursal != "undefined" &&
+                        typeof data.stock_min != "undefined"
+                    ) {
+                        if (data.stock_sucursal < data.stock_min) {
+                            $(row).addClass("bg-danger");
+                        } else {
+                            $(row).removeClass("bg-danger");
+                        }
+                    }
+                    if (
+                        typeof data.stock_actual != "undefined" &&
+                        typeof data.stock_min != "undefined"
+                    ) {
+                        if (data.stock_actual < data.stock_min) {
+                            $(row).addClass("bg-danger");
+                        } else {
+                            $(row).removeClass("bg-danger");
+                        }
+                    }
+                },
+            }
+        );
+    }
+
     datatableInitialized.value = true;
     accionesRow();
 });
@@ -186,6 +289,7 @@ onBeforeUnmount(() => {
                         <i class="fa fa-plus"></i> Nuevo
                     </button>
                     <Link
+                        v-if="user.tipo != 'OPERADOR'"
                         :href="route('productos.stock_productos')"
                         class="btn btn-warning mt-1"
                         ><i class="fa fa-list"></i> Stock productos</Link

@@ -10,6 +10,7 @@ class SalidaProducto extends Model
     use HasFactory;
 
     protected $fillable = [
+        "origen",
         "producto_id",
         "cantidad",
         "fecha_salida",

@@ -91,13 +91,13 @@ onMounted(() => {
 });
 
 const form = ref({
-    lugar: "ALMACÉN",
+    lugar: user.value.tipo != "ADMINISTRADOR" ? "SUCURSAL" : "ALMACÉN",
     producto_id: "todos",
     categoria_id: "todos",
     marca_id: "todos",
     unidad_medida_id: "todos",
     sucursal_id:
-        user.value.tipo == "ADMINISTRADOR" ? "todos" : user.value.sucursal_id,
+        user.value.tipo != "ADMINISTRADOR" ? user.value.sucursal_id : "todos",
     fecha_ini: "",
     fecha_fin: "",
 });
@@ -207,7 +207,7 @@ const generarReporte = () => {
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12" v-if="user.tipo == 'ADMINISTRADOR'">
                                 <label>Seleccionar ubicación*</label>
                                 <select
                                     :hide-details="

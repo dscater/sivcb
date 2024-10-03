@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('salida_productos', function (Blueprint $table) {
             $table->id();
+            $table->string("origen");
             $table->unsignedBigInteger("producto_id");
             $table->double("cantidad", 8, 2);
             $table->date("fecha_salida");

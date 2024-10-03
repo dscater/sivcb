@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use App\Models\Lote;
+use App\Models\SucursalProducto;
 use App\Models\User;
 use App\Models\Venta;
 use App\Models\VentaLote;
@@ -100,38 +101,18 @@ class UserController extends Controller
         "SUPERVISOR DE SUCURSAL" => [
             "proveedors.index",
             "proveedors.create",
-            "proveedors.edit",
-            "proveedors.destroy",
 
             "categorias.index",
             "categorias.create",
-            "categorias.edit",
-            "categorias.destroy",
 
             "marcas.index",
             "marcas.create",
-            "marcas.edit",
-            "marcas.destroy",
 
             "unidad_medidas.index",
             "unidad_medidas.create",
-            "unidad_medidas.edit",
-            "unidad_medidas.destroy",
 
             "productos.index",
             "productos.create",
-            "productos.edit",
-            "productos.destroy",
-
-            "tipo_ingresos.index",
-            "tipo_ingresos.create",
-            "tipo_ingresos.edit",
-            "tipo_ingresos.destroy",
-
-            "tipo_salidas.index",
-            "tipo_salidas.create",
-            "tipo_salidas.edit",
-            "tipo_salidas.destroy",
 
             "ingreso_productos.index",
             "ingreso_productos.create",
@@ -253,6 +234,17 @@ class UserController extends Controller
                 'color' => 'bg-info',
                 'icon' => "fa-user-friends",
                 "url" => "clientes.index"
+            ];
+        }
+
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+            $producto_sucursal = SucursalProducto::where("sucursal_id",Auth::user()->sucursal_id)->sum("stock_actual");
+            $array_infos[] = [
+                'label' => 'PRODUCTOS',
+                'cantidad' => $producto_sucursal,
+                'color' => 'bg-teal',
+                'icon' => "fa-boxes",
+                "url" => "productos.index"
             ];
         }
 

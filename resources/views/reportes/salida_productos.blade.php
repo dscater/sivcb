@@ -191,6 +191,7 @@
                     $salida_productos = App\Models\SalidaProducto::select('salida_productos.*')
                         ->join('productos', 'productos.id', '=', 'salida_productos.producto_id')
                         ->where('lugar', 'ALMACÉN');
+
                     if ($producto_id != 'todos') {
                         $salida_productos->where('salida_productos.producto_id', $producto_id);
                     }
@@ -267,6 +268,10 @@
                             ->join('productos', 'productos.id', '=', 'salida_productos.producto_id')
                             ->where('lugar', 'SUCURSAL')
                             ->where('sucursal_id', $sucursal->id);
+
+                        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+                            $salida_productos->where('origen', 'SUCURSAL');
+                        }
                         if ($producto_id != 'todos') {
                             $salida_productos->where('salida_productos.producto_id', $producto_id);
                         }

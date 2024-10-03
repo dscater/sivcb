@@ -50,7 +50,7 @@ class Venta extends Model
 
     public function getFechaHoraTAttribute()
     {
-        return date("d/m/Y H:i", strtotime($this->fecha_registro));
+        return date("d/m/Y H:i", strtotime($this->created_at));
     }
 
     public function sucursal()

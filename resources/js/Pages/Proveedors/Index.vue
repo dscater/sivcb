@@ -16,7 +16,7 @@ const breadbrums = [
 </script>
 <script setup>
 import { useApp } from "@/composables/useApp";
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, usePage } from "@inertiajs/vue3";
 import { useProveedors } from "@/composables/proveedors/useProveedors";
 import { initDataTable } from "@/composables/datatable.js";
 import { ref, onMounted, onBeforeUnmount } from "vue";
@@ -25,6 +25,8 @@ import PanelToolbar from "@/Components/PanelToolbar.vue";
 import Formulario from "./Formulario.vue";
 // const { mobile, identificaDispositivo } = useMenu();
 const { setLoading } = useApp();
+const { auth } = usePage().props;
+const user = ref(auth.user);
 onMounted(() => {
     setTimeout(() => {
         setLoading(false);
@@ -71,18 +73,21 @@ const columns = [
         title: "ACCIONES",
         data: null,
         render: function (data, type, row) {
-            return `
-                <button class="mx-0 rounded-0 btn btn-warning editar" data-id="${
-                    row.id
-                }"><i class="fa fa-edit"></i></button>
-                <button class="mx-0 rounded-0 btn btn-danger eliminar"
-                 data-id="${row.id}" 
-                 data-nombre="${row.razon_social}" 
+            let buttons = ``;
+            if (user.value.permisos.includes("proveedors.edit")) {
+                buttons += `<button class="mx-0 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
+            }
+            if (user.value.permisos.includes("proveedors.destroy")) {
+                buttons += `<button class="mx-0 rounded-0 btn btn-danger eliminar"
+                 data-id="${row.id}"
+                 data-nombre="${row.razon_social}"
                  data-url="${route(
                      "proveedors.destroy",
                      row.id
                  )}"><i class="fa fa-trash"></i></button>
             `;
+            }
+            return buttons;
         },
     },
 ];

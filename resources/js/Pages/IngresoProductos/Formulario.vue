@@ -26,6 +26,9 @@ const accion = ref(props.accion_dialog);
 const dialog = ref(props.open_dialog);
 let form = useForm(oIngresoProducto);
 let switcheryInstance = null;
+
+const { flash, auth } = usePage().props;
+const user = auth.user;
 const cod_prod_ref = ref(null);
 const cod_prod = ref("");
 const listProductos = ref([]);
@@ -53,9 +56,6 @@ watch(
         accion.value = newValue;
     }
 );
-
-const { flash, auth } = usePage().props;
-const user = auth.user;
 
 const tituloDialog = computed(() => {
     return accion.value == 0
@@ -371,47 +371,53 @@ onMounted(() => {});
                                             </li>
                                         </ul>
                                     </div>
-                                    <div
-                                        class="col-12"
-                                        v-if="accion_dialog == 0"
+                                    <template
+                                        v-if="user.tipo == 'ADMINISTRADOR'"
                                     >
-                                        <label>Recepción de productos*</label>
-                                        <select
-                                            class="form-select"
-                                            :class="{
-                                                'parsley-error':
-                                                    form.errors?.lugar,
-                                            }"
-                                            v-model="form.lugar"
+                                        <div
+                                            class="col-12"
+                                            v-if="accion_dialog == 0"
                                         >
-                                            <option value="">
-                                                - Seleccione -
-                                            </option>
-                                            <option value="ALMACÉN">
-                                                ALMACÉN
-                                            </option>
-                                            <option value="SUCURSAL">
-                                                SUCURSAL
-                                            </option>
-                                        </select>
-                                        <ul
-                                            v-if="form.errors?.lugar"
-                                            class="parsley-errors-list filled"
-                                        >
-                                            <li class="parsley-required">
-                                                {{ form.errors?.lugar }}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-12" v-else>
-                                        <label>Lugar:</label>
-                                        <input
-                                            type="text"
-                                            class="form-control readonly"
-                                            v-model="form.lugar"
-                                            readonly
-                                        />
-                                    </div>
+                                            <label
+                                                >Recepción de productos*</label
+                                            >
+                                            <select
+                                                class="form-select"
+                                                :class="{
+                                                    'parsley-error':
+                                                        form.errors?.lugar,
+                                                }"
+                                                v-model="form.lugar"
+                                            >
+                                                <option value="">
+                                                    - Seleccione -
+                                                </option>
+                                                <option value="ALMACÉN">
+                                                    ALMACÉN
+                                                </option>
+                                                <option value="SUCURSAL">
+                                                    SUCURSAL
+                                                </option>
+                                            </select>
+                                            <ul
+                                                v-if="form.errors?.lugar"
+                                                class="parsley-errors-list filled"
+                                            >
+                                                <li class="parsley-required">
+                                                    {{ form.errors?.lugar }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-12" v-else>
+                                            <label>Lugar:</label>
+                                            <input
+                                                type="text"
+                                                class="form-control readonly"
+                                                v-model="form.lugar"
+                                                readonly
+                                            />
+                                        </div>
+                                    </template>
                                     <template
                                         v-if="user.tipo == 'ADMINISTRADOR'"
                                     >
@@ -528,8 +534,13 @@ onMounted(() => {});
                                                     <td class="align-middle">
                                                         {{ item.codigo }}
                                                     </td>
-                                                    <td class="align-middle">
+                                                    <td
+                                                        class="align-middle text-center"
+                                                    >
                                                         <button
+                                                            v-if="
+                                                                !item.venta_id
+                                                            "
                                                             class="btn btn-sm btn-danger w-100px"
                                                             @click.prevent="
                                                                 eliminaProducto(
@@ -541,6 +552,11 @@ onMounted(() => {});
                                                                 class="fa fa-trash"
                                                             ></i>
                                                         </button>
+                                                        <span
+                                                            v-else
+                                                            class="font-weight-bold"
+                                                            >Vendido</span
+                                                        >
                                                     </td>
                                                 </tr>
                                                 <tr

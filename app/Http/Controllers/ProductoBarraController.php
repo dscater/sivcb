@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Producto;
 use App\Models\ProductoBarra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,26 @@ class ProductoBarraController extends Controller
 
         $producto_barras = $producto_barras->get();
 
+        return response()->JSON($producto_barras);
+    }
+
+    public function getByProductoSucursalAlmacen(Request $request)
+    {
+        $producto_id = $request->producto_id;
+        $sucursal_id = $request->sucursal_id;
+        $lugar = $request->lugar;
+
+        $producto_barras = ProductoBarra::where("producto_id", $producto_id);
+        if ($lugar == 'SUCURSAL') {
+            $producto_barras->where("lugar", "SUCURSAL");
+            $producto_barras->where("sucursal_id", $sucursal_id);
+        }
+
+        if ($lugar == 'ALMACÉN') {
+            $producto_barras->where("lugar", "ALMACÉN");
+        }
+
+        $producto_barras = $producto_barras->get();
         return response()->JSON($producto_barras);
     }
 

@@ -193,6 +193,7 @@
                     $ingreso_productos = App\Models\IngresoProducto::select('ingreso_productos.*')
                         ->join('productos', 'productos.id', '=', 'ingreso_productos.producto_id')
                         ->where('lugar', 'ALMACÉN');
+
                     if ($producto_id != 'todos') {
                         $ingreso_productos->where('ingreso_productos.producto_id', $producto_id);
                     }
@@ -273,6 +274,10 @@
                             ->join('productos', 'productos.id', '=', 'ingreso_productos.producto_id')
                             ->where('lugar', 'SUCURSAL')
                             ->where('sucursal_id', $sucursal->id);
+
+                        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+                            $ingreso_productos->where('origen', 'SUCURSAL');
+                        }
                         if ($producto_id != 'todos') {
                             $ingreso_productos->where('ingreso_productos.producto_id', $producto_id);
                         }

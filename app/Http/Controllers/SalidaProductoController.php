@@ -43,9 +43,7 @@ class SalidaProductoController extends Controller
 
         if (Auth::user()->tipo != 'ADMINISTRADOR') {
             $salida_productos->where("sucursal_id", Auth::user()->sucursal_id);
-            if (Auth::user()->tipo == 'SUPERVISOR DE SUCURSAL') {
-                $salida_productos->orWhere("sucursal_id", nulL);
-            }
+            $salida_productos->where("origen", "SUCURSAL");
         }
         $salida_productos = $salida_productos->get();
 
@@ -59,9 +57,7 @@ class SalidaProductoController extends Controller
         $salida_productos = SalidaProducto::with(["producto", "tipo_salida", "sucursal"])->select("salida_productos.*");
         if (Auth::user()->tipo != 'ADMINISTRADOR') {
             $salida_productos->where("sucursal_id", Auth::user()->sucursal_id);
-            if (Auth::user()->tipo == 'SUPERVISOR DE SUCURSAL') {
-                $salida_productos->orWhere("sucursal_id", nulL);
-            }
+            $salida_productos->where("origen", "SUCURSAL");
         }
         $salida_productos = $salida_productos->get();
         return response()->JSON(["data" => $salida_productos]);
@@ -73,9 +69,7 @@ class SalidaProductoController extends Controller
         $salida_productos = SalidaProducto::with(["producto", "tipo_salida", "sucursal"])->select("salida_productos.*");
         if (Auth::user()->tipo != 'ADMINISTRADOR') {
             $salida_productos->where("sucursal_id", Auth::user()->sucursal_id);
-            if (Auth::user()->tipo == 'SUPERVISOR DE SUCURSAL') {
-                $salida_productos->orWhere("sucursal_id", nulL);
-            }
+            $salida_productos->where("origen", "SUCURSAL");
         }
 
         if (trim($search) != "") {
@@ -93,6 +87,13 @@ class SalidaProductoController extends Controller
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {
+
+            if (Auth::user()->tipo == 'ADMINISTRADOR') {
+                $request["origen"] = "ADMIN";
+            } else {
+                $request["origen"] = "SUCURSAL";
+            }
+
             $request["fecha_registro"] = date("Y-m-d");
             $producto_barra = ProductoBarra::find($request["producto_id"]["id"]);
 
@@ -112,7 +113,7 @@ class SalidaProductoController extends Controller
                     ->where("sucursal_id", $producto_barra->sucursal_id)
                     ->get()->first();
             }
-            Log::debug($stock_producto);
+            // Log::debug($stock_producto);
             if (!$stock_producto) {
                 throw new Exception('No es posible realizar el registro debido a que el stock disponible es de 0');
             } elseif ($stock_producto->stock_actual < $request->cantidad) {
@@ -120,6 +121,7 @@ class SalidaProductoController extends Controller
             }
             // crear SalidaProducto
             $data_salida =  [
+                "origen" => $request->origen,
                 "producto_id" => $producto_barra->producto_id,
                 "cantidad" => 1,
                 "fecha_salida" => $request->fecha_salida,

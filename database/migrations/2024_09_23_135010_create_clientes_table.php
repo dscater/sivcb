@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("sucursal_id")->nullable();
             $table->string("nombre", 255);
             $table->string("ci", 255)->nullable();
             $table->string("fono");

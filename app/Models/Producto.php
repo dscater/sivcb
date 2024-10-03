@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class Producto extends Model
@@ -21,7 +22,20 @@ class Producto extends Model
         "fecha_registro",
     ];
 
-    protected $appends = ["fecha_registro_t", "url_foto", "foto_b64"];
+    protected $appends = ["fecha_registro_t", "url_foto", "foto_b64", "stock_sucursal"];
+
+    public function getStockSucursalAttribute()
+    {
+        $stock = 0;
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+            $sucursal_producto = SucursalProducto::where("producto_id", $this->id)
+                ->where("sucursal_id", Auth::user()->sucursal_id)->get()->first();
+            if ($sucursal_producto) {
+                $stock = $sucursal_producto->stock_actual;
+            }
+        }
+        return $stock;
+    }
 
     public function getFechaRegistroTAttribute()
     {

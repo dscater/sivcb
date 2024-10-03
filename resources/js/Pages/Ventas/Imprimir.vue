@@ -34,11 +34,11 @@
                                         </div>
                                         <div class="elemento direccion">
                                             Dirección:
-                                            {{ oConfiguracion.dir }}
+                                            {{ oVenta.sucursal?.dir }}
                                         </div>
                                         <div class="elemento direccion">
                                             Teléfonos:
-                                            {{ oConfiguracion.fono }}
+                                            {{ oVenta.sucursal?.fono }}
                                         </div>
                                         <div class="elemento direccion">
                                             La Paz - Bolivia

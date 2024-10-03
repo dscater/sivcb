@@ -23,7 +23,6 @@ class IngresoProductoController extends Controller
         "precio" => "required",
         "cantidad" => "required",
         "tipo_ingreso_id" => "required",
-        "lugar" => "required",
         "producto_barras" => "required|array|min:1"
     ];
 
@@ -49,6 +48,7 @@ class IngresoProductoController extends Controller
         $ingreso_productos = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras", "sucursal"])->select("ingreso_productos.*");
 
         if (Auth::user()->tipo != 'ADMINISTRADOR') {
+            $ingreso_productos->where("origen", "SUCURSAL");
             $ingreso_productos->where("sucursal_id", Auth::user()->sucursal_id);
             if (Auth::user()->tipo == 'SUPERVISOR DE SUCURSAL') {
                 $ingreso_productos->orWhere("sucursal_id", nulL);
@@ -66,9 +66,10 @@ class IngresoProductoController extends Controller
         $ingreso_productos = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras", "sucursal"])->select("ingreso_productos.*");
         if (Auth::user()->tipo != 'ADMINISTRADOR') {
             $ingreso_productos->where("sucursal_id", Auth::user()->sucursal_id);
-            if (Auth::user()->tipo == 'SUPERVISOR DE SUCURSAL') {
-                $ingreso_productos->orWhere("sucursal_id", nulL);
-            }
+            $ingreso_productos->where("origen", "SUCURSAL");
+            // if (Auth::user()->tipo == 'SUPERVISOR DE SUCURSAL') {
+            //     $ingreso_productos->orWhere("sucursal_id", nulL);
+            // }
         }
         $ingreso_productos = $ingreso_productos->get();
         return response()->JSON(["data" => $ingreso_productos]);
@@ -81,6 +82,7 @@ class IngresoProductoController extends Controller
 
         if (Auth::user()->tipo != 'ADMINISTRADOR') {
             $ingreso_productos->where("sucursal_id", Auth::user()->sucursal_id);
+            $ingreso_productos->where("origen", "SUCURSAL");
             if (Auth::user()->tipo == 'SUPERVISOR DE SUCURSAL') {
                 $ingreso_productos->orWhere("sucursal_id", nulL);
             }
@@ -98,19 +100,31 @@ class IngresoProductoController extends Controller
 
     public function store(Request $request)
     {
+        if (Auth::user()->tipo == 'ADMINISTRADOR') {
+            $this->validacion["lugar"] = "required";
+        }
         if ($request->lugar == 'SUCURSAL') {
             if (Auth::user()->tipo == 'ADMINISTRADOR') {
                 $this->validacion["sucursal_id"] = "required";
-            } else {
-                $request["sucursal_id"] = Auth::user()->sucursal_id;
             }
         }
+
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {
+            if (Auth::user()->tipo == 'ADMINISTRADOR') {
+                $request["origen"] = "ADMIN";
+            } else {
+                $request["origen"] = "SUCURSAL";
+
+                $request["lugar"] = "SUCURSAL";
+                $request["sucursal_id"] = Auth::user()->sucursal_id;
+            }
+
             $request['fecha_registro'] = date('Y-m-d');
             // crear el IngresoProducto
             $datos_ingreso = [
+                "origen" => $request->origen,
                 "producto_id" => $request->producto_id,
                 "proveedor_id" => $request->proveedor_id,
                 "precio" => $request->precio,

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('ingreso_productos', function (Blueprint $table) {
             $table->id();
+            $table->string("origen");
             $table->unsignedBigInteger("producto_id");
             $table->unsignedBigInteger("proveedor_id");
             $table->decimal("precio", 24, 2);

@@ -110,6 +110,8 @@ class UsuarioController extends Controller
 
         if ($request->tipo != 'ADMINISTRADOR') {
             $this->validacion['sucursal_id'] = 'required';
+        } else {
+            unset($request["sucursal_id"]);
         }
         $request->validate($this->validacion, $this->mensajes);
 

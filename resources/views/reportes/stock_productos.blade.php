@@ -138,7 +138,17 @@
             color: white;
         }
 
-        .txt_rojo {}
+        .derecha {
+            text-align: right;
+        }
+
+        .text-md {
+            font-size: 9pt;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
 
         .img_celda img {
             width: 45px;
@@ -165,7 +175,7 @@
     </div>
 
     @if ($lugar == 'ALMACÉN')
-        <h4 class="title_lugar">STOCK DE ALMÁCEN</h4>
+        <h4 class="title_lugar">STOCK DE ALMACÉN</h4>
         <table border="1" style="margin-top:0px">
             <thead>
                 <tr class="bg-principal">
@@ -174,12 +184,16 @@
                     <th>CATEGORÍA</th>
                     <th>MARCA</th>
                     <th>UNIDAD DE MEDIDA</th>
+                    <th>PRECIO</th>
                     <th>STOCK ACTUAL</th>
+                    <th>TOTAL</th>
                 </tr>
             </thead>
             <tbody>
                 @php
                     $cont = 1;
+                        $sum_total_c = 0;
+                        $sum_total_t = 0;
                 @endphp
                 @foreach ($productos as $producto)
                     <tr>
@@ -188,10 +202,23 @@
                         <td>{{ $producto->categoria->nombre }}</td>
                         <td>{{ $producto->marca->nombre }}</td>
                         <td>{{ $producto->unidad_medida->nombre }}</td>
+                        <td>{{ $producto->precio }}</td>
                         <td class="centreado">
                             {{ $producto->almacen_producto ? $producto->almacen_producto->stock_actual : 0 }}</td>
+                        @php
+                            $total =
+                                (float) $producto->precio * ($producto->almacen_producto ? $producto->almacen_producto->stock_actual : 0);
+                            $sum_total_c += (float) ($producto->almacen_producto ? $producto->almacen_producto->stock_actual : 0);
+                            $sum_total_t += (float) $total;
+                        @endphp
+                        <td class="centreado">{{ $total }}</td>
                     </tr>
                 @endforeach
+                <tr class="bg-principal">
+                    <td colspan="6" class="derecha bold text-right text-md">TOTALES</td>
+                    <td class="bold centreado text-md">{{ $sum_total_c }}</td>
+                    <td class="bold centreado text-md">{{ $sum_total_t }}</td>
+                </tr>
             </tbody>
         </table>
     @else
@@ -205,12 +232,16 @@
                         <th>CATEGORÍA</th>
                         <th>MARCA</th>
                         <th>UNIDAD DE MEDIDA</th>
+                        <th>PRECIO</th>
                         <th>STOCK ACTUAL</th>
+                        <th>TOTAL</th>
                     </tr>
                 </thead>
                 <tbody>
                     @php
                         $cont = 1;
+                        $sum_total_c = 0;
+                        $sum_total_t = 0;
                     @endphp
                     @foreach ($productos as $producto)
                         @php
@@ -225,10 +256,24 @@
                             <td>{{ $producto->categoria->nombre }}</td>
                             <td>{{ $producto->marca->nombre }}</td>
                             <td>{{ $producto->unidad_medida->nombre }}</td>
+                            <td class="centreado">{{ $producto->precio }}</td>
                             <td class="centreado">
                                 {{ $sucursal_producto ? $sucursal_producto->stock_actual : 0 }}</td>
+                            @php
+                                $total =
+                                    (float) $producto->precio *
+                                    ($sucursal_producto ? $sucursal_producto->stock_actual : 0);
+                                $sum_total_c += (float) ($sucursal_producto ? $sucursal_producto->stock_actual : 0);
+                                $sum_total_t += (float) $total;
+                            @endphp
+                            <td class="centreado">{{ $total }}</td>
                         </tr>
                     @endforeach
+                    <tr class="bg-principal">
+                        <td colspan="6" class="derecha bold text-right text-md">TOTALES</td>
+                        <td class="bold centreado text-md">{{ $sum_total_c }}</td>
+                        <td class="bold centreado text-md">{{ $sum_total_t }}</td>
+                    </tr>
                 </tbody>
             </table>
         @endforeach

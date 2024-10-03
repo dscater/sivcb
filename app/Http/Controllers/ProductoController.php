@@ -70,6 +70,21 @@ class ProductoController extends Controller
 
         return response()->JSON(["data" => $productos]);
     }
+
+    public function getStockByProductoSucursal(Request $request)
+    {
+        $producto_id = $request->producto_id;
+        $sucursal_id = $request->sucursal_id;
+
+        $stock = 0;
+        $producto_barra = ProductoBarra::where("producto_id", $producto_id)
+            ->where("sucursal_id", $sucursal_id)->get()->first();
+        if ($producto_barra) {
+            $stock = $producto_barra->stock_actual;
+        }
+        return response()->JSON($stock);
+    }
+
     public function listado()
     {
         $productos = Producto::with(["categoria", "marca", "unidad_medida"])->select("productos.*")->get();

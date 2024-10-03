@@ -32,7 +32,14 @@ class ClienteController extends Controller
 
     public function listado()
     {
-        $clientes = Cliente::all();
+        $clientes = Cliente::select("clientes.*");
+
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+
+            $clientes->where("sucursal_id", Auth::user()->sucursal_id);
+        }
+
+        $clientes = $clientes->get();
         return response()->JSON([
             "clientes" => $clientes
         ]);
@@ -40,23 +47,31 @@ class ClienteController extends Controller
 
     public function api(Request $request)
     {
-        $usuarios = Cliente::select("clientes.*");
-        $usuarios = $usuarios->get();
-        return response()->JSON(["data" => $usuarios]);
+        $clientes = Cliente::select("clientes.*");
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+
+            $clientes->where("sucursal_id", Auth::user()->sucursal_id);
+        }
+
+        $clientes = $clientes->get();
+        return response()->JSON(["data" => $clientes]);
     }
 
     public function paginado(Request $request)
     {
         $search = $request->search;
-        $usuarios = Cliente::select("clientes.*");
+        $clientes = Cliente::select("clientes.*");
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
 
+            $clientes->where("sucursal_id", Auth::user()->sucursal_id);
+        }
         if (trim($search) != "") {
-            $usuarios->where("nombre", "LIKE", "%$search%");
+            $clientes->where("nombre", "LIKE", "%$search%");
         }
 
-        $usuarios = $usuarios->paginate($request->itemsPerPage);
+        $clientes = $clientes->paginate($request->itemsPerPage);
         return response()->JSON([
-            "usuarios" => $usuarios
+            "clientes" => $clientes
         ]);
     }
 
@@ -69,6 +84,11 @@ class ClienteController extends Controller
                 return $query->where('ci', '!=', 0);
             }),
         ];
+
+        if (Auth::user()->tipo != 'ADMINISTRADOR') {
+            $request["sucursal_id"] = Auth::user()->sucursal_id;
+        }
+
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {

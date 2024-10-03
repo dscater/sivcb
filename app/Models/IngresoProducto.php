@@ -10,6 +10,7 @@ class IngresoProducto extends Model
     use HasFactory;
 
     protected $fillable = [
+        "origen",
         "producto_id",
         "proveedor_id",
         "precio",

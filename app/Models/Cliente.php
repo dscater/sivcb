@@ -10,6 +10,7 @@ class Cliente extends Model
     use HasFactory;
 
     protected $fillable = [
+        "sucursal_id",
         "nombre",
         "ci",
         "fono",
@@ -23,5 +24,10 @@ class Cliente extends Model
     public function getFechaRegistroTAttribute()
     {
         return date("d/m/Y", strtotime($this->fecha_registro));
+    }
+
+    public function sucursal()
+    {
+        return $this->belongsTo(Sucursal::class, 'sucursal_id');
     }
 }

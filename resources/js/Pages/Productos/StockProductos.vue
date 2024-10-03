@@ -23,7 +23,7 @@ import { initDataTable } from "@/composables/datatable.js";
 import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import PanelToolbar from "@/Components/PanelToolbar.vue";
 // import { useMenu } from "@/composables/useMenu";
-import Formulario from "./Formulario.vue";
+import ProductoBarras from "./ProductoBarras.vue";
 // const { mobile, identificaDispositivo } = useMenu();
 
 const { flash, auth } = usePage().props;
@@ -85,11 +85,43 @@ let columns = [
         title: "STOCK ACTUAL",
         data: "stock_actual",
     },
+    {
+        title: "",
+        data: null,
+        render: function (data, type, row) {
+            let button = `
+                <button class="mx-0 rounded-0 btn btn-primary codigos" data-id="${row.id}"><i class="fa fa-list-alt"></i></button>
+            `;
+            return button;
+        },
+    },
 ];
 
 const loading = ref(true);
 const accion_dialog = ref(0);
 const open_dialog = ref(false);
+const listProductosCodigo = ref([]);
+const accionesRow = () => {
+    // codigos
+    $("#table-producto").on("click", "button.codigos", function (e) {
+        e.preventDefault();
+        let id = $(this).attr("data-id");
+        let lugar = optionLugar.value.lugar;
+        let sucursal_id = optionLugar.value.sucursal_id;
+        axios
+            .get(route("producto_barras.getByProductoSucursalAlmacen"), {
+                params: {
+                    producto_id: id,
+                    lugar: lugar,
+                    sucursal_id: sucursal_id,
+                },
+            })
+            .then((response) => {
+                listProductosCodigo.value = response.data;
+                open_dialog.value = true;
+            });
+    });
+};
 
 var datatable = null;
 const datatableInitialized = ref(false);
@@ -131,8 +163,34 @@ onMounted(async () => {
         optionLugar.value.lugar +
         "&sucursal_id=" +
         optionLugar.value.sucursal_id;
-    datatable = initDataTable("#table-producto", columns, ruta);
+
+    datatable = initDataTable("#table-producto", columns, ruta, {
+        rowCallback: function (row, data) {
+            // Cambia el color según el valor de stock_sucursal
+            if (
+                typeof data.stock_sucursal != "undefined" &&
+                typeof data.stock_min != "undefined"
+            ) {
+                if (data.stock_sucursal < data.stock_min) {
+                    $(row).addClass("bg-danger");
+                } else {
+                    $(row).removeClass("bg-danger");
+                }
+            }
+            if (
+                typeof data.stock_actual != "undefined" &&
+                typeof data.stock_min != "undefined"
+            ) {
+                if (data.stock_actual < data.stock_min) {
+                    $(row).addClass("bg-danger");
+                } else {
+                    $(row).removeClass("bg-danger");
+                }
+            }
+        },
+    });
     datatableInitialized.value = true;
+    accionesRow();
 });
 onBeforeUnmount(() => {
     if (datatable) {
@@ -176,7 +234,10 @@ onBeforeUnmount(() => {
                         <option value="SUCURSAL">SUCURSAL</option>
                     </select>
                     <select
-                        v-if="optionLugar.lugar == 'SUCURSAL' && user.tipo == 'ADMINISTRADOR'"
+                        v-if="
+                            optionLugar.lugar == 'SUCURSAL' &&
+                            user.tipo == 'ADMINISTRADOR'
+                        "
                         v-model="optionLugar.sucursal_id"
                         @change="detectaCambioLugar"
                     >
@@ -198,7 +259,20 @@ onBeforeUnmount(() => {
                         width="100%"
                         class="table table-striped table-bordered align-middle text-nowrap tabla_datos"
                     >
-                        <thead></thead>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th width="5%"></th>
+                            </tr>
+                        </thead>
                         <tbody></tbody>
                     </table>
                 </div>
@@ -207,4 +281,11 @@ onBeforeUnmount(() => {
             <!-- END panel -->
         </div>
     </div>
+    <ProductoBarras
+        :open_dialog="open_dialog"
+        :accion_dialog="accion_dialog"
+        :listProductosCodigo="listProductosCodigo"
+        @envio-formulario="updateDatatable"
+        @cerrar-dialog="open_dialog = false"
+    ></ProductoBarras>
 </template>
