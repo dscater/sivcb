@@ -90,7 +90,7 @@ class DistribucionProductoController extends Controller
                 // registrar kardex EGRESO Almacén
                 KardexProducto::registroEgreso("ALMACÉN", "DISTRIBUCIÓN", $producto_barra->id, $producto_barra->producto, 1, $producto_barra->producto->precio, "DISTRIBUCIÓN DE PRODUCTO");
                 // registrar kardex INGRESO Sucursal
-                KardexProducto::registroIngreso("SUCURSAL", "DISTRIBUCIÓN", $producto_barra->id, $producto_barra->producto, 1, $producto_barra->producto->precio, "INGRESO POR DISTRIBUCIÓN", $nueva_distribucion->sucursal_id);
+                KardexProducto::registroIngreso("SUCURSAL", "DISTRIBUCIÓN", $producto_barra->id, $producto_barra->producto, 1, $producto_barra->producto->precio, "INGRESO POR DISTRIBUCIÓN DESDE ALMACÉN", $nueva_distribucion->sucursal_id);
             }
 
             $datos_original = HistorialAccion::getDetalleRegistro($nueva_distribucion, "distribucion_productos");
@@ -167,7 +167,7 @@ class DistribucionProductoController extends Controller
                     // registrar kardex EGRESO Almacén
                     KardexProducto::registroEgreso("ALMACÉN", "DISTRIBUCIÓN", $producto_barra->id, $producto_barra->producto, 1, $producto_barra->producto->precio, "DISTRIBUCIÓN DE PRODUCTO");
                     // registrar kardex INGRESO Sucursal
-                    KardexProducto::registroIngreso("SUCURSAL", "DISTRIBUCIÓN", $producto_barra->id, $producto_barra->producto, 1, $producto_barra->producto->precio, "INGRESO POR DISTRIBUCIÓN", $distribucion_producto->sucursal_id);
+                    KardexProducto::registroIngreso("SUCURSAL", "DISTRIBUCIÓN", $producto_barra->id, $producto_barra->producto, 1, $producto_barra->producto->precio, "INGRESO POR DISTRIBUCIÓN DESDE ALMACÉN", $distribucion_producto->sucursal_id);
                 }
             }
             $datos_nuevo = HistorialAccion::getDetalleRegistro($distribucion_producto, "distribucion_productos");
