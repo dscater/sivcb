@@ -289,7 +289,7 @@ onBeforeUnmount(() => {
                         <i class="fa fa-plus"></i> Nuevo
                     </button>
                     <Link
-                        v-if="user.tipo != 'OPERADOR'"
+                        v-if="user.tipo == 'ADMINISTRADOR'"
                         :href="route('productos.stock_productos')"
                         class="btn btn-warning mt-1"
                         ><i class="fa fa-list"></i> Stock productos</Link
