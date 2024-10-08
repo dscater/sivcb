@@ -23,6 +23,7 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 import PanelToolbar from "@/Components/PanelToolbar.vue";
 // import { useMenu } from "@/composables/useMenu";
 import Formulario from "./Formulario.vue";
+import ProductoBarras from "./ProductoBarras.vue";
 // const { mobile, identificaDispositivo } = useMenu();
 
 const { flash, auth } = usePage().props;
@@ -139,6 +140,12 @@ if (user.value.tipo != "ADMINISTRADOR") {
             data: null,
             render: function (data, type, row) {
                 let buttons = ``;
+                if (user.value.tipo != "ADMINISTRADOR") {
+                    buttons += `
+                        <button class="mx-0 rounded-0 btn btn-primary codigos" data-id="${row.id}"><i class="fa fa-list-alt"></i></button>
+                    `;
+                }
+
                 if (user.value.permisos.includes("productos.edit")) {
                     buttons += `<button class="mx-0 rounded-0 btn btn-warning editar" data-id="${row.id}"><i class="fa fa-edit"></i></button>`;
                 }
@@ -161,7 +168,9 @@ if (user.value.tipo != "ADMINISTRADOR") {
 const loading = ref(true);
 const accion_dialog = ref(0);
 const open_dialog = ref(false);
-
+const accion_dialog_barra = ref(0);
+const open_dialog_barra = ref(false);
+const listProductosCodigo = ref([]);
 const agregarRegistro = () => {
     limpiarProducto();
     accion_dialog.value = 0;
@@ -169,6 +178,25 @@ const agregarRegistro = () => {
 };
 
 const accionesRow = () => {
+    // codigos
+    $("#table-producto").on("click", "button.codigos", function (e) {
+        e.preventDefault();
+        let id = $(this).attr("data-id");
+        if (user.value.tipo != "ADMINISTRADOR") {
+            axios
+                .get(route("producto_barras.getByProductoSucursalAlmacen"), {
+                    params: {
+                        producto_id: id,
+                        lugar: "SUCURSAL",
+                        sucursal_id: user.value.sucursal_id,
+                    },
+                })
+                .then((response) => {
+                    listProductosCodigo.value = response.data;
+                    open_dialog_barra.value = true;
+                });
+        }
+    });
     // editar
     $("#table-producto").on("click", "button.editar", function (e) {
         e.preventDefault();
@@ -324,4 +352,12 @@ onBeforeUnmount(() => {
         @envio-formulario="updateDatatable"
         @cerrar-dialog="open_dialog = false"
     ></Formulario>
+
+    <ProductoBarras
+        :open_dialog="open_dialog_barra"
+        :accion_dialog="accion_dialog_barra"
+        :listProductosCodigo="listProductosCodigo"
+        @envio-formulario="updateDatatable"
+        @cerrar-dialog="open_dialog_barra = false"
+    ></ProductoBarras>
 </template>
