@@ -76,10 +76,10 @@
                                                     <td class="centreado">
                                                         PRODUCTO
                                                     </td>
-                                                    <td class="centreado">
+                                                    <td class="centreado" style="min-width: 1cm">
                                                         P/U
                                                     </td>
-                                                    <td class="centreado">
+                                                    <td class="centreado" style="min-width: 1.4cm">
                                                         SUBTOTAL
                                                     </td>
                                                 </tr>
@@ -289,12 +289,12 @@ export default {
                 <style>
                     @page { margin: 0;}
                     #principal{
-                        width: 4.5cm !important;
+                        width: 6.5cm !important;
                     }
 
                     #contenedor_imprimir {
                         font-size: 8pt;
-                        width: 4.5cm !important;
+                        width: 6.5cm !important;
                         padding-top: 15px;
                         padding-bottom: 15px;
                         font-family: 'Times New Roman', Times, serif;
