@@ -112,6 +112,8 @@ class IngresoProductoController extends Controller
         $request->validate($this->validacion, $this->mensajes);
         DB::beginTransaction();
         try {
+            // $producto_barras = json_decode($request->producto_barras, true);
+
             if (Auth::user()->tipo == 'ADMINISTRADOR') {
                 $request["origen"] = "ADMIN";
             } else {
@@ -165,7 +167,7 @@ class IngresoProductoController extends Controller
                     unset($data_barras["sucursal_id"]);
                 }
                 if ($item["id"] == 0) {
-                    $nuevo_ingreso_producto->producto_barras()->create($data_barras);
+                    ProductoBarra::create($data_barras);
                 }
             }
 
@@ -199,11 +201,34 @@ class IngresoProductoController extends Controller
 
     public function show(IngresoProducto $ingreso_producto)
     {
-        return response()->JSON($ingreso_producto->load(["producto", "proveedor", "tipo_ingreso", "producto_barras"]));
+        $ingreso_producto->load(["producto", "proveedor", "tipo_ingreso"]);
+        $producto_barras = ProductoBarra::select(
+            "id",
+            "producto_id",
+            "codigo",
+            "lugar",
+            "sucursal_id",
+            "ingreso_id",
+            "salida_id",
+            "venta_id",
+            "venta_detalle_id",
+            "distribucion_id",
+        )->where("ingreso_id", $ingreso_producto->id)->get();
+        $producto_barras->each(function ($pb) {
+            $pb->unsetRelation('producto');   // elimina la relación si está cargada
+            $pb->makeHidden(['producto']);    // oculta la clave al serializar
+        });
+        $ingreso_producto->setRelation("producto_barras", $producto_barras);
+
+        $ingreso_producto->producto->setAppends([]);
+
+        return response()->json($ingreso_producto);
     }
 
     public function update(IngresoProducto $ingreso_producto, Request $request)
     {
+        set_time_limit(-1);
+
         if ($request->lugar == 'SUCURSAL') {
             if (Auth::user()->tipo == 'ADMINISTRADOR') {
                 $this->validacion["sucursal_id"] = "required";
@@ -217,6 +242,9 @@ class IngresoProductoController extends Controller
             unset($ingreso_producto->producto);
             unset($ingreso_producto->sucursal);
             unset($ingreso_producto->proveedor);
+            // $producto_barras = json_decode($request->producto_barras, true);
+            // $eliminados = json_decode($request->eliminados, true);
+
             // descontar el stock
             if ($ingreso_producto->lugar == 'SUCURSAL') {
                 Producto::decrementarStock($ingreso_producto->producto, $ingreso_producto->cantidad, $ingreso_producto->lugar, $ingreso_producto->sucursal_id);
@@ -274,7 +302,7 @@ class IngresoProductoController extends Controller
                     unset($data_barras["sucursal_id"]);
                 }
                 if ($item["id"] == 0) {
-                    $ingreso_producto->producto_barras()->create($data_barras);
+                    ProductoBarra::create($data_barras);
                 } else {
                     $producto_barra = ProductoBarra::find($item["id"]);
                     $producto_barra->lugar = $ingreso_producto->lugar;

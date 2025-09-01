@@ -60,4 +60,12 @@ class IngresoProducto extends Model
     {
         return $this->hasMany(ProductoBarra::class, 'ingreso_id');
     }
+
+    public function withoutProducto()
+    {
+        $this->unsetRelation('producto');  // elimina la relación si estaba cargada
+        $this->setAppends([]);             // opcional, elimina cualquier append que pueda usar producto
+        $this->makeHidden(['producto']);   // oculta la clave al serializar
+        return $this;                      // retorna el mismo modelo
+    }
 }

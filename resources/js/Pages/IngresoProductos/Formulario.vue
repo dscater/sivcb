@@ -66,12 +66,26 @@ const tituloDialog = computed(() => {
 const enviarFormulario = () => {
     let url =
         form["_method"] == "POST"
-            ? route("ingreso_productos.store")
-            : route("ingreso_productos.update", form.id);
+            ? route("ingreso_productos.store") + "?_ts=" + Date.now()
+            : route("ingreso_productos.update", form.id) + "?_ts=" + Date.now();
 
     form.post(url, {
         preserveScroll: true,
-        forceFormData: true,
+        forceFormData: false,
+        data: {
+            productos: JSON.stringify(form.producto_barras),
+            _method: form["_method"],
+            producto_id: form.producto_id,
+            proveedor_id: form.proveedor_id,
+            precio: form.precio,
+            cantidad: form.cantidad,
+            tipo_ingreso_id: form.tipo_ingreso_id,
+            descripcion: form.descripcion,
+            lugar: form.lugar,
+            sucursal_id: form.sucursal_id,
+            fecha_ingreso: form.fecha_ingreso,
+            eliminados: JSON.stringify(form.eliminados),
+        },
         onSuccess: () => {
             dialog.value = false;
             Swal.fire({
