@@ -224,24 +224,26 @@ onMounted(() => {});
                                         v-if="accion_dialog == 0"
                                     >
                                         <label>Seleccionar Producto*</label>
-                                        <select
-                                            class="form-select"
+                                        <el-select
+                                            class="w-100"
                                             :class="{
                                                 'parsley-error':
                                                     form.errors?.producto_id,
                                             }"
                                             v-model="form.producto_id"
+                                            filterable
+                                            placeholder="- Seleccione -"
+                                            no-data-text="Sin datos"
+                                            no-match-text="No se encontró el registro"
                                         >
-                                            <option value="">
-                                                - Seleccione -
-                                            </option>
-                                            <option
+                                            <el-option
                                                 v-for="item in listProductos"
                                                 :value="item.id"
+                                                :key="item.id"
+                                                :label="item.nombre"
                                             >
-                                                {{ item.nombre }}
-                                            </option>
-                                        </select>
+                                            </el-option>
+                                        </el-select>
                                         <ul
                                             v-if="form.errors?.producto_id"
                                             class="parsley-errors-list filled"

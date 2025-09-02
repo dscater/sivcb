@@ -10,6 +10,10 @@ import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import "vue-multiselect/dist/vue-multiselect.css";
 import Multiselect from "vue-multiselect";
 
+// Element-UI plus
+import ElementPlus from "element-plus";
+import "element-plus/dist/index.css";
+
 // sweetalert2
 import Swal from "sweetalert2";
 window.Swal = Swal;
@@ -49,6 +53,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .use(pinia)
+            .use(ElementPlus)
             .component("multiselect", Multiselect)
             .mount(el);
     },

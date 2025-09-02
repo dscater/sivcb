@@ -291,25 +291,30 @@ onMounted(() => {
                                     </div>
                                     <div class="col-12">
                                         <label>Seleccionar Cliente*</label>
-                                        <select
-                                            class="form-select"
+                                        <el-select
+                                            class="w-100"
                                             :class="{
                                                 'parsley-error':
                                                     form.errors?.cliente_id,
                                             }"
                                             v-model="form.cliente_id"
+                                            placeholder="- Seleccione -"
+                                            filterable
+                                            no-data-text="Sin datos"
+                                            no-match-text="No se encontró el registro"
                                         >
-                                            <option value="">
-                                                - Seleccione -
-                                            </option>
-                                            <option
+                                            <el-option
                                                 v-for="item in listClientes"
                                                 :value="item.id"
+                                                :key="item.id"
+                                                :label="
+                                                    item.nombre +
+                                                    ' | ' +
+                                                    item.ci
+                                                "
                                             >
-                                                {{ item.nombre }} |
-                                                {{ item.ci }}
-                                            </option>
-                                        </select>
+                                            </el-option>
+                                        </el-select>
                                         <ul
                                             v-if="form.errors?.cliente_id"
                                             class="parsley-errors-list filled"
