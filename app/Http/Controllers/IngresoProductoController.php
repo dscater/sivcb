@@ -7,6 +7,7 @@ use App\Models\IngresoProducto;
 use App\Models\KardexProducto;
 use App\Models\Producto;
 use App\Models\ProductoBarra;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,6 +64,11 @@ class IngresoProductoController extends Controller
 
     public function api(Request $request)
     {
+        $length = (int)$request->input('length', 10); // Valor de `length` enviado por DataTable
+        $start = (int)$request->input('start', 0); // Índice de inicio enviado por DataTable
+        $page = (int)(($start / $length) + 1); // Cálculo de la página actual
+        $search = (string)$request->input('search', '');
+
         $ingreso_productos = IngresoProducto::with(["producto", "proveedor", "tipo_ingreso", "producto_barras", "sucursal"])->select("ingreso_productos.*");
         if (Auth::user()->tipo != 'ADMINISTRADOR') {
             $ingreso_productos->where("sucursal_id", Auth::user()->sucursal_id);
@@ -71,8 +77,59 @@ class IngresoProductoController extends Controller
             //     $ingreso_productos->orWhere("sucursal_id", nulL);
             // }
         }
-        $ingreso_productos = $ingreso_productos->get();
-        return response()->JSON(["data" => $ingreso_productos]);
+
+        if ($search && trim($search) != '') {
+
+            // Detectar si el texto parece una fecha (ej: 12/10/2025 o 12-10-2025)
+            $fecha = null;
+            if (preg_match('/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/', trim($search), $matches)) {
+                try {
+                    $fecha = Carbon::createFromFormat('d/m/Y', str_replace('-', '/', $search))->format('Y-m-d');
+                } catch (\Exception $e) {
+                    // Si falla el formato anterior, intentar con d-m-Y
+                    try {
+                        $fecha = Carbon::createFromFormat('d-m-Y', $search)->format('Y-m-d');
+                    } catch (\Exception $e2) {
+                        $fecha = null;
+                    }
+                }
+            }
+
+            $ingreso_productos->where(function ($query) use ($search, $fecha) {
+                $query->where("descripcion", "LIKE", "%$search%")
+                    ->orWhere("lugar", "LIKE", "%$search%")
+                    ->orWhere("precio", "LIKE", "%$search%")
+                    ->orWhere("cantidad", "LIKE", "%$search%")
+                    ->orWhereHas("proveedor", function ($q) use ($search) {
+                        $q->where("razon_social", "LIKE", "%$search%");
+                    })
+                    ->orWhereHas("producto", function ($q) use ($search) {
+                        $q->where("nombre", "LIKE", "%$search%");
+                    })
+                    ->orWhereHas("tipo_ingreso", function ($q) use ($search) {
+                        $q->where("nombre", "LIKE", "%$search%");
+                    })
+                    ->orWhereHas("sucursal", function ($q) use ($search) {
+                        $q->where("nombre", "LIKE", "%$search%");
+                    })
+                    ->orWhereHas("tipo_ingreso", function ($q) use ($search) {
+                        $q->where("nombre", "LIKE", "%$search%");
+                    });
+
+                // Buscar por fecha si es válida
+                if ($fecha) {
+                    $query->orWhereDate('fecha_ingreso', $fecha);
+                    $query->orWhereDate('fecha_registro', $fecha);
+                }
+            });
+        }
+        $ingreso_productos = $ingreso_productos->paginate($length, ['*'], 'page', $page);
+        return response()->JSON([
+            'data' => $ingreso_productos->items(),
+            'recordsTotal' => $ingreso_productos->total(),
+            'recordsFiltered' => $ingreso_productos->total(),
+            'draw' => intval($request->input('draw')),
+        ]);
     }
 
     public function paginado(Request $request)

@@ -18,7 +18,7 @@ const breadbrums = [
 import { useApp } from "@/composables/useApp";
 import { Head, Link } from "@inertiajs/vue3";
 import { useIngresoProductos } from "@/composables/ingreso_productos/useIngresoProductos";
-import { initDataTable } from "@/composables/datatable.js";
+import { initDataTable } from "@/composables/datatable2.js";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import PanelToolbar from "@/Components/PanelToolbar.vue";
 // import { useMenu } from "@/composables/useMenu";
@@ -155,6 +155,8 @@ const accionesRow = () => {
 };
 
 var datatable = null;
+var input_search = null;
+var debounceTimeout = null;
 const datatableInitialized = ref(false);
 const updateDatatable = () => {
     accion_dialog.value = 0;
@@ -167,6 +169,17 @@ onMounted(async () => {
         columns,
         route("ingreso_productos.api")
     );
+    input_search = document.querySelector('input[type="search"]');
+    // Agregar un evento 'keyup' al input de búsqueda con debounce
+    input_search.addEventListener("keyup", () => {
+        loading.value = true;
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(() => {
+            datatable.search(input_search.value).draw(); // Realiza la búsqueda manualmente
+            loading.value = false;
+        }, 500);
+    });
+
     datatableInitialized.value = true;
     accionesRow();
 });
