@@ -55,8 +55,8 @@ const enviarFormulario = () => {
                     flash.error
                         ? flash.error
                         : err.error
-                        ? err.error
-                        : "Hay errores en el formulario"
+                          ? err.error
+                          : "Hay errores en el formulario"
                 }`,
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: `Aceptar`,
@@ -95,7 +95,7 @@ const agregarProducto = () => {
                                 venta_detalle_id: 0,
                             });
                             let index_detalle = verificaVentaDetalle(
-                                producto_barra.producto_id
+                                producto_barra.producto_id,
                             );
                             if (index_detalle < 0) {
                                 form.venta_detalles.push({
@@ -166,7 +166,7 @@ const quitarProducto = (index_detalle) => {
 
     // limpiar los codigos
     let producto_barras_filter = form.producto_barras.filter(
-        (item) => ![producto_id].includes(item.producto_id)
+        (item) => ![producto_id].includes(item.producto_id),
     );
     form.producto_barras = producto_barras_filter;
 
@@ -182,13 +182,13 @@ const quitarProducto = (index_detalle) => {
 const verificaVentaDetalle = (producto_id) => {
     // Encuentra el índice del elemento cuyo código sea igual a cod
     return form.venta_detalles.findIndex(
-        (venta_detalle) => venta_detalle.producto_id === producto_id
+        (venta_detalle) => venta_detalle.producto_id === producto_id,
     );
 };
 const verificaCodigo = (cod) => {
     // Encuentra el índice del elemento cuyo código sea igual a cod
     return form.producto_barras.findIndex(
-        (producto) => producto.codigo === cod
+        (producto) => producto.codigo === cod,
     );
 };
 
@@ -210,6 +210,14 @@ const calculaTotal = () => {
         form.total_final = parseFloat(form.total_final).toFixed(2);
     }
 };
+
+const totalCantidad = computed(() => {
+    let cantidad = 0;
+    form.venta_detalles.forEach((elem, index) => {
+        cantidad += parseFloat(elem.cantidad);
+    });
+    return cantidad;
+});
 
 onMounted(() => {
     cargarListas();
@@ -379,7 +387,7 @@ onMounted(() => {
                                                         class="btn btn-danger btn-sm"
                                                         @click.prevent="
                                                             quitarProducto(
-                                                                index_detalle
+                                                                index_detalle,
                                                             )
                                                         "
                                                     >
@@ -388,6 +396,19 @@ onMounted(() => {
                                                         ></i>
                                                     </button>
                                                 </td>
+                                            </tr>
+                                            <tr
+                                                v-if="
+                                                    form.venta_detalles.length >
+                                                    0
+                                                "
+                                                class="bg-gray-200 font-weight-bold"
+                                            >
+                                                <td colspan="2">TOTALES</td>
+                                                <td>{{ totalCantidad }}</td>
+                                                <td></td>
+                                                <td>{{ form.total }}</td>
+                                                <td></td>
                                             </tr>
                                             <tr
                                                 v-if="
