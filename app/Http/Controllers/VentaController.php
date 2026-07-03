@@ -26,6 +26,7 @@ class VentaController extends Controller
         "total" => "required",
         "descuento" => "required",
         "total_final" => "required",
+        "tipo_pago" => "required",
     ];
 
     public $mensajes = [
@@ -34,6 +35,7 @@ class VentaController extends Controller
         "total.required" => "Este campo es obligatorio",
         "descuento.required" => "Este campo es obligatorio",
         "total_final.required" => "Este campo es obligatorio",
+        "tipo_pago.required" => "Este campo es obligatorio",
     ];
 
     public function index()
@@ -107,6 +109,7 @@ class VentaController extends Controller
                 "total" => $request->total,
                 "descuento" => $request->descuento,
                 "total_final" => $request->total_final,
+                "tipo_pago" => $request->tipo_pago,
                 "fecha_registro" => $request->fecha_registro,
             ];
 
@@ -232,6 +235,7 @@ class VentaController extends Controller
                 "total" => $request->total,
                 "descuento" => $request->descuento,
                 "total_final" => $request->total_final,
+                "tipo_pago" => $request->tipo_pago,
             ];
             $venta->update($datos_venta);
 

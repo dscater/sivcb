@@ -244,11 +244,12 @@
             <table border="1">
                 <thead>
                     <tr>
-                        <td class="centreado" colspan="7"><strong>VENTAS DE {{ $registro->nombre }}</strong></td>
+                        <td class="centreado" colspan="8"><strong>VENTAS DE {{ $registro->nombre }}</strong></td>
                     </tr>
                     <tr>
                         <th width="9%">FECHA</th>
                         <th>NRO. ORDEN</th>
+                        <th>PAGO</th>
                         <th>CLIENTE</th>
                         <th>CANTIDAD</th>
                         <th>DESCUENTO (1-100%)</th>
@@ -267,6 +268,7 @@
                             <tr>
                                 <td>{{ date('d-m-Y', strtotime($value->venta->fecha_registro_t)) }}</td>
                                 <td>{{ $value->venta->nro_orden }}</td>
+                                <td>{{ $value->venta->tipo_pago }}</td>
                                 <td>{{ $value->venta->cliente->nombre }}<br />{{ $value->venta->nit }}</td>
                                 <td class="centreado">{{ $value->cantidad }}</td>
                                 <td class="centreado">{{ $value->venta->descuento }}</td>
@@ -283,7 +285,7 @@
                             </tr>
                         @endforeach
                         <tr class="bg-principal">
-                            <td colspan="3" class="bold derecha text-md">TOTALES</td>
+                            <td colspan="4" class="bold derecha text-md">TOTALES</td>
                             <td class="centreado bold text-md">{{ $total_c }}</td>
                             <td></td>
                             <td class="centreado bold text-md">{{ number_format($total_sub, 2, '.', ',') }}</td>
@@ -291,7 +293,7 @@
                         </tr>
                     @else
                         <tr>
-                            <td colspan="7" class="centreado">NO SE ENCONTRARON REGISTROS</td>
+                            <td colspan="8" class="centreado">NO SE ENCONTRARON REGISTROS</td>
                         </tr>
                     @endif
                 </tbody>

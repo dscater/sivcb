@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal("total", 24, 2);
             $table->double("descuento", 8, 2);
             $table->decimal("total_final", 24, 2);
+            $table->string("tipo_pago");
             $table->date("fecha_registro");
             $table->timestamps();
         });

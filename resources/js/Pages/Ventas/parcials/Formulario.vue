@@ -219,6 +219,19 @@ const totalCantidad = computed(() => {
     return cantidad;
 });
 
+const listTipoPagos = ref([
+    {
+        value: "EFECTIVO",
+        label: "Efectivo",
+        icon: "fa fa-money-bill-wave",
+    },
+    {
+        value: "QR",
+        label: "QR",
+        icon: "fa fa-qrcode",
+    },
+]);
+
 onMounted(() => {
     cargarListas();
     if (user.value.tipo != "ADMINISTRADOR") {
@@ -491,6 +504,18 @@ onMounted(() => {
                                             {{ form.errors?.total_final }}
                                         </li>
                                     </ul>
+                                </div>
+
+                                <div class="col-12">
+                                    <el-radio-group v-model="form.tipo_pago">
+                                        <el-radio
+                                            v-for="item in listTipoPagos"
+                                            :value="item.value"
+                                            size="large"
+                                            ><i :class="item.icon"></i>
+                                            {{ item.label }}</el-radio
+                                        >
+                                    </el-radio-group>
                                 </div>
                                 <div class="col-12">
                                     <button class="btn btn-primary w-100 mt-2">

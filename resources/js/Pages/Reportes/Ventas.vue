@@ -63,6 +63,20 @@ const listCategorias = ref([]);
 const listMarcas = ref([]);
 const listUnidadMedidas = ref([]);
 const listSucursals = ref([]);
+const listTipoPagos = ref([
+    {
+        value: "todos",
+        label: "TODOS",
+    },
+    {
+        value: "EFECTIVO",
+        label: "EFECTIVO",
+    },
+    {
+        value: "QR",
+        label: "QR",
+    },
+]);
 
 const cargarProductos = async () => {
     listProductos.value = await getProductos();
@@ -116,6 +130,7 @@ const form = ref({
         user.value.tipo == "ADMINISTRADOR" ? "todos" : user.value.sucursal_id,
     fecha_ini: "",
     fecha_fin: "",
+    tipo_pago: "todos",
 });
 
 const generando = ref(false);
@@ -188,7 +203,7 @@ const generarReporteG = () => {
                                         this.y,
                                         2,
                                         ".",
-                                        ","
+                                        ",",
                                     );
                                 } else {
                                     return this.y;
@@ -297,7 +312,10 @@ const generarReporteG = () => {
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-12" v-if="user.tipo == 'ADMINISTRADOR'">
+                            <div
+                                class="col-12"
+                                v-if="user.tipo == 'ADMINISTRADOR'"
+                            >
                                 <label>Seleccionar Sucursal*</label>
                                 <select
                                     class="form-select"
@@ -312,6 +330,23 @@ const generarReporteG = () => {
                                         :value="item.id"
                                     >
                                         {{ item.nombre }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label>Tipo de Pago*</label>
+                                <select
+                                    class="form-select"
+                                    :class="{
+                                        'parsley-error': form.errors?.tipo_pago,
+                                    }"
+                                    v-model="form.tipo_pago"
+                                >
+                                    <option
+                                        v-for="item in listTipoPagos"
+                                        :value="item.value"
+                                    >
+                                        {{ item.label }}
                                     </option>
                                 </select>
                             </div>

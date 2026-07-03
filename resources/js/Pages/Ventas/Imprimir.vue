@@ -62,6 +62,8 @@
                                             <br />
                                             Usu: {{ oVenta.user?.usuario }}
                                             <br />
+                                            Pago: {{ oVenta.tipo_pago }}
+                                            <br />
                                         </div>
                                         <div class="elemento bold">DETALLE</div>
                                         <div class="cobro">
@@ -76,10 +78,16 @@
                                                     <td class="centreado">
                                                         PRODUCTO
                                                     </td>
-                                                    <td class="centreado" style="min-width: 1cm">
+                                                    <td
+                                                        class="centreado"
+                                                        style="min-width: 1cm"
+                                                    >
                                                         P/U
                                                     </td>
-                                                    <td class="centreado" style="min-width: 1.4cm">
+                                                    <td
+                                                        class="centreado"
+                                                        style="min-width: 1.4cm"
+                                                    >
                                                         SUBTOTAL
                                                     </td>
                                                 </tr>
@@ -424,7 +432,7 @@ export default {
                         font-size: 8pt !important;
                     }
                 </style>
-                `
+                `,
             );
             a.document.write("</head>");
             a.document.write("<body >");

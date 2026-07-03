@@ -224,6 +224,7 @@ class ReporteController extends Controller
         $marca_id = $request->marca_id;
         $unidad_medida_id = $request->unidad_medida_id;
         $sucursal_id = $request->sucursal_id;
+        $tipo_pago = $request->tipo_pago;
         $fecha_ini = $request->fecha_ini;
         $fecha_fin = $request->fecha_fin;
 
@@ -276,6 +277,9 @@ class ReporteController extends Controller
                 if ($fecha_ini && $fecha_fin) {
                     $venta_detalles->whereBetween("ventas.fecha_registro", [$fecha_ini, $fecha_fin]);
                 }
+                if ($tipo_pago != 'todos') {
+                    $venta_detalles->where("ventas.tipo_pago", $tipo_pago);
+                }
                 $venta_detalles  = $venta_detalles->get();
                 $array_ventas[$registro->id] = $venta_detalles;
             }
@@ -302,6 +306,7 @@ class ReporteController extends Controller
         $marca_id = $request->marca_id;
         $unidad_medida_id = $request->unidad_medida_id;
         $sucursal_id = $request->sucursal_id;
+        $tipo_pago = $request->tipo_pago;
         $fecha_ini = $request->fecha_ini;
         $fecha_fin = $request->fecha_fin;
 
@@ -360,6 +365,11 @@ class ReporteController extends Controller
             if ($fecha_ini && $fecha_fin) {
                 $venta_detalles->whereBetween("ventas.fecha_registro", [$fecha_ini, $fecha_fin]);
             }
+
+            if ($tipo_pago != 'todos') {
+                $venta_detalles->where("ventas.tipo_pago", $tipo_pago);
+            }
+
             $venta_detalles_c  = $venta_detalles->sum("cantidad");
             $venta_detalles_m  = $venta_detalles->sum("subtotaltotal");
             $series[0]["data"][] = (float)$venta_detalles_c;

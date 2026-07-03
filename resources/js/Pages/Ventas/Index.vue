@@ -69,6 +69,14 @@ const columns = [
         data: "total_final",
     },
     {
+        title: "TOTAL FINAL",
+        data: "total_final",
+    },
+    {
+        title: "TIPO DE PAGO",
+        data: "tipo_pago",
+    },
+    {
         title: "FECHA",
         data: "fecha_registro_t",
     },
@@ -87,7 +95,7 @@ const columns = [
                 } | ${row.cliente.nombre} | ${row.total_final}"
                  data-url="${route(
                      "ventas.destroy",
-                     row.id
+                     row.id,
                  )}"><i class="fa fa-trash"></i></button>`;
             }
 

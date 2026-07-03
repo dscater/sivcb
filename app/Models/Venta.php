@@ -18,6 +18,7 @@ class Venta extends Model
         "total",
         "descuento",
         "total_final",
+        "tipo_pago",
         "fecha_registro",
     ];
 

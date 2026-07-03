@@ -11,6 +11,7 @@ const oVenta = reactive({
     total: "",
     descuento: 0,
     total_final: "",
+    tipo_pago: "EFECTIVO",
     producto_barras: reactive([]),
     venta_detalles: reactive([]),
     eliminados: reactive([]),
@@ -33,8 +34,8 @@ export const useVentas = () => {
                     flash.error
                         ? flash.error
                         : err.response?.data
-                        ? err.response?.data?.message
-                        : "Hay errores en el formulario"
+                          ? err.response?.data?.message
+                          : "Hay errores en el formulario"
                 }`,
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: `Aceptar`,
@@ -70,8 +71,8 @@ export const useVentas = () => {
                     flash.error
                         ? flash.error
                         : err.response?.data
-                        ? err.response?.data?.message
-                        : "Hay errores en el formulario"
+                          ? err.response?.data?.message
+                          : "Hay errores en el formulario"
                 }`,
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: `Aceptar`,
@@ -100,8 +101,8 @@ export const useVentas = () => {
                     flash.error
                         ? flash.error
                         : err.response?.data
-                        ? err.response?.data?.message
-                        : "Hay errores en el formulario"
+                          ? err.response?.data?.message
+                          : "Hay errores en el formulario"
                 }`,
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: `Aceptar`,
@@ -131,8 +132,8 @@ export const useVentas = () => {
                     flash.error
                         ? flash.error
                         : err.response?.data
-                        ? err.response?.data?.message
-                        : "Hay errores en el formulario"
+                          ? err.response?.data?.message
+                          : "Hay errores en el formulario"
                 }`,
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: `Aceptar`,
@@ -151,6 +152,7 @@ export const useVentas = () => {
             oVenta.total = item.total;
             oVenta.descuento = item.descuento;
             oVenta.total_final = item.total_final;
+            oVenta.tipo_pago = item.tipo_pago || "EFECTIVO";
             oVenta.producto_barras = [...item.producto_barras];
             oVenta.venta_detalles = [...item.venta_detalles];
             oVenta._method = "PUT";
@@ -171,6 +173,7 @@ export const useVentas = () => {
         oVenta.total = "";
         oVenta.descuento = 0;
         oVenta.total_final = "";
+        oVenta.tipo_pago = "EFECTIVO";
         oVenta.producto_barras = [];
         oVenta.venta_detalles = [];
         oVenta.eliminados = [];
