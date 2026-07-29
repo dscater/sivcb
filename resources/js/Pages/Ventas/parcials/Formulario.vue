@@ -24,8 +24,9 @@ const listSucursals = ref([]);
 const tituloDialog = computed(() => {
     return oVenta.id == 0 ? `Agregar Venta` : `Editar Venta`;
 });
-
+const enviando = ref(false);
 const enviarFormulario = () => {
+    enviando.value = true;
     let url =
         form["_method"] == "POST"
             ? route("ventas.store")
@@ -61,6 +62,9 @@ const enviarFormulario = () => {
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: `Aceptar`,
             });
+        },
+        onFinish: () => {
+            enviando.value = false;
         },
     });
 };
@@ -518,7 +522,10 @@ onMounted(() => {
                                     </el-radio-group>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-primary w-100 mt-2">
+                                    <button
+                                        class="btn btn-primary w-100 mt-2"
+                                        :disabled="enviando"
+                                    >
                                         <i class="fa fa-save"></i> Guardar
                                     </button>
                                 </div>
