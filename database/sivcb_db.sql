@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 03-07-2026 a las 18:34:28
+-- Tiempo de generación: 19-08-2026 a las 23:31:44
 -- Versión del servidor: 8.0.30
 -- Versión de PHP: 8.2.22
 
@@ -40,7 +40,8 @@ CREATE TABLE `almacen_productos` (
 --
 
 INSERT INTO `almacen_productos` (`id`, `producto_id`, `stock_actual`, `created_at`, `updated_at`) VALUES
-(1, 1, 205, '2024-10-04 02:36:35', '2025-11-06 23:39:03');
+(1, 1, 211, '2024-10-04 02:36:35', '2026-08-19 23:31:25'),
+(2, 2, 8, '2026-08-19 23:26:13', '2026-08-19 23:27:19');
 
 -- --------------------------------------------------------
 
@@ -50,7 +51,7 @@ INSERT INTO `almacen_productos` (`id`, `producto_id`, `stock_actual`, `created_a
 
 CREATE TABLE `categorias` (
   `id` bigint UNSIGNED NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -72,11 +73,11 @@ INSERT INTO `categorias` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
 CREATE TABLE `clientes` (
   `id` bigint UNSIGNED NOT NULL,
   `sucursal_id` bigint UNSIGNED DEFAULT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `ci` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fono` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `correo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `dir` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fono` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `correo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fecha_registro` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -90,7 +91,8 @@ INSERT INTO `clientes` (`id`, `sucursal_id`, `nombre`, `ci`, `fono`, `correo`, `
 (1, NULL, 'FELIPE GONZALES', '1122', '77777777', 'FELIPE@GMAIL.COM', 'ZONA LOS OLIVOS C.11 #322', '2024-09-30', '2024-09-30 20:47:02', '2024-09-30 20:47:02'),
 (2, NULL, 'JESUS RAMIRES', '0', '78787878', '', '', '2024-09-30', '2024-09-30 20:48:50', '2024-09-30 20:48:50'),
 (3, NULL, 'MARIA MAMANI', '3333', '67676767', '', '', '2024-09-30', '2024-09-30 20:52:02', '2024-09-30 20:52:02'),
-(4, 1, 'RAMIRO CONDORI', '22222', '77777', 'RAMIRO@GMAIL.COM', 'ZONA LOS OLIVOS', '2024-10-03', '2024-10-03 20:54:30', '2024-10-03 20:54:30');
+(4, 1, 'RAMIRO CONDORI', '22222', '77777', 'RAMIRO@GMAIL.COM', 'ZONA LOS OLIVOS', '2024-10-03', '2024-10-03 20:54:30', '2024-10-03 20:54:30'),
+(5, NULL, 'EDUARDO', '5345334435', '54545', '', '', '2026-07-03', '2026-07-03 18:43:25', '2026-07-03 18:43:25');
 
 -- --------------------------------------------------------
 
@@ -100,17 +102,17 @@ INSERT INTO `clientes` (`id`, `sucursal_id`, `nombre`, `ci`, `fono`, `correo`, `
 
 CREATE TABLE `configuracions` (
   `id` bigint UNSIGNED NOT NULL,
-  `nombre_sistema` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alias` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `razon_social` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nit` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ciudad` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `dir` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `fono` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `web` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `actividad` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `correo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre_sistema` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alias` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `razon_social` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ciudad` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fono` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `web` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `actividad` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `correo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -141,7 +143,8 @@ CREATE TABLE `distribucion_productos` (
 --
 
 INSERT INTO `distribucion_productos` (`id`, `sucursal_id`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(2, 1, '2024-10-03', '2024-10-04 02:43:02', '2024-10-04 02:43:02');
+(2, 1, '2024-10-03', '2024-10-04 02:43:02', '2024-10-04 02:43:02'),
+(3, 1, '2026-08-19', '2026-08-19 23:27:19', '2026-08-19 23:27:19');
 
 -- --------------------------------------------------------
 
@@ -152,11 +155,11 @@ INSERT INTO `distribucion_productos` (`id`, `sucursal_id`, `fecha_registro`, `cr
 CREATE TABLE `historial_accions` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
-  `accion` varchar(155) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descripcion` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `datos_original` text COLLATE utf8mb4_unicode_ci,
-  `datos_nuevo` text COLLATE utf8mb4_unicode_ci,
-  `modulo` varchar(155) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `accion` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `datos_original` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `datos_nuevo` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `modulo` varchar(155) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fecha` date NOT NULL,
   `hora` time NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -192,7 +195,19 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 (22, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN INGRESO DE PRODUCTO', 'id: 1<br/>origen: ADMIN<br/>producto_id: 1<br/>proveedor_id: 1<br/>precio: 3000.00<br/>cantidad: 93<br/>tipo_ingreso_id: 1<br/>descripcion: INGRESO INICIAL ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_ingreso: 2024-10-03<br/>fecha_registro: 2024-10-03<br/>created_at: 2024-10-03 22:36:35<br/>updated_at: 2025-09-01 19:47:57<br/>', 'id: 1<br/>origen: ADMIN<br/>producto_id: 1<br/>proveedor_id: 1<br/>precio: 3000.00<br/>cantidad: 121<br/>tipo_ingreso_id: 1<br/>descripcion: INGRESO INICIAL ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_ingreso: 2024-10-03<br/>fecha_registro: 2024-10-03<br/>created_at: 2024-10-03 22:36:35<br/>updated_at: 2025-09-01 19:48:24<br/>', 'INGRESO DE PRODUCTOS', '2025-09-01', '19:48:24', '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
 (23, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN INGRESO DE PRODUCTO', 'id: 1<br/>origen: ADMIN<br/>producto_id: 1<br/>proveedor_id: 1<br/>precio: 3000.00<br/>cantidad: 121<br/>tipo_ingreso_id: 1<br/>descripcion: INGRESO INICIAL ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_ingreso: 2024-10-03<br/>fecha_registro: 2024-10-03<br/>created_at: 2024-10-03 22:36:35<br/>updated_at: 2025-09-01 19:48:24<br/>', 'id: 1<br/>origen: ADMIN<br/>producto_id: 1<br/>proveedor_id: 1<br/>precio: 3000.00<br/>cantidad: 165<br/>tipo_ingreso_id: 1<br/>descripcion: INGRESO INICIAL ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_ingreso: 2024-10-03<br/>fecha_registro: 2024-10-03<br/>created_at: 2024-10-03 22:36:35<br/>updated_at: 2025-09-01 19:48:53<br/>', 'INGRESO DE PRODUCTOS', '2025-09-01', '19:48:53', '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
 (24, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN INGRESO DE PRODUCTO', 'id: 1<br/>origen: ADMIN<br/>producto_id: 1<br/>proveedor_id: 1<br/>precio: 3000.00<br/>cantidad: 165<br/>tipo_ingreso_id: 1<br/>descripcion: INGRESO INICIAL ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_ingreso: 2024-10-03<br/>fecha_registro: 2024-10-03<br/>created_at: 2024-10-03 22:36:35<br/>updated_at: 2025-09-01 19:48:53<br/>', 'id: 1<br/>origen: ADMIN<br/>producto_id: 1<br/>proveedor_id: 1<br/>precio: 3000.00<br/>cantidad: 206<br/>tipo_ingreso_id: 1<br/>descripcion: INGRESO INICIAL ALMACEN<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_ingreso: 2024-10-03<br/>fecha_registro: 2024-10-03<br/>created_at: 2024-10-03 22:36:35<br/>updated_at: 2025-09-01 19:49:30<br/>', 'INGRESO DE PRODUCTOS', '2025-09-01', '19:49:30', '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(25, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTO', 'id: 5<br/>origen: ADMIN<br/>producto_id: 1<br/>proveedor_id: 2<br/>precio: 2000<br/>cantidad: 2<br/>tipo_ingreso_id: 1<br/>descripcion: DESC<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_ingreso: 2025-11-06<br/>fecha_registro: 2025-11-06<br/>created_at: 2025-11-06 19:39:03<br/>updated_at: 2025-11-06 19:39:03<br/>', NULL, 'INGRESO DE PRODUCTOS', '2025-11-06', '19:39:03', '2025-11-06 23:39:03', '2025-11-06 23:39:03');
+(25, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTO', 'id: 5<br/>origen: ADMIN<br/>producto_id: 1<br/>proveedor_id: 2<br/>precio: 2000<br/>cantidad: 2<br/>tipo_ingreso_id: 1<br/>descripcion: DESC<br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_ingreso: 2025-11-06<br/>fecha_registro: 2025-11-06<br/>created_at: 2025-11-06 19:39:03<br/>updated_at: 2025-11-06 19:39:03<br/>', NULL, 'INGRESO DE PRODUCTOS', '2025-11-06', '19:39:03', '2025-11-06 23:39:03', '2025-11-06 23:39:03'),
+(26, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UNA VENTA', 'id: 1<br/>sucursal_id: 1<br/>cliente_id: 4<br/>user_id: 2<br/>nit: 22222<br/>total: 300.00<br/>descuento: 0<br/>total_final: 300.00<br/>tipo_pago: EFECTIVO<br/>fecha_registro: 2024-10-03<br/>created_at: 2024-10-03 22:43:20<br/>updated_at: 2024-10-03 22:43:20<br/>', 'id: 1<br/>sucursal_id: 1<br/>cliente_id: 4<br/>user_id: 2<br/>nit: 22222<br/>total: 300.00<br/>descuento: 0<br/>total_final: 300.00<br/>tipo_pago: QR<br/>fecha_registro: 2024-10-03<br/>created_at: 2024-10-03 22:43:20<br/>updated_at: 2026-07-03 18:38:55<br/>', 'VENTAS', '2026-07-03', '18:38:55', '2026-07-03 22:38:55', '2026-07-03 22:38:55'),
+(27, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA VENTA', 'id: 3<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 150.00<br/>descuento: 0<br/>total_final: 150.00<br/>tipo_pago: EFECTIVO<br/>fecha_registro: 2026-07-03<br/>created_at: 2026-07-03 18:40:17<br/>updated_at: 2026-07-03 18:40:17<br/>', NULL, 'VENTAS', '2026-07-03', '18:40:17', '2026-07-03 22:40:17', '2026-07-03 22:40:17'),
+(28, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN CLIENTE', 'id: 5<br/>sucursal_id: <br/>nombre: EDUARDO<br/>ci: 5345334435<br/>fono: 54545<br/>correo: <br/>dir: <br/>fecha_registro: 2026-07-03<br/>created_at: 2026-07-03 14:43:25<br/>updated_at: 2026-07-03 14:43:25<br/>', NULL, 'CLIENTES', '2026-07-03', '14:43:25', '2026-07-03 18:43:25', '2026-07-03 18:43:25'),
+(29, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA VENTA', 'id: 4<br/>sucursal_id: 1<br/>cliente_id: 2<br/>user_id: 1<br/>nit: 0<br/>total: 150.00<br/>descuento: 0<br/>total_final: 150.00<br/>tipo_pago: EFECTIVO<br/>fecha_registro: 2026-07-03<br/>created_at: 2026-07-03 14:44:37<br/>updated_at: 2026-07-03 14:44:37<br/>', NULL, 'VENTAS', '2026-07-03', '14:44:37', '2026-07-03 18:44:37', '2026-07-03 18:44:37'),
+(30, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTO', 'id: 6<br/>origen: ADMIN<br/>producto_id: 1<br/>proveedor_id: 1<br/>precio: 2550<br/>cantidad: 13<br/>tipo_ingreso_id: 1<br/>descripcion: <br/>lugar: SUCURSAL<br/>sucursal_id: 1<br/>fecha_ingreso: 2026-08-19<br/>fecha_registro: 2026-08-19<br/>created_at: 2026-08-19 19:05:57<br/>updated_at: 2026-08-19 19:05:57<br/>', NULL, 'INGRESO DE PRODUCTOS', '2026-08-19', '19:05:57', '2026-08-19 23:05:57', '2026-08-19 23:05:57'),
+(31, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA VENTA', 'id: 5<br/>sucursal_id: 1<br/>cliente_id: 1<br/>user_id: 1<br/>nit: 1122<br/>total: 1200.00<br/>descuento: 0<br/>total_final: 1200.00<br/>tipo_pago: EFECTIVO<br/>fecha_registro: 2026-08-19<br/>created_at: 2026-08-19 19:06:30<br/>updated_at: 2026-08-19 19:06:30<br/>', NULL, 'VENTAS', '2026-08-19', '19:06:30', '2026-08-19 23:06:30', '2026-08-19 23:06:30'),
+(32, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTO', 'id: 8<br/>origen: ADMIN<br/>producto_id: 1<br/>proveedor_id: 1<br/>precio: 2550<br/>cantidad: 10<br/>tipo_ingreso_id: 1<br/>descripcion: <br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_ingreso: 2026-08-19<br/>fecha_registro: 2026-08-19<br/>created_at: 2026-08-19 19:14:30<br/>updated_at: 2026-08-19 19:14:30<br/>', NULL, 'INGRESO DE PRODUCTOS', '2026-08-19', '19:14:30', '2026-08-19 23:14:30', '2026-08-19 23:14:30'),
+(33, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN INGRESO DE PRODUCTO', 'id: 9<br/>origen: ADMIN<br/>producto_id: 2<br/>proveedor_id: 1<br/>precio: 3000<br/>cantidad: 10<br/>tipo_ingreso_id: 1<br/>descripcion: <br/>lugar: ALMACÉN<br/>sucursal_id: <br/>fecha_ingreso: 2026-08-19<br/>fecha_registro: 2026-08-19<br/>created_at: 2026-08-19 19:26:13<br/>updated_at: 2026-08-19 19:26:13<br/>', NULL, 'INGRESO DE PRODUCTOS', '2026-08-19', '19:26:13', '2026-08-19 23:26:13', '2026-08-19 23:26:13'),
+(34, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UN DISTRIBUCIÓN DE PRODUCTO', 'id: 3<br/>sucursal_id: 1<br/>fecha_registro: 2026-08-19<br/>created_at: 2026-08-19 19:27:19<br/>updated_at: 2026-08-19 19:27:19<br/>', NULL, 'DISTRIBUCIÓN DE PRODUCTOS', '2026-08-19', '19:27:19', '2026-08-19 23:27:19', '2026-08-19 23:27:19'),
+(35, 1, 'CREACIÓN', 'EL USUARIO admin REGISTRO UNA VENTA', 'id: 6<br/>sucursal_id: 1<br/>cliente_id: 2<br/>user_id: 1<br/>nit: 0<br/>total: 150.00<br/>descuento: 0<br/>total_final: 150.00<br/>tipo_pago: EFECTIVO<br/>fecha_registro: 2026-08-19<br/>created_at: 2026-08-19 19:28:05<br/>updated_at: 2026-08-19 19:28:05<br/>', NULL, 'VENTAS', '2026-08-19', '19:28:05', '2026-08-19 23:28:05', '2026-08-19 23:28:05'),
+(36, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN DISTRIBUCIÓN DE PRODUCTO', 'id: 3<br/>sucursal_id: 1<br/>fecha_registro: 2026-08-19<br/>created_at: 2026-08-19 19:27:19<br/>updated_at: 2026-08-19 19:27:19<br/>', 'id: 3<br/>sucursal_id: 1<br/>fecha_registro: 2026-08-19<br/>created_at: 2026-08-19 19:27:19<br/>updated_at: 2026-08-19 19:27:19<br/>', 'DISTRIBUCIÓN DE PRODUCTOS', '2026-08-19', '19:30:27', '2026-08-19 23:30:27', '2026-08-19 23:30:27'),
+(37, 1, 'MODIFICACIÓN', 'EL USUARIO admin MODIFICÓ UN DISTRIBUCIÓN DE PRODUCTO', 'id: 3<br/>sucursal_id: 1<br/>fecha_registro: 2026-08-19<br/>created_at: 2026-08-19 19:27:19<br/>updated_at: 2026-08-19 19:27:19<br/>', 'id: 3<br/>sucursal_id: 1<br/>fecha_registro: 2026-08-19<br/>created_at: 2026-08-19 19:27:19<br/>updated_at: 2026-08-19 19:27:19<br/>', 'DISTRIBUCIÓN DE PRODUCTOS', '2026-08-19', '19:31:25', '2026-08-19 23:31:25', '2026-08-19 23:31:25');
 
 -- --------------------------------------------------------
 
@@ -202,14 +217,14 @@ INSERT INTO `historial_accions` (`id`, `user_id`, `accion`, `descripcion`, `dato
 
 CREATE TABLE `ingreso_productos` (
   `id` bigint UNSIGNED NOT NULL,
-  `origen` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `origen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `producto_id` bigint UNSIGNED NOT NULL,
   `proveedor_id` bigint UNSIGNED NOT NULL,
   `precio` decimal(24,2) NOT NULL,
   `cantidad` double NOT NULL,
   `tipo_ingreso_id` bigint UNSIGNED NOT NULL,
-  `descripcion` varchar(600) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `lugar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` varchar(600) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lugar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `sucursal_id` bigint UNSIGNED DEFAULT NULL,
   `fecha_ingreso` date NOT NULL,
   `fecha_registro` date NOT NULL,
@@ -225,7 +240,10 @@ INSERT INTO `ingreso_productos` (`id`, `origen`, `producto_id`, `proveedor_id`, 
 (1, 'ADMIN', 1, 1, 3000.00, 206, 1, 'INGRESO INICIAL ALMACEN', 'ALMACÉN', NULL, '2024-10-03', '2024-10-03', '2024-10-04 02:36:35', '2025-09-01 23:49:30'),
 (2, 'SUCURSAL', 1, 1, 4000.00, 5, 1, 'INGRESO INICIAL A SUCURSAL', 'SUCURSAL', 1, '2024-10-03', '2024-10-03', '2024-10-04 02:37:04', '2024-10-04 02:37:04'),
 (3, 'SUCURSAL', 2, 2, 2330.00, 5, 1, 'INGRESO INICIAL PROD. 2 SUCURSAL', 'SUCURSAL', 1, '2024-10-03', '2024-10-03', '2024-10-04 02:37:31', '2024-10-04 02:37:31'),
-(5, 'ADMIN', 1, 2, 2000.00, 2, 1, 'DESC', 'ALMACÉN', NULL, '2025-11-06', '2025-11-06', '2025-11-06 23:39:03', '2025-11-06 23:39:03');
+(5, 'ADMIN', 1, 2, 2000.00, 2, 1, 'DESC', 'ALMACÉN', NULL, '2025-11-06', '2025-11-06', '2025-11-06 23:39:03', '2025-11-06 23:39:03'),
+(6, 'ADMIN', 1, 1, 2550.00, 13, 1, '', 'SUCURSAL', 1, '2026-08-19', '2026-08-19', '2026-08-19 23:05:57', '2026-08-19 23:05:57'),
+(8, 'ADMIN', 1, 1, 2550.00, 10, 1, '', 'ALMACÉN', NULL, '2026-08-19', '2026-08-19', '2026-08-19 23:14:30', '2026-08-19 23:14:30'),
+(9, 'ADMIN', 2, 1, 3000.00, 10, 1, '', 'ALMACÉN', NULL, '2026-08-19', '2026-08-19', '2026-08-19 23:26:13', '2026-08-19 23:26:13');
 
 -- --------------------------------------------------------
 
@@ -235,14 +253,14 @@ INSERT INTO `ingreso_productos` (`id`, `origen`, `producto_id`, `proveedor_id`, 
 
 CREATE TABLE `kardex_productos` (
   `id` bigint UNSIGNED NOT NULL,
-  `lugar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lugar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sucursal_id` bigint UNSIGNED DEFAULT NULL,
-  `tipo_registro` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tipo_registro` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `registro_id` bigint UNSIGNED DEFAULT NULL,
   `producto_id` bigint UNSIGNED NOT NULL,
-  `detalle` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `detalle` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `precio` decimal(24,2) DEFAULT NULL,
-  `tipo_is` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tipo_is` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `cantidad_ingreso` double DEFAULT NULL,
   `cantidad_salida` double DEFAULT NULL,
   `cantidad_saldo` double NOT NULL,
@@ -277,9 +295,36 @@ INSERT INTO `kardex_productos` (`id`, `lugar`, `sucursal_id`, `tipo_registro`, `
 (15, 'SUCURSAL', 1, 'DISTRIBUCIÓN', 2, 1, 'INGRESO POR DISTRIBUCIÓN DESDE ALMACÉN', 300.00, 'INGRESO', 1, NULL, 7, 300.00, 300.00, NULL, 2100.00, '2024-10-03', '2024-10-04 02:43:02', '2024-10-04 02:43:02'),
 (16, 'ALMACÉN', NULL, 'DISTRIBUCIÓN', 3, 1, 'DISTRIBUCIÓN DE PRODUCTO', 0.00, 'EGRESO', NULL, NULL, 0, 0.00, NULL, NULL, 0.00, '2024-10-03', '2024-10-04 02:43:02', '2025-09-01 23:49:30'),
 (17, 'SUCURSAL', 1, 'DISTRIBUCIÓN', 3, 1, 'INGRESO POR DISTRIBUCIÓN DESDE ALMACÉN', 300.00, 'INGRESO', 1, NULL, 8, 300.00, 300.00, NULL, 2400.00, '2024-10-03', '2024-10-04 02:43:02', '2024-10-04 02:43:02'),
-(18, 'SUCURSAL', 1, 'VENTA', 1, 1, 'VENTA DE PRODUCTO', 300.00, 'EGRESO', NULL, 1, 7, 300.00, NULL, 300.00, 2100.00, '2024-10-03', '2024-10-04 02:43:20', '2024-10-04 02:43:20'),
-(19, 'SUCURSAL', 1, 'VENTA', 2, 1, 'VENTA DE PRODUCTO', 300.00, 'EGRESO', NULL, 6, 1, 300.00, NULL, 1800.00, 300.00, '2025-07-09', '2025-07-09 21:12:03', '2025-07-09 21:12:03'),
-(20, 'ALMACÉN', NULL, 'INGRESO', 5, 1, 'DESC', 300.00, 'INGRESO', 2, NULL, 2, 300.00, 600.00, NULL, 600.00, '2025-11-06', '2025-11-06 23:39:03', '2025-11-06 23:39:03');
+(18, 'SUCURSAL', 1, 'VENTA', 1, 1, 'VENTA DE PRODUCTO', 300.00, 'EGRESO', NULL, 1, 7, 300.00, NULL, 300.00, 2100.00, '2024-10-03', '2024-10-04 02:43:20', '2026-07-03 22:38:55'),
+(19, 'SUCURSAL', 1, 'VENTA', 2, 1, 'VENTA DE PRODUCTO', 300.00, 'EGRESO', NULL, 6, 1, 300.00, NULL, 1800.00, 300.00, '2025-07-09', '2025-07-09 21:12:03', '2026-07-03 22:38:55'),
+(20, 'ALMACÉN', NULL, 'INGRESO', 5, 1, 'DESC', 300.00, 'INGRESO', 2, NULL, 2, 300.00, 600.00, NULL, 600.00, '2025-11-06', '2025-11-06 23:39:03', '2025-11-06 23:39:03'),
+(21, 'SUCURSAL', 1, 'VENTA', 3, 2, 'VENTA DE PRODUCTO', 150.00, 'EGRESO', NULL, 1, 4, 150.00, NULL, 150.00, 600.00, '2026-07-03', '2026-07-03 22:40:17', '2026-07-03 22:40:17'),
+(22, 'SUCURSAL', 1, 'VENTA', 4, 2, 'VENTA DE PRODUCTO', 150.00, 'EGRESO', NULL, 1, 3, 150.00, NULL, 150.00, 450.00, '2026-07-03', '2026-07-03 18:44:37', '2026-07-03 18:44:37'),
+(23, 'SUCURSAL', 1, 'INGRESO', 6, 1, 'INGRESO DE PRODUCTO', 300.00, 'INGRESO', 13, NULL, 14, 300.00, 3900.00, NULL, 4200.00, '2026-08-19', '2026-08-19 23:05:57', '2026-08-19 23:05:57'),
+(24, 'SUCURSAL', 1, 'VENTA', 5, 1, 'VENTA DE PRODUCTO', 300.00, 'EGRESO', NULL, 4, 10, 300.00, NULL, 1200.00, 3000.00, '2026-08-19', '2026-08-19 23:06:30', '2026-08-19 23:06:30'),
+(25, 'ALMACÉN', NULL, 'INGRESO', 8, 1, 'INGRESO DE PRODUCTO', 300.00, 'INGRESO', 10, NULL, 12, 300.00, 3000.00, NULL, 3600.00, '2026-08-19', '2026-08-19 23:14:30', '2026-08-19 23:14:30'),
+(26, 'ALMACÉN', NULL, 'INGRESO', 9, 2, 'VALOR INICIAL', 150.00, 'INGRESO', 10, NULL, 10, 150.00, 1500.00, NULL, 1500.00, '2026-08-19', '2026-08-19 23:26:13', '2026-08-19 23:26:13'),
+(27, 'ALMACÉN', NULL, 'DISTRIBUCIÓN', 242, 2, 'DISTRIBUCIÓN DE PRODUCTO', 150.00, 'EGRESO', NULL, 1, 9, 150.00, NULL, 150.00, 1350.00, '2026-08-19', '2026-08-19 23:27:19', '2026-08-19 23:27:19'),
+(28, 'SUCURSAL', 1, 'DISTRIBUCIÓN', 242, 2, 'INGRESO POR DISTRIBUCIÓN DESDE ALMACÉN', 150.00, 'INGRESO', 1, NULL, 5, 150.00, 150.00, NULL, 750.00, '2026-08-19', '2026-08-19 23:27:19', '2026-08-19 23:27:19'),
+(29, 'ALMACÉN', NULL, 'DISTRIBUCIÓN', 243, 2, 'DISTRIBUCIÓN DE PRODUCTO', 150.00, 'EGRESO', NULL, 1, 8, 150.00, NULL, 150.00, 1200.00, '2026-08-19', '2026-08-19 23:27:19', '2026-08-19 23:27:19'),
+(30, 'SUCURSAL', 1, 'DISTRIBUCIÓN', 243, 2, 'INGRESO POR DISTRIBUCIÓN DESDE ALMACÉN', 150.00, 'INGRESO', 1, NULL, 6, 150.00, 150.00, NULL, 900.00, '2026-08-19', '2026-08-19 23:27:19', '2026-08-19 23:27:19'),
+(31, 'ALMACÉN', NULL, 'DISTRIBUCIÓN', 232, 1, 'DISTRIBUCIÓN DE PRODUCTO', 300.00, 'EGRESO', NULL, 1, 11, 300.00, NULL, 300.00, 3300.00, '2026-08-19', '2026-08-19 23:27:19', '2026-08-19 23:27:19'),
+(32, 'SUCURSAL', 1, 'DISTRIBUCIÓN', 232, 1, 'INGRESO POR DISTRIBUCIÓN DESDE ALMACÉN', 300.00, 'INGRESO', 1, NULL, 11, 300.00, 300.00, NULL, 3300.00, '2026-08-19', '2026-08-19 23:27:19', '2026-08-19 23:27:19'),
+(33, 'ALMACÉN', NULL, 'DISTRIBUCIÓN', 233, 1, 'DISTRIBUCIÓN DE PRODUCTO', 300.00, 'EGRESO', NULL, 1, 10, 300.00, NULL, 300.00, 3000.00, '2026-08-19', '2026-08-19 23:27:19', '2026-08-19 23:27:19'),
+(34, 'SUCURSAL', 1, 'DISTRIBUCIÓN', 233, 1, 'INGRESO POR DISTRIBUCIÓN DESDE ALMACÉN', 300.00, 'INGRESO', 1, NULL, 12, 300.00, 300.00, NULL, 3600.00, '2026-08-19', '2026-08-19 23:27:19', '2026-08-19 23:27:19'),
+(35, 'SUCURSAL', 1, 'VENTA', 6, 2, 'VENTA DE PRODUCTO', 150.00, 'EGRESO', NULL, 1, 5, 150.00, NULL, 150.00, 750.00, '2026-08-19', '2026-08-19 23:28:05', '2026-08-19 23:28:05'),
+(36, 'ALMACÉN', NULL, 'DISTRIBUCIÓN', 232, 1, 'INGRESO POR ACTUALIZACIÓN DE DISTRIBUCIÓN', 300.00, 'INGRESO', 1, NULL, 11, 300.00, 300.00, NULL, 3300.00, '2026-08-19', '2026-08-19 23:30:27', '2026-08-19 23:30:27'),
+(37, 'SUCURSAL', 1, 'DISTRIBUCIÓN', 232, 1, 'EGRESO POR ACTUALIZACIÓN DE DISTRIBUCIÓN', 300.00, 'EGRESO', NULL, 1, 11, 300.00, NULL, 300.00, 3300.00, '2026-08-19', '2026-08-19 23:30:27', '2026-08-19 23:30:27'),
+(38, 'ALMACÉN', NULL, 'DISTRIBUCIÓN', 233, 1, 'INGRESO POR ACTUALIZACIÓN DE DISTRIBUCIÓN', 300.00, 'INGRESO', 1, NULL, 12, 300.00, 300.00, NULL, 3600.00, '2026-08-19', '2026-08-19 23:30:27', '2026-08-19 23:30:27'),
+(39, 'SUCURSAL', 1, 'DISTRIBUCIÓN', 233, 1, 'EGRESO POR ACTUALIZACIÓN DE DISTRIBUCIÓN', 300.00, 'EGRESO', NULL, 1, 10, 300.00, NULL, 300.00, 3000.00, '2026-08-19', '2026-08-19 23:30:27', '2026-08-19 23:30:27'),
+(40, 'ALMACÉN', NULL, 'DISTRIBUCIÓN', 232, 1, 'DISTRIBUCIÓN DE PRODUCTO', 300.00, 'EGRESO', NULL, 1, 11, 300.00, NULL, 300.00, 3300.00, '2026-08-19', '2026-08-19 23:31:25', '2026-08-19 23:31:25'),
+(41, 'SUCURSAL', 1, 'DISTRIBUCIÓN', 232, 1, 'INGRESO POR DISTRIBUCIÓN DESDE ALMACÉN', 300.00, 'INGRESO', 1, NULL, 11, 300.00, 300.00, NULL, 3300.00, '2026-08-19', '2026-08-19 23:31:25', '2026-08-19 23:31:25'),
+(42, 'ALMACÉN', NULL, 'DISTRIBUCIÓN', 233, 1, 'DISTRIBUCIÓN DE PRODUCTO', 300.00, 'EGRESO', NULL, 1, 10, 300.00, NULL, 300.00, 3000.00, '2026-08-19', '2026-08-19 23:31:25', '2026-08-19 23:31:25'),
+(43, 'SUCURSAL', 1, 'DISTRIBUCIÓN', 233, 1, 'INGRESO POR DISTRIBUCIÓN DESDE ALMACÉN', 300.00, 'INGRESO', 1, NULL, 12, 300.00, 300.00, NULL, 3600.00, '2026-08-19', '2026-08-19 23:31:25', '2026-08-19 23:31:25'),
+(44, 'ALMACÉN', NULL, 'DISTRIBUCIÓN', 234, 1, 'DISTRIBUCIÓN DE PRODUCTO', 300.00, 'EGRESO', NULL, 1, 9, 300.00, NULL, 300.00, 2700.00, '2026-08-19', '2026-08-19 23:31:25', '2026-08-19 23:31:25'),
+(45, 'SUCURSAL', 1, 'DISTRIBUCIÓN', 234, 1, 'INGRESO POR DISTRIBUCIÓN DESDE ALMACÉN', 300.00, 'INGRESO', 1, NULL, 13, 300.00, 300.00, NULL, 3900.00, '2026-08-19', '2026-08-19 23:31:25', '2026-08-19 23:31:25'),
+(46, 'ALMACÉN', NULL, 'DISTRIBUCIÓN', 235, 1, 'DISTRIBUCIÓN DE PRODUCTO', 300.00, 'EGRESO', NULL, 1, 8, 300.00, NULL, 300.00, 2400.00, '2026-08-19', '2026-08-19 23:31:25', '2026-08-19 23:31:25'),
+(47, 'SUCURSAL', 1, 'DISTRIBUCIÓN', 235, 1, 'INGRESO POR DISTRIBUCIÓN DESDE ALMACÉN', 300.00, 'INGRESO', 1, NULL, 14, 300.00, 300.00, NULL, 4200.00, '2026-08-19', '2026-08-19 23:31:25', '2026-08-19 23:31:25');
 
 -- --------------------------------------------------------
 
@@ -289,7 +334,7 @@ INSERT INTO `kardex_productos` (`id`, `lugar`, `sucursal_id`, `tipo_registro`, `
 
 CREATE TABLE `marcas` (
   `id` bigint UNSIGNED NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -310,7 +355,7 @@ INSERT INTO `marcas` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `migrations` (
   `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -352,13 +397,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `productos` (
   `id` bigint UNSIGNED NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `categoria_id` bigint UNSIGNED NOT NULL,
   `marca_id` bigint UNSIGNED NOT NULL,
   `unidad_medida_id` bigint UNSIGNED NOT NULL,
   `precio` decimal(24,2) NOT NULL,
   `stock_min` double NOT NULL,
-  `imagen` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `imagen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fecha_registro` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -381,8 +426,10 @@ INSERT INTO `productos` (`id`, `nombre`, `categoria_id`, `marca_id`, `unidad_med
 CREATE TABLE `producto_barras` (
   `id` bigint UNSIGNED NOT NULL,
   `producto_id` bigint UNSIGNED NOT NULL,
-  `codigo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lugar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `codigo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cantidad` double(8,2) NOT NULL DEFAULT '1.00',
+  `disponible` double(8,2) NOT NULL DEFAULT '1.00',
+  `lugar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `sucursal_id` bigint UNSIGNED DEFAULT NULL,
   `ingreso_id` bigint UNSIGNED DEFAULT NULL,
   `salida_id` bigint UNSIGNED DEFAULT NULL,
@@ -397,225 +444,258 @@ CREATE TABLE `producto_barras` (
 -- Volcado de datos para la tabla `producto_barras`
 --
 
-INSERT INTO `producto_barras` (`id`, `producto_id`, `codigo`, `lugar`, `sucursal_id`, `ingreso_id`, `salida_id`, `venta_id`, `venta_detalle_id`, `distribucion_id`, `created_at`, `updated_at`) VALUES
-(1, 1, '111', 'ALMACÉN', NULL, 1, NULL, 1, 1, 2, '2024-10-04 02:36:35', '2025-09-01 22:40:57'),
-(2, 1, '112', 'ALMACÉN', NULL, 1, NULL, 2, 2, 2, '2024-10-04 02:36:35', '2025-09-01 22:40:57'),
-(3, 1, '113', 'ALMACÉN', NULL, 1, NULL, 2, 2, 2, '2024-10-04 02:36:35', '2025-09-01 22:40:57'),
-(4, 1, '114', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-10-04 02:36:35', '2024-10-04 02:36:35'),
-(5, 1, '115', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-10-04 02:36:35', '2024-10-04 02:36:35'),
-(6, 1, '1111', 'SUCURSAL', 1, 2, NULL, 2, 2, NULL, '2024-10-04 02:37:04', '2025-07-09 21:12:03'),
-(7, 1, '1112', 'SUCURSAL', 1, 2, NULL, 2, 2, NULL, '2024-10-04 02:37:04', '2025-07-09 21:12:03'),
-(8, 1, '1113', 'SUCURSAL', 1, 2, NULL, 2, 2, NULL, '2024-10-04 02:37:04', '2025-07-09 21:12:03'),
-(9, 1, '1114', 'SUCURSAL', 1, 2, NULL, 2, 2, NULL, '2024-10-04 02:37:04', '2025-07-09 21:12:03'),
-(10, 1, '1115', 'SUCURSAL', 1, 2, NULL, NULL, NULL, NULL, '2024-10-04 02:37:04', '2024-10-04 02:37:04'),
-(11, 2, '2221', 'SUCURSAL', 1, 3, NULL, NULL, NULL, NULL, '2024-10-04 02:37:31', '2024-10-04 02:37:31'),
-(12, 2, '2222', 'SUCURSAL', 1, 3, NULL, NULL, NULL, NULL, '2024-10-04 02:37:31', '2024-10-04 02:37:31'),
-(13, 2, '2223', 'SUCURSAL', 1, 3, NULL, NULL, NULL, NULL, '2024-10-04 02:37:31', '2024-10-04 02:37:31'),
-(14, 2, '2224', 'SUCURSAL', 1, 3, NULL, NULL, NULL, NULL, '2024-10-04 02:37:31', '2024-10-04 02:37:31'),
-(15, 2, '2225', 'SUCURSAL', 1, 3, NULL, NULL, NULL, NULL, '2024-10-04 02:37:31', '2024-10-04 02:37:31'),
-(16, 1, '1231', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:40:57', '2025-09-01 22:40:57'),
-(17, 1, '123', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:40:57', '2025-09-01 22:40:57'),
-(18, 1, '23', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(19, 1, '32', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(20, 1, '42', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(21, 1, '43', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(22, 1, '34', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(23, 1, '54', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(24, 1, '45', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(25, 1, '2', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(26, 1, '232', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(27, 1, '3', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(28, 1, '4343', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(29, 1, '11221', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(30, 1, '4453', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(31, 1, '6656', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(32, 1, '567567', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(33, 1, '565', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(34, 1, '5665', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(35, 1, '4545', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(36, 1, '3434', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(37, 1, '3443', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(38, 1, '43534', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(39, 1, '345', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(40, 1, '354', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(41, 1, '433', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(42, 1, '4', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(43, 1, '334', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(44, 1, '4334', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(45, 1, '322323', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
-(46, 1, '34234', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:47:50', '2025-09-01 22:47:50'),
-(47, 1, '234234', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:14:45', '2025-09-01 23:14:45'),
-(48, 1, '243234', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(49, 1, '24234', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(50, 1, '5454', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(51, 1, '545465', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(52, 1, '6565', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(53, 1, '54554', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(54, 1, '343443', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(55, 1, '655665', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(56, 1, '7676', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(57, 1, '767676', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(58, 1, '677676', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(59, 1, '6767', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(60, 1, '766776', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(61, 1, '67767', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(62, 1, '6776', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(63, 1, '877887', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(64, 1, '8778', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(65, 1, '7667', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
-(66, 1, '343434', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:10', '2025-09-01 23:27:10'),
-(67, 1, '456456', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
-(68, 1, '776', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
-(69, 1, '676776', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
-(70, 1, '45324324', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
-(71, 1, '23243', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
-(72, 1, '324234', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
-(73, 1, '342234234', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
-(74, 1, '14143', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
-(75, 1, '14141234', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
-(76, 1, '1421234', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
-(77, 1, '455465436', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
-(78, 1, '363564', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
-(79, 1, '34563456364', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
-(80, 1, '563634', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(81, 1, '3456365', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(82, 1, '3563543564', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(83, 1, '35463563456', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(84, 1, '364534563456', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(85, 1, '345634563456', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(86, 1, '34563456345', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(87, 1, '63435634563456', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(88, 1, '4356346', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(89, 1, '364356', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(90, 1, '324143', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(91, 1, '142314', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(92, 1, '1241234124', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(93, 1, '413124134', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(94, 1, '123412342314', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(95, 1, '14242131234', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(96, 1, '12341243', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(97, 1, '3452342345', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(98, 1, '324523452354', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(99, 1, '235435223452354', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(100, 1, '25342354', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(101, 1, '23523543524', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(102, 1, '2354252534', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
-(103, 1, '452345', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:47:57', '2025-09-01 23:47:57'),
-(104, 1, '544536456', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(105, 1, '36536365', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(106, 1, '34563563456', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(107, 1, '35463563645', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(108, 1, '3546363456', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(109, 1, '3456345634', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(110, 1, '34563456346', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(111, 1, '345634563', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(112, 1, '354634563456', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(113, 1, '34563564356', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(114, 1, '3645363456', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(115, 1, '3465346345', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(116, 1, '6364363546', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(117, 1, '235254', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(118, 1, '245254254', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(119, 1, '2452452345', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(120, 1, '25422525', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(121, 1, '52532543', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(122, 1, '2356363465', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(123, 1, '6354635463', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(124, 1, '4653654', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(125, 1, '56336654', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(126, 1, '65436354', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(127, 1, '365', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(128, 1, '3465', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(129, 1, '3456', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(130, 1, '363546', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(131, 1, '34563456', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
-(132, 1, '75685786', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(133, 1, '57685786', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(134, 1, '567856785876', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(135, 1, '57685876', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(136, 1, '578675865876', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(137, 1, '57685785867', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(138, 1, '7865587857', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(139, 1, '576857868756', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(140, 1, '576858675768', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(141, 1, '85765876', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(142, 1, '536356434', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(143, 1, '5636536', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(144, 1, '34536', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(145, 1, '533564', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(146, 1, '56335463645', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(147, 1, '67585678', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(148, 1, '75688575876', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(149, 1, '78568758576', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(150, 1, '578658768756', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(151, 1, '576887568756', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(152, 1, '75858675687', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(153, 1, '75688576756', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(154, 1, '58758765876', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(155, 1, '5786587856', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(156, 1, '5878567857', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(157, 1, '5875876587', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(158, 1, '578857857', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(159, 1, '58586', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(160, 1, '5678588', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(161, 1, '5785687857', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(162, 1, '585885', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(163, 1, '8585857', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(164, 1, '857857875', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(165, 1, '587587', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(166, 1, '578587875', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(167, 1, '578857', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(168, 1, '6544765', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(169, 1, '7467447', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(170, 1, '74647', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(171, 1, '465765477456', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(172, 1, '46754576', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(173, 1, '465746754675', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(174, 1, '46574765', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(175, 1, '45767465', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
-(176, 1, '7585768', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(177, 1, '75685877', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(178, 1, '578657865876', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(179, 1, '576878565876', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(180, 1, '587587587', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(181, 1, '5858765867', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(182, 1, '578687565876', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(183, 1, '57858765786', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(184, 1, '7586875876', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(185, 1, '8679698', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(186, 1, '698986698', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(187, 1, '689776899867', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(188, 1, '86979686798', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(189, 1, '69879686789', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(190, 1, '8967986968', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(191, 1, '6879698968', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(192, 1, '869986698', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(193, 1, '689986968', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(194, 1, '689698896', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(195, 1, '6896989687', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(196, 1, '6897968698', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(197, 1, '69869987', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(198, 1, '687998676978', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(199, 1, '6897689698', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(200, 1, '89698679678', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(201, 1, '689796879876', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(202, 1, '689986698', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(203, 1, '869796879678', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(204, 1, '86978969687', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(205, 1, '9686986987', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(206, 1, '86979676978', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(207, 1, '869769876978', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(208, 1, '86976986987', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(209, 1, '698698968', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(210, 1, '698689', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(211, 1, '6789698986', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(212, 1, '6896798', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(213, 1, '678967896789', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(214, 1, '67896978', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(215, 1, '678967987968', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(216, 1, '67967998', 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
-(217, 1, '432', 'ALMACÉN', NULL, 5, NULL, NULL, NULL, NULL, '2025-11-06 23:39:03', '2025-11-06 23:39:03'),
-(218, 1, '4323', 'ALMACÉN', NULL, 5, NULL, NULL, NULL, NULL, '2025-11-06 23:39:03', '2025-11-06 23:39:03');
+INSERT INTO `producto_barras` (`id`, `producto_id`, `codigo`, `cantidad`, `disponible`, `lugar`, `sucursal_id`, `ingreso_id`, `salida_id`, `venta_id`, `venta_detalle_id`, `distribucion_id`, `created_at`, `updated_at`) VALUES
+(1, 1, '111', 1.00, 0.00, 'ALMACÉN', NULL, 1, NULL, 1, 1, 2, '2024-10-04 02:36:35', '2026-07-03 22:38:55'),
+(2, 1, '112', 1.00, 0.00, 'ALMACÉN', NULL, 1, NULL, 2, 2, 2, '2024-10-04 02:36:35', '2025-09-01 22:40:57'),
+(3, 1, '113', 1.00, 0.00, 'ALMACÉN', NULL, 1, NULL, 2, 2, 2, '2024-10-04 02:36:35', '2025-09-01 22:40:57'),
+(4, 1, '114', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-10-04 02:36:35', '2024-10-04 02:36:35'),
+(5, 1, '115', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2024-10-04 02:36:35', '2024-10-04 02:36:35'),
+(6, 1, '1111', 1.00, 0.00, 'SUCURSAL', 1, 2, NULL, 2, 2, NULL, '2024-10-04 02:37:04', '2025-07-09 21:12:03'),
+(7, 1, '1112', 1.00, 0.00, 'SUCURSAL', 1, 2, NULL, 2, 2, NULL, '2024-10-04 02:37:04', '2025-07-09 21:12:03'),
+(8, 1, '1113', 1.00, 0.00, 'SUCURSAL', 1, 2, NULL, 2, 2, NULL, '2024-10-04 02:37:04', '2025-07-09 21:12:03'),
+(9, 1, '1114', 1.00, 0.00, 'SUCURSAL', 1, 2, NULL, 2, 2, NULL, '2024-10-04 02:37:04', '2025-07-09 21:12:03'),
+(10, 1, '1115', 1.00, 1.00, 'SUCURSAL', 1, 2, NULL, NULL, NULL, NULL, '2024-10-04 02:37:04', '2024-10-04 02:37:04'),
+(11, 2, '2221', 1.00, 1.00, 'SUCURSAL', 1, 3, NULL, NULL, NULL, NULL, '2024-10-04 02:37:31', '2024-10-04 02:37:31'),
+(12, 2, '2222', 1.00, 1.00, 'SUCURSAL', 1, 3, NULL, NULL, NULL, NULL, '2024-10-04 02:37:31', '2024-10-04 02:37:31'),
+(13, 2, '2223', 1.00, 1.00, 'SUCURSAL', 1, 3, NULL, NULL, NULL, NULL, '2024-10-04 02:37:31', '2024-10-04 02:37:31'),
+(14, 2, '2224', 1.00, 0.00, 'SUCURSAL', 1, 3, NULL, 4, 4, NULL, '2024-10-04 02:37:31', '2026-07-03 18:44:37'),
+(15, 2, '2225', 1.00, 0.00, 'SUCURSAL', 1, 3, NULL, 3, 3, NULL, '2024-10-04 02:37:31', '2026-07-03 22:40:17'),
+(16, 1, '1231', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:40:57', '2025-09-01 22:40:57'),
+(17, 1, '123', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:40:57', '2025-09-01 22:40:57'),
+(18, 1, '23', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(19, 1, '32', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(20, 1, '42', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(21, 1, '43', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(22, 1, '34', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(23, 1, '54', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(24, 1, '45', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(25, 1, '2', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(26, 1, '232', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(27, 1, '3', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(28, 1, '4343', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(29, 1, '11221', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(30, 1, '4453', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(31, 1, '6656', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(32, 1, '567567', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(33, 1, '565', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(34, 1, '5665', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(35, 1, '4545', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(36, 1, '3434', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(37, 1, '3443', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(38, 1, '43534', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(39, 1, '345', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(40, 1, '354', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(41, 1, '433', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(42, 1, '4', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(43, 1, '334', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(44, 1, '4334', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(45, 1, '322323', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:41:31', '2025-09-01 22:41:31'),
+(46, 1, '34234', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 22:47:50', '2025-09-01 22:47:50'),
+(47, 1, '234234', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:14:45', '2025-09-01 23:14:45'),
+(48, 1, '243234', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(49, 1, '24234', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(50, 1, '5454', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(51, 1, '545465', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(52, 1, '6565', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(53, 1, '54554', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(54, 1, '343443', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(55, 1, '655665', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(56, 1, '7676', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(57, 1, '767676', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(58, 1, '677676', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(59, 1, '6767', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(60, 1, '766776', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(61, 1, '67767', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(62, 1, '6776', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(63, 1, '877887', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(64, 1, '8778', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(65, 1, '7667', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:15:35', '2025-09-01 23:15:35'),
+(66, 1, '343434', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:10', '2025-09-01 23:27:10'),
+(67, 1, '456456', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
+(68, 1, '776', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
+(69, 1, '676776', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
+(70, 1, '45324324', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
+(71, 1, '23243', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
+(72, 1, '324234', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
+(73, 1, '342234234', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
+(74, 1, '14143', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
+(75, 1, '14141234', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
+(76, 1, '1421234', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
+(77, 1, '455465436', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
+(78, 1, '363564', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
+(79, 1, '34563456364', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:28', '2025-09-01 23:27:28'),
+(80, 1, '563634', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(81, 1, '3456365', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(82, 1, '3563543564', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(83, 1, '35463563456', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(84, 1, '364534563456', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(85, 1, '345634563456', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(86, 1, '34563456345', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(87, 1, '63435634563456', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(88, 1, '4356346', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(89, 1, '364356', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(90, 1, '324143', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(91, 1, '142314', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(92, 1, '1241234124', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(93, 1, '413124134', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(94, 1, '123412342314', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(95, 1, '14242131234', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(96, 1, '12341243', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(97, 1, '3452342345', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(98, 1, '324523452354', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(99, 1, '235435223452354', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(100, 1, '25342354', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(101, 1, '23523543524', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(102, 1, '2354252534', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:27:55', '2025-09-01 23:27:55'),
+(103, 1, '452345', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:47:57', '2025-09-01 23:47:57'),
+(104, 1, '544536456', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(105, 1, '36536365', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(106, 1, '34563563456', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(107, 1, '35463563645', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(108, 1, '3546363456', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(109, 1, '3456345634', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(110, 1, '34563456346', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(111, 1, '345634563', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(112, 1, '354634563456', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(113, 1, '34563564356', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(114, 1, '3645363456', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(115, 1, '3465346345', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(116, 1, '6364363546', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(117, 1, '235254', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(118, 1, '245254254', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(119, 1, '2452452345', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(120, 1, '25422525', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(121, 1, '52532543', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(122, 1, '2356363465', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(123, 1, '6354635463', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(124, 1, '4653654', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(125, 1, '56336654', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(126, 1, '65436354', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(127, 1, '365', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(128, 1, '3465', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(129, 1, '3456', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(130, 1, '363546', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(131, 1, '34563456', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:24', '2025-09-01 23:48:24'),
+(132, 1, '75685786', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(133, 1, '57685786', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(134, 1, '567856785876', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(135, 1, '57685876', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(136, 1, '578675865876', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(137, 1, '57685785867', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(138, 1, '7865587857', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(139, 1, '576857868756', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(140, 1, '576858675768', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(141, 1, '85765876', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(142, 1, '536356434', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(143, 1, '5636536', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(144, 1, '34536', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(145, 1, '533564', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(146, 1, '56335463645', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(147, 1, '67585678', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(148, 1, '75688575876', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(149, 1, '78568758576', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(150, 1, '578658768756', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(151, 1, '576887568756', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(152, 1, '75858675687', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(153, 1, '75688576756', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(154, 1, '58758765876', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(155, 1, '5786587856', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(156, 1, '5878567857', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(157, 1, '5875876587', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(158, 1, '578857857', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(159, 1, '58586', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(160, 1, '5678588', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(161, 1, '5785687857', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(162, 1, '585885', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(163, 1, '8585857', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(164, 1, '857857875', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(165, 1, '587587', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(166, 1, '578587875', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(167, 1, '578857', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(168, 1, '6544765', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(169, 1, '7467447', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(170, 1, '74647', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(171, 1, '465765477456', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(172, 1, '46754576', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(173, 1, '465746754675', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(174, 1, '46574765', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(175, 1, '45767465', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:48:53', '2025-09-01 23:48:53'),
+(176, 1, '7585768', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(177, 1, '75685877', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(178, 1, '578657865876', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(179, 1, '576878565876', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(180, 1, '587587587', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(181, 1, '5858765867', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(182, 1, '578687565876', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(183, 1, '57858765786', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(184, 1, '7586875876', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(185, 1, '8679698', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(186, 1, '698986698', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(187, 1, '689776899867', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(188, 1, '86979686798', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(189, 1, '69879686789', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(190, 1, '8967986968', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(191, 1, '6879698968', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(192, 1, '869986698', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(193, 1, '689986968', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(194, 1, '689698896', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(195, 1, '6896989687', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(196, 1, '6897968698', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(197, 1, '69869987', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(198, 1, '687998676978', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(199, 1, '6897689698', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(200, 1, '89698679678', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(201, 1, '689796879876', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(202, 1, '689986698', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(203, 1, '869796879678', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(204, 1, '86978969687', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(205, 1, '9686986987', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(206, 1, '86979676978', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(207, 1, '869769876978', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(208, 1, '86976986987', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(209, 1, '698698968', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(210, 1, '698689', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(211, 1, '6789698986', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(212, 1, '6896798', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(213, 1, '678967896789', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(214, 1, '67896978', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(215, 1, '678967987968', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(216, 1, '67967998', 1.00, 1.00, 'ALMACÉN', NULL, 1, NULL, NULL, NULL, NULL, '2025-09-01 23:49:30', '2025-09-01 23:49:30'),
+(217, 1, '432', 1.00, 1.00, 'ALMACÉN', NULL, 5, NULL, NULL, NULL, NULL, '2025-11-06 23:39:03', '2025-11-06 23:39:03'),
+(218, 1, '4323', 1.00, 1.00, 'ALMACÉN', NULL, 5, NULL, NULL, NULL, NULL, '2025-11-06 23:39:03', '2025-11-06 23:39:03'),
+(219, 1, '1231231231', 1.00, 1.00, 'SUCURSAL', 1, 6, NULL, NULL, NULL, NULL, '2026-08-19 23:05:57', '2026-08-19 23:05:57'),
+(220, 1, '1231231231', 1.00, 1.00, 'SUCURSAL', 1, 6, NULL, NULL, NULL, NULL, '2026-08-19 23:05:57', '2026-08-19 23:05:57'),
+(221, 1, '1231231231', 1.00, 1.00, 'SUCURSAL', 1, 6, NULL, NULL, NULL, NULL, '2026-08-19 23:05:57', '2026-08-19 23:05:57'),
+(222, 1, '1231231231', 1.00, 1.00, 'SUCURSAL', 1, 6, NULL, NULL, NULL, NULL, '2026-08-19 23:05:57', '2026-08-19 23:05:57'),
+(223, 1, '1231231231', 1.00, 1.00, 'SUCURSAL', 1, 6, NULL, NULL, NULL, NULL, '2026-08-19 23:05:57', '2026-08-19 23:05:57'),
+(224, 1, '1231231231', 1.00, 1.00, 'SUCURSAL', 1, 6, NULL, NULL, NULL, NULL, '2026-08-19 23:05:57', '2026-08-19 23:05:57'),
+(225, 1, '4324234234', 1.00, 0.00, 'SUCURSAL', 1, 6, NULL, 5, 5, NULL, '2026-08-19 23:05:57', '2026-08-19 23:06:30'),
+(226, 1, '4324234234', 1.00, 1.00, 'SUCURSAL', 1, 6, NULL, NULL, NULL, NULL, '2026-08-19 23:05:57', '2026-08-19 23:05:57'),
+(227, 1, '4324234234', 1.00, 1.00, 'SUCURSAL', 1, 6, NULL, NULL, NULL, NULL, '2026-08-19 23:05:57', '2026-08-19 23:05:57'),
+(228, 1, '4324234234', 1.00, 1.00, 'SUCURSAL', 1, 6, NULL, NULL, NULL, NULL, '2026-08-19 23:05:57', '2026-08-19 23:05:57'),
+(229, 1, '4523555555', 1.00, 0.00, 'SUCURSAL', 1, 6, NULL, 5, 5, NULL, '2026-08-19 23:05:57', '2026-08-19 23:06:30'),
+(230, 1, '4523555555', 1.00, 0.00, 'SUCURSAL', 1, 6, NULL, 5, 5, NULL, '2026-08-19 23:05:57', '2026-08-19 23:06:30'),
+(231, 1, '4523555555', 1.00, 0.00, 'SUCURSAL', 1, 6, NULL, 5, 5, NULL, '2026-08-19 23:05:57', '2026-08-19 23:06:30'),
+(232, 1, '43242342345', 1.00, 1.00, 'SUCURSAL', 1, 8, NULL, NULL, NULL, 3, '2026-08-19 23:14:30', '2026-08-19 23:31:25'),
+(233, 1, '43242342345', 1.00, 1.00, 'SUCURSAL', 1, 8, NULL, NULL, NULL, 3, '2026-08-19 23:14:30', '2026-08-19 23:31:25'),
+(234, 1, '43242342345', 1.00, 1.00, 'SUCURSAL', 1, 8, NULL, NULL, NULL, 3, '2026-08-19 23:14:30', '2026-08-19 23:31:25'),
+(235, 1, '43242342345', 1.00, 1.00, 'SUCURSAL', 1, 8, NULL, NULL, NULL, 3, '2026-08-19 23:14:30', '2026-08-19 23:31:25'),
+(236, 1, '43242342345', 1.00, 1.00, 'ALMACÉN', NULL, 8, NULL, NULL, NULL, NULL, '2026-08-19 23:14:30', '2026-08-19 23:14:30'),
+(237, 1, '43242342345', 1.00, 1.00, 'ALMACÉN', NULL, 8, NULL, NULL, NULL, NULL, '2026-08-19 23:14:30', '2026-08-19 23:14:30'),
+(238, 1, '43242342345', 1.00, 1.00, 'ALMACÉN', NULL, 8, NULL, NULL, NULL, NULL, '2026-08-19 23:14:30', '2026-08-19 23:14:30'),
+(239, 1, '43242342345', 1.00, 1.00, 'ALMACÉN', NULL, 8, NULL, NULL, NULL, NULL, '2026-08-19 23:14:30', '2026-08-19 23:14:30'),
+(240, 1, '43242342345', 1.00, 1.00, 'ALMACÉN', NULL, 8, NULL, NULL, NULL, NULL, '2026-08-19 23:14:30', '2026-08-19 23:14:30'),
+(241, 1, '43242342345', 1.00, 1.00, 'ALMACÉN', NULL, 8, NULL, NULL, NULL, NULL, '2026-08-19 23:14:30', '2026-08-19 23:14:30'),
+(242, 2, '43242342346', 1.00, 0.00, 'SUCURSAL', 1, 9, NULL, 6, 6, 3, '2026-08-19 23:26:13', '2026-08-19 23:28:05'),
+(243, 2, '43242342346', 1.00, 1.00, 'SUCURSAL', 1, 9, NULL, NULL, NULL, 3, '2026-08-19 23:26:13', '2026-08-19 23:27:19'),
+(244, 2, '43242342346', 1.00, 1.00, 'ALMACÉN', NULL, 9, NULL, NULL, NULL, NULL, '2026-08-19 23:26:13', '2026-08-19 23:26:13'),
+(245, 2, '43242342346', 1.00, 1.00, 'ALMACÉN', NULL, 9, NULL, NULL, NULL, NULL, '2026-08-19 23:26:13', '2026-08-19 23:26:13'),
+(246, 2, '43242342346', 1.00, 1.00, 'ALMACÉN', NULL, 9, NULL, NULL, NULL, NULL, '2026-08-19 23:26:13', '2026-08-19 23:26:13'),
+(247, 2, '43242342346', 1.00, 1.00, 'ALMACÉN', NULL, 9, NULL, NULL, NULL, NULL, '2026-08-19 23:26:13', '2026-08-19 23:26:13'),
+(248, 2, '43242342346', 1.00, 1.00, 'ALMACÉN', NULL, 9, NULL, NULL, NULL, NULL, '2026-08-19 23:26:13', '2026-08-19 23:26:13'),
+(249, 2, '43242342346', 1.00, 1.00, 'ALMACÉN', NULL, 9, NULL, NULL, NULL, NULL, '2026-08-19 23:26:13', '2026-08-19 23:26:13'),
+(250, 2, '43242342346', 1.00, 1.00, 'ALMACÉN', NULL, 9, NULL, NULL, NULL, NULL, '2026-08-19 23:26:13', '2026-08-19 23:26:13'),
+(251, 2, '43242342346', 1.00, 1.00, 'ALMACÉN', NULL, 9, NULL, NULL, NULL, NULL, '2026-08-19 23:26:13', '2026-08-19 23:26:13');
 
 -- --------------------------------------------------------
 
@@ -625,12 +705,12 @@ INSERT INTO `producto_barras` (`id`, `producto_id`, `codigo`, `lugar`, `sucursal
 
 CREATE TABLE `proveedors` (
   `id` bigint UNSIGNED NOT NULL,
-  `razon_social` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nit` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `dir` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fono` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nombre_contacto` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `descripcion` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `razon_social` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dir` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fono` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre_contacto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `descripcion` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fecha_registro` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -652,13 +732,13 @@ INSERT INTO `proveedors` (`id`, `razon_social`, `nit`, `dir`, `fono`, `nombre_co
 
 CREATE TABLE `salida_productos` (
   `id` bigint UNSIGNED NOT NULL,
-  `origen` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `origen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `producto_id` bigint UNSIGNED NOT NULL,
   `cantidad` double NOT NULL,
   `fecha_salida` date NOT NULL,
   `tipo_salida_id` bigint UNSIGNED NOT NULL,
-  `descripcion` varchar(600) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `lugar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` varchar(600) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lugar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `sucursal_id` bigint UNSIGNED DEFAULT NULL,
   `fecha_registro` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -673,9 +753,9 @@ CREATE TABLE `salida_productos` (
 
 CREATE TABLE `sucursals` (
   `id` bigint UNSIGNED NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `fono` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `dir` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fono` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dir` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fecha_registro` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -709,8 +789,8 @@ CREATE TABLE `sucursal_productos` (
 --
 
 INSERT INTO `sucursal_productos` (`id`, `producto_id`, `sucursal_id`, `stock_actual`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, '2024-10-04 02:37:04', '2025-07-09 21:12:03'),
-(2, 2, 1, 5, '2024-10-04 02:37:31', '2024-10-04 02:37:31');
+(1, 1, 1, 14, '2024-10-04 02:37:04', '2026-08-19 23:31:25'),
+(2, 2, 1, 4, '2024-10-04 02:37:31', '2026-08-19 23:28:05');
 
 -- --------------------------------------------------------
 
@@ -720,8 +800,8 @@ INSERT INTO `sucursal_productos` (`id`, `producto_id`, `sucursal_id`, `stock_act
 
 CREATE TABLE `tipo_ingresos` (
   `id` bigint UNSIGNED NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descripcion` varchar(600) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` varchar(600) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -742,8 +822,8 @@ INSERT INTO `tipo_ingresos` (`id`, `nombre`, `descripcion`, `created_at`, `updat
 
 CREATE TABLE `tipo_salidas` (
   `id` bigint UNSIGNED NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descripcion` varchar(600) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` varchar(600) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -764,7 +844,7 @@ INSERT INTO `tipo_salidas` (`id`, `nombre`, `descripcion`, `created_at`, `update
 
 CREATE TABLE `unidad_medidas` (
   `id` bigint UNSIGNED NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -785,18 +865,18 @@ INSERT INTO `unidad_medidas` (`id`, `nombre`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `users` (
   `id` bigint UNSIGNED NOT NULL,
-  `usuario` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nombre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `paterno` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `materno` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ci` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ci_exp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `dir` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fono` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tipo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `foto` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `usuario` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `paterno` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `materno` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ci` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ci_exp` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fono` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tipo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `foto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fecha_registro` date NOT NULL,
   `acceso` int NOT NULL,
   `sucursal_id` bigint UNSIGNED DEFAULT NULL,
@@ -825,11 +905,11 @@ CREATE TABLE `ventas` (
   `sucursal_id` bigint UNSIGNED NOT NULL,
   `cliente_id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
-  `nit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `total` decimal(24,2) NOT NULL,
   `descuento` double NOT NULL,
   `total_final` decimal(24,2) NOT NULL,
-  `tipo_pago` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'EFECTIVO',
+  `tipo_pago` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'EFECTIVO',
   `fecha_registro` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -840,8 +920,12 @@ CREATE TABLE `ventas` (
 --
 
 INSERT INTO `ventas` (`id`, `sucursal_id`, `cliente_id`, `user_id`, `nit`, `total`, `descuento`, `total_final`, `tipo_pago`, `fecha_registro`, `created_at`, `updated_at`) VALUES
-(1, 1, 4, 2, '22222', 300.00, 0, 300.00, 'EFECTIVO', '2024-10-03', '2024-10-04 02:43:20', '2024-10-04 02:43:20'),
-(2, 1, 1, 1, '1122', 1800.00, 0, 1800.00, 'EFECTIVO', '2025-07-09', '2025-07-09 21:12:03', '2025-07-09 21:12:03');
+(1, 1, 4, 2, '22222', 300.00, 0, 300.00, 'QR', '2024-10-03', '2024-10-04 02:43:20', '2026-07-03 22:38:55'),
+(2, 1, 1, 1, '1122', 1800.00, 0, 1800.00, 'EFECTIVO', '2025-07-09', '2025-07-09 21:12:03', '2025-07-09 21:12:03'),
+(3, 1, 1, 1, '1122', 150.00, 0, 150.00, 'EFECTIVO', '2026-07-03', '2026-07-03 22:40:17', '2026-07-03 22:40:17'),
+(4, 1, 2, 1, '0', 150.00, 0, 150.00, 'EFECTIVO', '2026-07-03', '2026-07-03 18:44:37', '2026-07-03 18:44:37'),
+(5, 1, 1, 1, '1122', 1200.00, 0, 1200.00, 'EFECTIVO', '2026-08-19', '2026-08-19 23:06:30', '2026-08-19 23:06:30'),
+(6, 1, 2, 1, '0', 150.00, 0, 150.00, 'EFECTIVO', '2026-08-19', '2026-08-19 23:28:05', '2026-08-19 23:28:05');
 
 -- --------------------------------------------------------
 
@@ -867,8 +951,12 @@ CREATE TABLE `venta_detalles` (
 --
 
 INSERT INTO `venta_detalles` (`id`, `venta_id`, `producto_id`, `cantidad`, `precio`, `subtotal`, `descuento`, `subtotaltotal`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 300.00, 300.00, 0, 300.00, '2024-10-04 02:43:20', '2024-10-04 02:43:20'),
-(2, 2, 1, 6, 300.00, 1800.00, 0, 1800.00, '2025-07-09 21:12:03', '2025-07-09 21:12:03');
+(1, 1, 1, 1, 300.00, 300.00, 0, 300.00, '2024-10-04 02:43:20', '2026-07-03 22:38:55'),
+(2, 2, 1, 6, 300.00, 1800.00, 0, 1800.00, '2025-07-09 21:12:03', '2025-07-09 21:12:03'),
+(3, 3, 2, 1, 150.00, 150.00, 0, 150.00, '2026-07-03 22:40:17', '2026-07-03 22:40:17'),
+(4, 4, 2, 1, 150.00, 150.00, 0, 150.00, '2026-07-03 18:44:37', '2026-07-03 18:44:37'),
+(5, 5, 1, 4, 300.00, 1200.00, 0, 1200.00, '2026-08-19 23:06:30', '2026-08-19 23:06:30'),
+(6, 6, 2, 1, 150.00, 150.00, 0, 150.00, '2026-08-19 23:28:05', '2026-08-19 23:28:05');
 
 --
 -- Índices para tablas volcadas
@@ -958,7 +1046,6 @@ ALTER TABLE `productos`
 --
 ALTER TABLE `producto_barras`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `producto_barras_codigo_unique` (`codigo`),
   ADD KEY `producto_barras_producto_id_foreign` (`producto_id`);
 
 --
@@ -1037,7 +1124,7 @@ ALTER TABLE `venta_detalles`
 -- AUTO_INCREMENT de la tabla `almacen_productos`
 --
 ALTER TABLE `almacen_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -1049,7 +1136,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `configuracions`
@@ -1061,25 +1148,25 @@ ALTER TABLE `configuracions`
 -- AUTO_INCREMENT de la tabla `distribucion_productos`
 --
 ALTER TABLE `distribucion_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `historial_accions`
 --
 ALTER TABLE `historial_accions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `ingreso_productos`
 --
 ALTER TABLE `ingreso_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `kardex_productos`
 --
 ALTER TABLE `kardex_productos`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `marcas`
@@ -1103,7 +1190,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `producto_barras`
 --
 ALTER TABLE `producto_barras`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=219;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=252;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedors`
@@ -1157,13 +1244,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `venta_detalles`
 --
 ALTER TABLE `venta_detalles`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas

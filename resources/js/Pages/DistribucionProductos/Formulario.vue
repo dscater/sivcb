@@ -27,6 +27,7 @@ const listSucursals = ref([]);
 watch(
     () => props.open_dialog,
     async (newValue) => {
+        form.producto_barras = [];
         dialog.value = newValue;
         if (dialog.value) {
             cargarListas();
@@ -36,13 +37,13 @@ watch(
                 .classList.add("modal-open");
             form = useForm(oDistribucionProducto);
         }
-    }
+    },
 );
 watch(
     () => props.accion_dialog,
     (newValue) => {
         accion.value = newValue;
-    }
+    },
 );
 
 const { flash } = usePage().props;
@@ -83,8 +84,8 @@ const enviarFormulario = () => {
                     flash.error
                         ? flash.error
                         : err.error
-                        ? err.error
-                        : "Hay errores en el formulario"
+                          ? err.error
+                          : "Hay errores en el formulario"
                 }`,
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: `Aceptar`,
@@ -106,15 +107,17 @@ const cerrarDialog = () => {
     document.getElementsByTagName("body")[0].classList.remove("modal-open");
 };
 
-const agregarProducto = () => {
+const agregarProducto = async () => {
     if ("" + cod_prod.value.trim() != "") {
-        if (verificaCodigo(cod_prod.value) < 0) {
+        const res_verificacion = await verificaCodigo(cod_prod.value);
+        if (res_verificacion[0]) {
             axios
                 .get(route("producto_barras.getByCod"), {
                     params: {
                         codigo: cod_prod.value,
                         venta: true,
                         almacen: true,
+                        producto_barras_ids: res_verificacion.slice(1),
                     },
                 })
                 .then((response) => {
@@ -136,24 +139,93 @@ const agregarProducto = () => {
         asignaCantidad();
     }
 };
+const listProductos = computed(() => {
+    const productos = {};
+
+    form.producto_barras.forEach((item) => {
+        if (!productos[item.codigo]) {
+            productos[item.codigo] = {
+                ...item,
+                cantidad: 0,
+                ids: [],
+            };
+        }
+
+        productos[item.codigo].cantidad += 1;
+        productos[item.codigo].ids.push(item.id);
+    });
+
+    return Object.values(productos);
+});
 
 const asignaCantidad = () => {
     form.cantidad = form.producto_barras.length;
 };
 
-const eliminaProducto = (index) => {
-    if (form.producto_barras[index].id != 0) {
-        form.eliminados.push(form.producto_barras[index].id);
-    }
-    form.producto_barras.splice(index, 1);
+const eliminaProducto = (codigo) => {
+    const productos = form.producto_barras.filter(
+        (item) => item.codigo === codigo,
+    );
+
+    productos.forEach((item) => {
+        if (item.id != 0) {
+            form.eliminados.push(item.id);
+        }
+    });
+
+    form.producto_barras = form.producto_barras.filter(
+        (item) => item.codigo !== codigo,
+    );
+
     asignaCantidad();
 };
 
-const verificaCodigo = (cod) => {
+const verificaCodigo = async (cod) => {
     // Encuentra el índice del elemento cuyo código sea igual a cod
-    return form.producto_barras.findIndex(
-        (producto) => producto.codigo === cod
+    const producto_barras = form.producto_barras.filter(
+        (producto) => producto.codigo === cod,
     );
+
+    let producto_barras_ids = [];
+    producto_barras.forEach((producto) => {
+        producto_barras_ids.push(producto.id);
+    });
+
+    try {
+        const resp = await axios.post(
+            route("producto_barras.verificaDisponible"),
+            {
+                codigo: cod,
+                producto_barras_ids: producto_barras_ids,
+                almacen: true,
+            },
+        );
+
+        if (!resp.data.producto_barra) {
+            Swal.fire({
+                icon: "info",
+                title: "Error",
+                text: `Cantidad insuficiente para el producto con código: ${cod}. Disponible: ${resp.data.disponible}`,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: `Aceptar`,
+            });
+            return [false, ...producto_barras_ids];
+        }
+        return [true, ...producto_barras_ids];
+    } catch (error) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: `Error al verificar la disponibilidad del producto con código: ${cod}. Por favor, inténtelo de nuevo más tarde.`,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: `Aceptar`,
+        });
+        console.error(
+            "Error al verificar la disponibilidad del producto:",
+            error,
+        );
+        return [false, ...producto_barras_ids];
+    }
 };
 
 const cargarListas = () => {
@@ -265,6 +337,7 @@ onMounted(() => {});
                                                     <th width="3%"></th>
                                                     <th>Código</th>
                                                     <th>Producto</th>
+                                                    <th>Cantidad</th>
                                                     <th width="5%"></th>
                                                 </tr>
                                             </thead>
@@ -272,7 +345,7 @@ onMounted(() => {});
                                                 <tr
                                                     v-for="(
                                                         item, index_producto
-                                                    ) in form.producto_barras"
+                                                    ) in listProductos"
                                                 >
                                                     <td class="align-middle">
                                                         {{ index_producto + 1 }}
@@ -285,7 +358,12 @@ onMounted(() => {});
                                                             item.producto.nombre
                                                         }}
                                                     </td>
-                                                    <td class="align-middle text-center">
+                                                    <td class="align-middle">
+                                                        {{ item.cantidad }}
+                                                    </td>
+                                                    <td
+                                                        class="align-middle text-center"
+                                                    >
                                                         <button
                                                             v-if="
                                                                 !item.venta_id
@@ -293,7 +371,7 @@ onMounted(() => {});
                                                             class="btn btn-sm btn-danger w-100px"
                                                             @click.prevent="
                                                                 eliminaProducto(
-                                                                    index_producto
+                                                                    item.codigo,
                                                                 )
                                                             "
                                                         >
@@ -304,8 +382,7 @@ onMounted(() => {});
                                                         <span
                                                             v-else
                                                             class="font-weight-bold"
-                                                            ></span
-                                                        >
+                                                        ></span>
                                                     </td>
                                                 </tr>
                                                 <tr
@@ -315,7 +392,7 @@ onMounted(() => {});
                                                     "
                                                 >
                                                     <td
-                                                        colspan="3"
+                                                        colspan="4"
                                                         class="text-center text-gray-300-darker"
                                                     >
                                                         Sin productos

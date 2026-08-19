@@ -74,16 +74,19 @@ const cargarListas = async () => {
     listSucursals.value = await getSucursals();
 };
 
-const agregarProducto = () => {
+const agregarProducto = async () => {
     if (form.sucursal_id && form.sucursal_id != "") {
         if ("" + cod_prod.value.trim() != "") {
-            if (verificaCodigo(cod_prod.value) < 0) {
+            // verificar si el codigo ya fue agregado y disponibilidad
+            const res_verificacion = await verificaCodigo(cod_prod.value);
+            if (res_verificacion[0]) {
                 axios
                     .get(route("producto_barras.getByCod"), {
                         params: {
                             codigo: cod_prod.value,
                             sucursal_id: form.sucursal_id,
                             venta: true,
+                            producto_barras_ids: res_verificacion.slice(1),
                         },
                     })
                     .then((response) => {
@@ -131,7 +134,7 @@ const agregarProducto = () => {
                             Swal.fire({
                                 icon: "info",
                                 title: "Error",
-                                text: `No se encontro ningun producto con ese código; o el producto ya fue vendido`,
+                                text: `No se encontro ningun producto con ese código; o la cantidad es insuficiente`,
                                 confirmButtonColor: "#3085d6",
                                 confirmButtonText: `Aceptar`,
                             });
@@ -140,13 +143,16 @@ const agregarProducto = () => {
                         calculaTotal();
                     });
             } else {
-                Swal.fire({
-                    icon: "info",
-                    title: "Error",
-                    text: `Ese producto ya fue agregado`,
-                    confirmButtonColor: "#3085d6",
-                    confirmButtonText: `Aceptar`,
-                });
+                console.log(
+                    "No se puede agregar el producto, ya existe en la lista",
+                );
+                // Swal.fire({
+                //     icon: "info",
+                //     title: "Error",
+                //     text: `Ese producto ya fue agregado`,
+                //     confirmButtonColor: "#3085d6",
+                //     confirmButtonText: `Aceptar`,
+                // });
             }
             cod_prod.value = "";
             cod_prod_ref.value.focus();
@@ -189,11 +195,52 @@ const verificaVentaDetalle = (producto_id) => {
         (venta_detalle) => venta_detalle.producto_id === producto_id,
     );
 };
-const verificaCodigo = (cod) => {
+const verificaCodigo = async (cod) => {
     // Encuentra el índice del elemento cuyo código sea igual a cod
-    return form.producto_barras.findIndex(
+    const producto_barras = form.producto_barras.filter(
         (producto) => producto.codigo === cod,
     );
+
+    let producto_barras_ids = [];
+    producto_barras.forEach((producto) => {
+        producto_barras_ids.push(producto.id);
+    });
+
+    try {
+        const resp = await axios.post(
+            route("producto_barras.verificaDisponible"),
+            {
+                codigo: cod,
+                sucursal_id: form.sucursal_id,
+                producto_barras_ids: producto_barras_ids,
+            },
+        );
+
+        if (!resp.data.producto_barra) {
+            Swal.fire({
+                icon: "info",
+                title: "Error",
+                text: `Cantidad insuficiente para el producto con código: ${cod}. Disponible: ${resp.data.disponible}`,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: `Aceptar`,
+            });
+            return [false, ...producto_barras_ids];
+        }
+        return [true, ...producto_barras_ids];
+    } catch (error) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: `Error al verificar la disponibilidad del producto con código: ${cod}. Por favor, inténtelo de nuevo más tarde.`,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: `Aceptar`,
+        });
+        console.error(
+            "Error al verificar la disponibilidad del producto:",
+            error,
+        );
+        return [false, ...producto_barras_ids];
+    }
 };
 
 const calculaTotal = () => {
@@ -354,16 +401,21 @@ onMounted(() => {
                             <div class="col-md-6">
                                 <div class="col-12">
                                     <label>Agregar productos*</label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        ref="cod_prod_ref"
-                                        v-model="cod_prod"
-                                        @keypress.enter.prevent="
-                                            agregarProducto()
-                                        "
-                                    />
-                                    <small class="fs-12px text-gray-500-darker"
+                                    <div class="input-group">
+                                        <div class="input-group-text bg-white">
+                                            <i class="fa fa-barcode"></i>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            ref="cod_prod_ref"
+                                            v-model="cod_prod"
+                                            @keypress.enter.prevent="
+                                                agregarProducto()
+                                            "
+                                        />
+                                    </div>
+                                    <small class="fs-11px text-muted"
                                         >Mantener el campo de texto seleccionado
                                         para agregar los productos</small
                                     >

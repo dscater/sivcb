@@ -31,6 +31,8 @@ const { flash, auth } = usePage().props;
 const user = auth.user;
 const cod_prod_ref = ref(null);
 const cod_prod = ref("");
+const cant_prod_ref = ref(null);
+const cant_prod = ref(1);
 const listProductos = ref([]);
 const listProveedors = ref([]);
 const listTipoIngresos = ref([]);
@@ -48,13 +50,13 @@ watch(
                 .classList.add("modal-open");
             form = useForm(oIngresoProducto);
         }
-    }
+    },
 );
 watch(
     () => props.accion_dialog,
     (newValue) => {
         accion.value = newValue;
-    }
+    },
 );
 
 const tituloDialog = computed(() => {
@@ -107,8 +109,8 @@ const enviarFormulario = () => {
                     flash.error
                         ? flash.error
                         : err.error
-                        ? err.error
-                        : "Hay errores en el formulario"
+                          ? err.error
+                          : "Hay errores en el formulario"
                 }`,
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: `Aceptar`,
@@ -131,12 +133,30 @@ const cerrarDialog = () => {
 };
 
 const agregarProducto = () => {
+    if (
+        cant_prod.value <= 0 ||
+        cant_prod.value == null ||
+        cant_prod.value == undefined
+    ) {
+        Swal.fire({
+            icon: "info",
+            title: "Error",
+            text: `La cantidad debe ser mayor a 0`,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: `Aceptar`,
+        });
+        cant_prod.value = 1;
+        cant_prod_ref.value.focus();
+        return;
+    }
+
     if ("" + cod_prod.value.trim() != "") {
         if (verificaCodigo(cod_prod.value) < 0) {
             form.producto_barras.push({
                 id: 0,
                 producto_id: 0,
                 codigo: cod_prod.value,
+                cantidad: cant_prod.value,
                 lugar: "",
                 sucursal_id: 0,
                 ingreso_id: 0,
@@ -151,13 +171,33 @@ const agregarProducto = () => {
     }
 };
 
+const modificarCantidadFila = (e, index) => {
+    const cantidad = e.target.value;
+    if (cantidad <= 0 || cantidad == null || cantidad == undefined) {
+        Swal.fire({
+            icon: "info",
+            title: "Error",
+            text: `La cantidad debe ser mayor a 0`,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: `Aceptar`,
+        });
+        form.producto_barras[index].cantidad = 1;
+        return;
+    }
+    form.producto_barras[index].cantidad = cantidad;
+    asignaCantidad();
+};
+
 const asignaCantidad = () => {
-    form.cantidad = form.producto_barras.length;
+    const total = form.producto_barras.reduce((accumulator, producto) => {
+        return accumulator + Number(producto.cantidad);
+    }, 0);
+    form.cantidad = total;
 };
 
 const eliminaProducto = (index) => {
-    if (form.producto_barras[index].id != 0) {
-        form.eliminados.push(form.producto_barras[index].id);
+    if (form.producto_barras[index].codigo) {
+        form.eliminados.push(form.producto_barras[index].codigo);
     }
     form.producto_barras.splice(index, 1);
     asignaCantidad();
@@ -166,7 +206,7 @@ const eliminaProducto = (index) => {
 const verificaCodigo = (cod) => {
     // Encuentra el índice del elemento cuyo código sea igual a cod
     return form.producto_barras.findIndex(
-        (producto) => producto.codigo === cod
+        (producto) => producto.codigo === cod,
     );
 };
 
@@ -195,7 +235,7 @@ onMounted(() => {});
 
 <template>
     <div
-        class="modal fade modal_registro"
+        class="modal fade modal_registro modal-full"
         :class="{
             show: dialog,
         }"
@@ -217,7 +257,7 @@ onMounted(() => {});
                 <div class="modal-body">
                     <form @submit.prevent="enviarFormulario()">
                         <div class="row">
-                            <div class="col-md-8 border p-2">
+                            <div class="col-md-7 border p-2">
                                 <div class="row">
                                     <div
                                         class="col-12"
@@ -314,7 +354,7 @@ onMounted(() => {});
                                         </ul>
                                     </div>
                                     <div class="col-12">
-                                        <label>Cantidad*</label>
+                                        <label>Cantidad Total*</label>
                                         <input
                                             type="number"
                                             step="1"
@@ -509,25 +549,64 @@ onMounted(() => {});
                                     </template>
                                 </div>
                             </div>
-                            <div class="col-md-4 border p-2">
+                            <div class="col-md-5 border p-2">
                                 <div class="row">
                                     <div class="col-12">
                                         <h4>Productos agregados</h4>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            ref="cod_prod_ref"
-                                            v-model="cod_prod"
-                                            @keypress.enter.prevent="
-                                                agregarProducto()
-                                            "
-                                        />
-                                        <small
-                                            class="fs-12px text-gray-500-darker"
-                                            >Mantener el campo de texto
-                                            seleccionado para agregar los
-                                            productos</small
-                                        >
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <div class="input-group">
+                                                    <span
+                                                        class="input-group-text bg-white"
+                                                    >
+                                                        <i
+                                                            class="fa fa-calculator"
+                                                        ></i>
+                                                    </span>
+                                                    <input
+                                                        type="number"
+                                                        class="form-control text-center"
+                                                        ref="cant_prod_ref"
+                                                        placeholder="Cantidad ingresada"
+                                                        v-model="cant_prod"
+                                                        @keypress.enter.prevent="
+                                                            agregarProducto()
+                                                        "
+                                                    />
+                                                </div>
+                                                <small
+                                                    class="fs-10px text-muted"
+                                                    >Cantidad Ingresada</small
+                                                >
+                                            </div>
+                                            <div class="col-8">
+                                                <div class="input-group">
+                                                    <span
+                                                        class="input-group-text bg-white"
+                                                    >
+                                                        <i
+                                                            class="fa fa-barcode"
+                                                        ></i>
+                                                    </span>
+                                                    <input
+                                                        type="text"
+                                                        class="form-control"
+                                                        ref="cod_prod_ref"
+                                                        placeholder="Ingresar código aquí"
+                                                        v-model="cod_prod"
+                                                        @keypress.enter.prevent="
+                                                            agregarProducto()
+                                                        "
+                                                    />
+                                                </div>
+                                                <small
+                                                    class="fs-10px text-muted"
+                                                    >Mantener el campo de texto
+                                                    seleccionado para agregar
+                                                    los productos</small
+                                                >
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-12 lista_productos_codigo">
                                         <table class="table table-panel mb-0">
@@ -535,7 +614,10 @@ onMounted(() => {});
                                                 <tr>
                                                     <th width="3%"></th>
                                                     <th>Código</th>
-                                                    <th width="5%"></th>
+                                                    <th class="text-center">
+                                                        Cant.
+                                                    </th>
+                                                    <th width="2%"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -543,6 +625,11 @@ onMounted(() => {});
                                                     v-for="(
                                                         item, index_producto
                                                     ) in form.producto_barras"
+                                                    :key="
+                                                        item.codigo
+                                                            ? item.codigo
+                                                            : index_producto
+                                                    "
                                                 >
                                                     <td class="align-middle">
                                                         {{ index_producto + 1 }}
@@ -550,17 +637,34 @@ onMounted(() => {});
                                                     <td class="align-middle">
                                                         {{ item.codigo }}
                                                     </td>
+                                                    <td class="align-middle">
+                                                        <input
+                                                            type="number"
+                                                            class="form-control text-center"
+                                                            v-model="
+                                                                item.cantidad
+                                                            "
+                                                            @keyup="
+                                                                modificarCantidadFila(
+                                                                    $event,
+                                                                    index_producto,
+                                                                )
+                                                            "
+                                                        />
+                                                    </td>
                                                     <td
+                                                        width="2%"
                                                         class="align-middle text-center"
                                                     >
                                                         <button
                                                             v-if="
-                                                                !item.venta_id
+                                                                item.cantidad !=
+                                                                item.disponible
                                                             "
-                                                            class="btn btn-sm btn-danger w-100px"
+                                                            class="btn btn-sm btn-danger"
                                                             @click.prevent="
                                                                 eliminaProducto(
-                                                                    index_producto
+                                                                    index_producto,
                                                                 )
                                                             "
                                                         >
@@ -582,7 +686,7 @@ onMounted(() => {});
                                                     "
                                                 >
                                                     <td
-                                                        colspan="2"
+                                                        colspan="4"
                                                         class="text-center text-gray-300-darker"
                                                     >
                                                         Sin productos

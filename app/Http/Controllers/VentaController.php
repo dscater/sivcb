@@ -129,6 +129,7 @@ class VentaController extends Controller
                 }
                 $existe->update([
                     "venta_id" => $nueva_venta->id,
+                    "disponible" => 0,
                 ]);
                 $array_update[$item["producto_id"]][] = $item;
             }
@@ -149,7 +150,7 @@ class VentaController extends Controller
 
                 foreach ($array_update[$vd["producto_id"]] as $value) {
                     $producto_barra = ProductoBarra::find($value["id"]);
-                    $producto_barra->update(["venta_detalle_id" => $nuevo_detalle->id]);
+                    $producto_barra->update(["venta_detalle_id" => $nuevo_detalle->id, "venta_id" => $nuevo_detalle->venta_id, "disponible" => 0]);
                 }
                 // registrar kardex
                 KardexProducto::registroEgreso("SUCURSAL", "VENTA", $nuevo_detalle->id, $nuevo_detalle->producto, $nuevo_detalle->cantidad, $nuevo_detalle->producto->precio, "VENTA DE PRODUCTO", $nueva_venta->sucursal_id);
@@ -245,7 +246,7 @@ class VentaController extends Controller
             }
 
             // poner en null los registros de barras
-            $venta->producto_barras()->update(["venta_id" => null, "venta_detalle_id" => null]);
+            $venta->producto_barras()->update(["venta_id" => null, "venta_detalle_id" => null, "disponible" => 1]);
 
             // eliminados
             $eliminados = $request->eliminados;
@@ -311,6 +312,7 @@ class VentaController extends Controller
                 }
                 $existe->update([
                     "venta_id" => $venta->id,
+                    "disponible" => 0,
                 ]);
                 $array_update[$item["producto_id"]][] = $item;
             }
@@ -358,7 +360,7 @@ class VentaController extends Controller
 
                     foreach ($array_update[$vd["producto_id"]] as $value) {
                         $producto_barra = ProductoBarra::find($value["id"]);
-                        $producto_barra->update(["venta_detalle_id" => $venta_detalle->id]);
+                        $producto_barra->update(["venta_detalle_id" => $venta_detalle->id, "venta_id", $venta_detalle->venta_id, "disponible" => 0]);
                     }
                     KardexProducto::actualizaRegistrosKardex($kardex->id, $kardex->producto_id, "SUCURSAL", $venta->sucursal_id);
                 } else {
@@ -373,7 +375,7 @@ class VentaController extends Controller
 
                     foreach ($array_update[$vd["producto_id"]] as $value) {
                         $producto_barra = ProductoBarra::find($value["id"]);
-                        $producto_barra->update(["venta_detalle_id" => $venta_detalle->id]);
+                        $producto_barra->update(["venta_detalle_id" => $venta_detalle->id, "venta_id" => $venta_detalle->venta_id, "disponible" => 0]);
                     }
                     // registrar kardex
                     KardexProducto::registroEgreso("SUCURSAL", "VENTA", $nuevo_detalle->id, $nuevo_detalle->producto, $nuevo_detalle->cantidad, $nuevo_detalle->producto->precio, "VENTA DE PRODUCTO", $venta->sucursal_id);
@@ -407,7 +409,7 @@ class VentaController extends Controller
     {
         DB::beginTransaction();
         try {
-            $venta->producto_barras()->update(["venta_id", null, "venta_detalle_id" => null]);
+            $venta->producto_barras()->update(["venta_id" => null, "venta_detalle_id" => null, "disponible" => 1]);
 
             foreach ($venta->venta_detalles as $vd) {
                 $producto = Producto::find($vd->producto_id);

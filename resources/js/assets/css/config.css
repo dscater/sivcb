@@ -97,6 +97,19 @@ html {
     background-color: rgba(0, 0, 0, 0.582);
 }
 
+.modal-full .modal-dialog {
+    max-width: 90%;
+}
+
+@media (max-width: 1000px) {
+    .modal-full .modal-dialog {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+    }
+}
+
 .app-default {
     display: flex;
     width: 100%;

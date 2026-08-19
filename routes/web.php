@@ -31,6 +31,13 @@ Route::get('/', function () {
     return Inertia::render('Auth/Login');
 })->name("porta.index");
 
+Route::get('/clear-cache', function () {
+    Artisan::call('config:cache');
+    Artisan::call('config:clear');
+    Artisan::call('optimize');
+    return 'Cache eliminado <a href="/">Ir al inicio</a>';
+})->name('clear.cache');
+
 Route::get('/login', function () {
     if (Auth::check()) {
         return redirect()->route('inicio');
@@ -126,6 +133,7 @@ Route::middleware('auth')->prefix("admin")->group(function () {
 
     Route::get("productos/barras/getByProductoSucursalAlmacen", [ProductoBarraController::class, 'getByProductoSucursalAlmacen'])->name("producto_barras.getByProductoSucursalAlmacen");
     Route::get("productos/barras/getByCod", [ProductoBarraController::class, 'getByCod'])->name("producto_barras.getByCod");
+    Route::post("productos/barras/verificaDisponible", [ProductoBarraController::class, 'verificaDisponible'])->name("producto_barras.verificaDisponible");
     Route::get("productos/barras/getProductos", [ProductoBarraController::class, 'getProductos'])->name("producto_barras.getProductos");
 
     // TIPO INGRESOS

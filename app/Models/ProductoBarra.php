@@ -12,6 +12,8 @@ class ProductoBarra extends Model
     protected $fillable = [
         "producto_id",
         "codigo",
+        "cantidad",
+        "disponible",
         "lugar",
         "sucursal_id",
         "ingreso_id",

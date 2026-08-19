@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("producto_id");
             $table->string("codigo", 255)->unique();
+            $table->double("cantidad", 8, 2)->default(1);
+            $table->double("disponible", 8, 2)->default(1);
             $table->string("lugar");
             $table->unsignedBigInteger("sucursal_id")->nullable();
             $table->unsignedBigInteger("ingreso_id")->nullable();

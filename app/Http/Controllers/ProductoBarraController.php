@@ -51,9 +51,12 @@ class ProductoBarraController extends Controller
     public function getByCod(Request $request)
     {
         $codigo = $request->codigo;
+        $producto_barras_ids = $producto_barras_ids = $request->producto_barras_ids ?? [];
+
         $producto_barra = null;
         if ($codigo) {
             $producto_barra = ProductoBarra::where("codigo", $codigo);
+            $producto_barra->where("disponible", ">", 0);
             if (isset($request->almacen) && $request->almacen) {
                 $producto_barra->where("lugar", "ALMACÉN");
                 $producto_barra->where("distribucion_id", null);
@@ -67,6 +70,9 @@ class ProductoBarraController extends Controller
                 $producto_barra->where("venta_id", null);
                 $producto_barra->where("venta_detalle_id", null);
             }
+            if (!empty($producto_barras_ids)) {
+                $producto_barra->whereNotIn("id", $producto_barras_ids);
+            }
             $producto_barra = $producto_barra->get()->first();
             if ($producto_barra) {
                 if (isset($request->venta) && $request->venta) {
@@ -76,5 +82,31 @@ class ProductoBarraController extends Controller
             }
         }
         return response()->JSON(null);
+    }
+
+    public function verificaDisponible(Request $request)
+    {
+        $producto_barras_ids = $producto_barras_ids = $request->producto_barras_ids ?? [];
+        $codigo = $request->codigo;
+        $producto_barra = null;
+        if ($codigo) {
+            $producto_barra = ProductoBarra::where("codigo", $codigo);
+            if (isset($request->almacen) && $request->almacen) {
+                $producto_barra->where("lugar", "ALMACÉN");
+                $producto_barra->where("distribucion_id", null);
+            }
+            if (isset($request->sucursal_id) && $request->sucursal_id) {
+                $producto_barra->where("lugar", "SUCURSAL");
+                $producto_barra->where("sucursal_id", $request->sucursal_id);
+            }
+            if (!empty($producto_barras_ids)) {
+                $producto_barra->whereNotIn("id", $producto_barras_ids);
+            }
+            $producto_barra->where("disponible", ">", 0);
+            $disponible = $producto_barra->sum("disponible");
+            $producto_barra = $producto_barra->get()->first();
+            return response()->JSON(["producto_barra" => $producto_barra, "disponible" => $disponible]);
+        }
+        return response()->JSON(["producto_barra" => null, "disponible" => 0]);
     }
 }

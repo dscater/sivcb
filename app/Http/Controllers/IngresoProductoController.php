@@ -212,19 +212,22 @@ class IngresoProductoController extends Controller
                 if ($existe) {
                     throw new Exception("Uno o mas códigos de los productos agregados ya éxisten");
                 }
-                $data_barras = [
-                    "producto_id" => $nuevo_ingreso_producto->producto_id,
-                    "codigo" => $item["codigo"],
-                    "lugar" => $nuevo_ingreso_producto->lugar,
-                    "sucursal_id" => $nuevo_ingreso_producto->sucursal_id,
-                    "ingreso_id" => $nuevo_ingreso_producto->id,
-                ];
 
-                if ($request->lugar == 'ALMACÉN') {
-                    unset($data_barras["sucursal_id"]);
-                }
-                if ($item["id"] == 0) {
-                    ProductoBarra::create($data_barras);
+                for ($i = 1; $i <= (int)$item["cantidad"]; $i++) {
+                    $data_barras = [
+                        "producto_id" => $nuevo_ingreso_producto->producto_id,
+                        "codigo" => $item["codigo"],
+                        "lugar" => $nuevo_ingreso_producto->lugar,
+                        "sucursal_id" => $nuevo_ingreso_producto->sucursal_id,
+                        "ingreso_id" => $nuevo_ingreso_producto->id,
+                    ];
+
+                    if ($request->lugar == 'ALMACÉN') {
+                        unset($data_barras["sucursal_id"]);
+                    }
+                    if ($item["id"] == 0) {
+                        ProductoBarra::create($data_barras);
+                    }
                 }
             }
 
@@ -258,24 +261,29 @@ class IngresoProductoController extends Controller
 
     public function show(IngresoProducto $ingreso_producto)
     {
-        $ingreso_producto->load(["producto", "proveedor", "tipo_ingreso"]);
+        $ingreso_producto->load([
+            "producto",
+            "proveedor",
+            "tipo_ingreso",
+            "sucursal:id,nombre"
+        ]);
+
         $producto_barras = ProductoBarra::select(
-            "id",
-            "producto_id",
             "codigo",
-            "lugar",
-            "sucursal_id",
-            "ingreso_id",
-            "salida_id",
-            "venta_id",
-            "venta_detalle_id",
-            "distribucion_id",
-        )->where("ingreso_id", $ingreso_producto->id)->get();
-        $producto_barras->each(function ($pb) {
-            $pb->unsetRelation('producto');   // elimina la relación si está cargada
-            $pb->makeHidden(['producto']);    // oculta la clave al serializar
-        });
-        $ingreso_producto->setRelation("producto_barras", $producto_barras);
+            DB::raw("SUM(cantidad) as cantidad"),
+            DB::raw("SUM(disponible) as disponible")
+        )
+            ->where("ingreso_id", $ingreso_producto->id)
+            ->groupBy("codigo")
+            ->get()
+            ->each(function ($pb) {
+                $pb->setAppends([]);
+            });
+
+        $ingreso_producto->setRelation(
+            "producto_barras",
+            $producto_barras
+        );
 
         $ingreso_producto->producto->setAppends([]);
 
@@ -332,12 +340,12 @@ class IngresoProductoController extends Controller
             $eliminados = $request->eliminados;
             if (isset($request->eliminados) && $eliminados) {
                 foreach ($eliminados as $item_e) {
-                    $producto_barra = ProductoBarra::find($item_e);
-                    if (!$producto_barra->salida_id && !$producto_barra->venta_detalle_id && !$producto_barra->distribucion_id) {
-                        $producto_barra->delete();
-                    } else {
-                        throw new Exception("No es posible eliminar el registro debido a que uno o mas registros del mismo fueron utilizados");
+                    // verificar vendidos o salida
+                    $vendidos = ProductoBarra::where("codigo", $item_e)->where("disponible", 0)->get()->count();
+                    if ($vendidos > 0) {
+                        throw new Exception("Uno o mas productos con el código " . $item_e . " ya fueron vendidos o se registro su salida, no es posible modificar/eliminar la cantidad de este producto");
                     }
+                    ProductoBarra::where("codigo", $item_e)->delete();
                 }
             }
 
@@ -347,28 +355,29 @@ class IngresoProductoController extends Controller
 
             $producto_barras = $request->producto_barras;
             foreach ($producto_barras as $item) {
-                $data_barras = [
-                    "producto_id" => $ingreso_producto->producto_id,
-                    "codigo" => $item["codigo"],
-                    "lugar" => $ingreso_producto->lugar,
-                    "sucursal_id" => $ingreso_producto->sucursal_id,
-                    "ingreso_id" => $ingreso_producto->id,
-                ];
-
-                if ($request->lugar == 'ALMACÉN') {
-                    unset($data_barras["sucursal_id"]);
+                // verificar vendidos o salida
+                $vendidos = ProductoBarra::where("codigo", $item["codigo"])->where("disponible", 0)->get()->count();
+                if ($vendidos > 0) {
+                    throw new Exception("Uno o mas productos con el código " . $item["codigo"] . " ya fueron vendidos o se registro su salida, no es posible modificar/eliminar la cantidad de este producto");
                 }
-                if ($item["id"] == 0) {
-                    ProductoBarra::create($data_barras);
-                } else {
-                    $producto_barra = ProductoBarra::find($item["id"]);
-                    $producto_barra->lugar = $ingreso_producto->lugar;
+
+                // eliminar todos los registros con ese codigo
+                ProductoBarra::where("codigo", $item["codigo"])->delete();
+
+                // crear nuevamente los registros con la nueva cantidad
+                for ($i = 1; $i <= (int)$item["cantidad"]; $i++) {
+                    $data_barras = [
+                        "producto_id" => $ingreso_producto->producto_id,
+                        "codigo" => $item["codigo"],
+                        "lugar" => $ingreso_producto->lugar,
+                        "sucursal_id" => $ingreso_producto->sucursal_id,
+                        "ingreso_id" => $ingreso_producto->id,
+                    ];
+
                     if ($request->lugar == 'ALMACÉN') {
-                        $producto_barra->sucursal_id = null;
-                    } else {
-                        $producto_barra->sucursal_id = $ingreso_producto->sucursal_id;
+                        unset($data_barras["sucursal_id"]);
                     }
-                    $producto_barra->save();
+                    ProductoBarra::create($data_barras);
                 }
             }
 

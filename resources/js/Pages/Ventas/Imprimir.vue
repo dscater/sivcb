@@ -98,26 +98,27 @@
                                                         {{ item.cantidad }}
                                                     </td>
                                                     <td class="centreado">
-                                                        <span
-                                                            v-for="(
-                                                                pb, index_pb
-                                                            ) in item.producto_barras"
-                                                            >{{ pb.codigo }}
-                                                            <span
-                                                                v-if="
-                                                                    item
-                                                                        .producto_barras
-                                                                        .length >
-                                                                        1 &&
-                                                                    index_pb <
-                                                                        item
-                                                                            .producto_barras
-                                                                            .length -
-                                                                            1
-                                                                "
-                                                                >|</span
-                                                            ></span
-                                                        >
+                                                        <span>
+                                                            {{
+                                                                item.producto_barras
+                                                                    .map(
+                                                                        (pb) =>
+                                                                            pb.codigo,
+                                                                    )
+                                                                    .filter(
+                                                                        (
+                                                                            codigo,
+                                                                            index,
+                                                                            array,
+                                                                        ) =>
+                                                                            array.indexOf(
+                                                                                codigo,
+                                                                            ) ===
+                                                                            index,
+                                                                    )
+                                                                    .join(" | ")
+                                                            }}
+                                                        </span>
                                                     </td>
                                                     <td class="izquierda">
                                                         {{
