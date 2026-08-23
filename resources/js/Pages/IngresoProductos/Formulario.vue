@@ -658,8 +658,12 @@ onMounted(() => {});
                                                     >
                                                         <button
                                                             v-if="
-                                                                item.cantidad !=
-                                                                item.disponible
+                                                                Number(
+                                                                    item.cantidad,
+                                                                ) ==
+                                                                Number(
+                                                                    item.disponible,
+                                                                )
                                                             "
                                                             class="btn btn-sm btn-danger"
                                                             @click.prevent="
@@ -675,7 +679,8 @@ onMounted(() => {});
                                                         <span
                                                             v-else
                                                             class="font-weight-bold"
-                                                            >Vendido</span
+                                                        >
+                                                            Vendido</span
                                                         >
                                                     </td>
                                                 </tr>
