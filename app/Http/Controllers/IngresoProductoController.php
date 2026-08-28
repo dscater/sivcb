@@ -208,10 +208,10 @@ class IngresoProductoController extends Controller
             }
             $producto_barras = $request->producto_barras;
             foreach ($producto_barras as $item) {
-                $existe = ProductoBarra::where("codigo", $item["codigo"])->get()->first();
-                if ($existe) {
-                    throw new Exception("Uno o mas códigos de los productos agregados ya éxisten");
-                }
+                // $existe = ProductoBarra::where("codigo", $item["codigo"])->get()->first();
+                // if ($existe) {
+                //     throw new Exception("Uno o mas códigos de los productos agregados ya éxisten");
+                // }
 
                 for ($i = 1; $i <= (int)$item["cantidad"]; $i++) {
                     $data_barras = [
@@ -271,13 +271,15 @@ class IngresoProductoController extends Controller
         $producto_barras = ProductoBarra::select(
             "codigo",
             DB::raw("SUM(cantidad) as cantidad"),
-            DB::raw("SUM(disponible) as disponible")
+            DB::raw("SUM(disponible) as disponible"),
+            DB::raw("MAX(CASE WHEN distribucion_id IS NOT NULL THEN 1 ELSE 0 END) as tiene_distribucion")
         )
             ->where("ingreso_id", $ingreso_producto->id)
             ->groupBy("codigo")
             ->get()
             ->each(function ($pb) {
                 $pb->setAppends([]);
+                $pb->tiene_distribucion = (bool) $pb->tiene_distribucion;
             });
 
         $ingreso_producto->setRelation(
@@ -341,7 +343,9 @@ class IngresoProductoController extends Controller
             if (isset($request->eliminados) && $eliminados) {
                 foreach ($eliminados as $item_e) {
                     // verificar vendidos o salida
-                    $vendidos = ProductoBarra::where("codigo", $item_e)->where("disponible", 0)->get()->count();
+                    $vendidos = ProductoBarra::where("codigo", $item_e)->where("disponible", 0)
+                        ->where("ingreso_id", $ingreso_producto->id)
+                        ->get()->count();
                     if ($vendidos > 0) {
                         throw new Exception("Uno o mas productos con el código " . $item_e . " ya fueron vendidos o se registro su salida, no es posible modificar/eliminar la cantidad de este producto");
                     }
@@ -356,13 +360,18 @@ class IngresoProductoController extends Controller
             $producto_barras = $request->producto_barras;
             foreach ($producto_barras as $item) {
                 // verificar vendidos o salida
-                $vendidos = ProductoBarra::where("codigo", $item["codigo"])->where("disponible", 0)->get()->count();
+                $vendidos = ProductoBarra::where("codigo", $item["codigo"])->where("disponible", 0)
+                    ->where("ingreso_id", $ingreso_producto->id)
+                    ->get()->count();
                 if ($vendidos > 0) {
+                    continue;
                     throw new Exception("Uno o mas productos con el código " . $item["codigo"] . " ya fueron vendidos o se registro su salida, no es posible modificar/eliminar la cantidad de este producto");
                 }
 
-                // eliminar todos los registros con ese codigo
-                ProductoBarra::where("codigo", $item["codigo"])->delete();
+                // eliminar todos los registros con ese codigo del ingreso
+                ProductoBarra::where("codigo", $item["codigo"])
+                    ->where("ingreso_id", $ingreso_producto->id)
+                    ->delete();
 
                 // crear nuevamente los registros con la nueva cantidad
                 for ($i = 1; $i <= (int)$item["cantidad"]; $i++) {

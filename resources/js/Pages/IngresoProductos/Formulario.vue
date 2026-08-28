@@ -50,13 +50,13 @@ watch(
                 .classList.add("modal-open");
             form = useForm(oIngresoProducto);
         }
-    },
+    }
 );
 watch(
     () => props.accion_dialog,
     (newValue) => {
         accion.value = newValue;
-    },
+    }
 );
 
 const tituloDialog = computed(() => {
@@ -109,8 +109,8 @@ const enviarFormulario = () => {
                     flash.error
                         ? flash.error
                         : err.error
-                          ? err.error
-                          : "Hay errores en el formulario"
+                        ? err.error
+                        : "Hay errores en el formulario"
                 }`,
                 confirmButtonColor: "#3085d6",
                 confirmButtonText: `Aceptar`,
@@ -157,6 +157,7 @@ const agregarProducto = () => {
                 producto_id: 0,
                 codigo: cod_prod.value,
                 cantidad: cant_prod.value,
+                disponible: cant_prod.value,
                 lugar: "",
                 sucursal_id: 0,
                 ingreso_id: 0,
@@ -182,9 +183,11 @@ const modificarCantidadFila = (e, index) => {
             confirmButtonText: `Aceptar`,
         });
         form.producto_barras[index].cantidad = 1;
+        form.producto_barras[index].disponible = 1;
         return;
     }
     form.producto_barras[index].cantidad = cantidad;
+    form.producto_barras[index].disponible = cantidad;
     asignaCantidad();
 };
 
@@ -206,7 +209,7 @@ const eliminaProducto = (index) => {
 const verificaCodigo = (cod) => {
     // Encuentra el índice del elemento cuyo código sea igual a cod
     return form.producto_barras.findIndex(
-        (producto) => producto.codigo === cod,
+        (producto) => producto.codigo === cod
     );
 };
 
@@ -644,10 +647,16 @@ onMounted(() => {});
                                                             v-model="
                                                                 item.cantidad
                                                             "
+                                                            @change="
+                                                                modificarCantidadFila(
+                                                                    $event,
+                                                                    index_producto
+                                                                )
+                                                            "
                                                             @keyup="
                                                                 modificarCantidadFila(
                                                                     $event,
-                                                                    index_producto,
+                                                                    index_producto
                                                                 )
                                                             "
                                                         />
@@ -659,16 +668,17 @@ onMounted(() => {});
                                                         <button
                                                             v-if="
                                                                 Number(
-                                                                    item.cantidad,
+                                                                    item.cantidad
                                                                 ) ==
-                                                                Number(
-                                                                    item.disponible,
-                                                                )
+                                                                    Number(
+                                                                        item.disponible
+                                                                    ) &&
+                                                                !item.tiene_distribucion
                                                             "
                                                             class="btn btn-sm btn-danger"
                                                             @click.prevent="
                                                                 eliminaProducto(
-                                                                    index_producto,
+                                                                    index_producto
                                                                 )
                                                             "
                                                         >
@@ -680,7 +690,8 @@ onMounted(() => {});
                                                             v-else
                                                             class="font-weight-bold"
                                                         >
-                                                            Vendido</span
+                                                            Vendido o
+                                                            Distribuido</span
                                                         >
                                                     </td>
                                                 </tr>
