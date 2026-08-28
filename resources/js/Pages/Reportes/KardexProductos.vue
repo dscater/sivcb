@@ -113,10 +113,11 @@ const txtBtn = computed(() => {
 const generarReporte = () => {
     generando.value = true;
     const url = route("reportes.r_kardex_productos", form.value);
-    window.open(url, "_blank");
-    setTimeout(() => {
-        generando.value = false;
-    }, 500);
+    window.location.href = url;
+    // window.open(url, "_blank");
+    // setTimeout(() => {
+    generando.value = false;
+    // }, 500);
 };
 </script>
 <template>
@@ -214,7 +215,10 @@ const generarReporte = () => {
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-12" v-if="user.tipo == 'ADMINISTRADOR'">
+                            <div
+                                class="col-12"
+                                v-if="user.tipo == 'ADMINISTRADOR'"
+                            >
                                 <label>Seleccionar Sucursal*</label>
                                 <select
                                     class="form-select"

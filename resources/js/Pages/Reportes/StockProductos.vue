@@ -100,10 +100,11 @@ const txtBtn = computed(() => {
 const generarReporte = () => {
     generando.value = true;
     const url = route("reportes.r_stock_productos", form.value);
-    window.open(url, "_blank");
-    setTimeout(() => {
-        generando.value = false;
-    }, 500);
+    window.location.href = url;
+    // window.open(url, "_blank");
+    // setTimeout(() => {
+    generando.value = false;
+    // }, 500);
 };
 </script>
 <template>

@@ -150,10 +150,11 @@ const txtBtn2 = computed(() => {
 const generarReporte = () => {
     generando.value = true;
     const url = route("reportes.r_ventas", form.value);
-    window.open(url, "_blank");
-    setTimeout(() => {
-        generando.value = false;
-    }, 500);
+    window.location.href = url;
+    // window.open(url, "_blank");
+    // setTimeout(() => {
+    generando.value = false;
+    // }, 500);
 };
 
 const generarReporteG = () => {

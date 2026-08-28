@@ -64,6 +64,8 @@ class ReporteController extends Controller
 
     public function r_stock_productos(Request $request)
     {
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
         $lugar = $request->lugar;
         $categoria_id = $request->categoria_id;
         $marca_id = $request->marca_id;
@@ -103,7 +105,7 @@ class ReporteController extends Controller
         $ancho = $canvas->get_width();
         $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
 
-        return $pdf->stream('stock_productos.pdf');
+        return $pdf->download('stock_productos.pdf');
     }
 
     public function kardex_productos()
@@ -113,6 +115,8 @@ class ReporteController extends Controller
 
     public function r_kardex_productos(Request $request)
     {
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
         $producto_id = $request->producto_id;
         $categoria_id = $request->categoria_id;
         $marca_id = $request->marca_id;
@@ -209,7 +213,7 @@ class ReporteController extends Controller
         $ancho = $canvas->get_width();
         $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
 
-        return $pdf->stream('kardex.pdf');
+        return $pdf->download('kardex.pdf');
     }
 
     public function ventas()
@@ -219,6 +223,8 @@ class ReporteController extends Controller
 
     public function r_ventas(Request $request)
     {
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
         $producto_id = $request->producto_id;
         $categoria_id = $request->categoria_id;
         $marca_id = $request->marca_id;
@@ -296,7 +302,7 @@ class ReporteController extends Controller
         $ancho = $canvas->get_width();
         $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
 
-        return $pdf->stream('ventas.pdf');
+        return $pdf->download('ventas.pdf');
     }
 
     public function g_ventas(Request $request)
@@ -389,6 +395,8 @@ class ReporteController extends Controller
 
     public function r_ingreso_productos(Request $request)
     {
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
         $lugar = $request->lugar;
         $producto_id = $request->producto_id;
         $categoria_id = $request->categoria_id;
@@ -416,7 +424,7 @@ class ReporteController extends Controller
         $ancho = $canvas->get_width();
         $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
 
-        return $pdf->stream('ventas.pdf');
+        return $pdf->download('ventas.pdf');
     }
 
     public function salida_productos()
@@ -426,6 +434,8 @@ class ReporteController extends Controller
 
     public function r_salida_productos(Request $request)
     {
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
         $lugar = $request->lugar;
         $producto_id = $request->producto_id;
         $categoria_id = $request->categoria_id;
@@ -453,7 +463,7 @@ class ReporteController extends Controller
         $ancho = $canvas->get_width();
         $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
 
-        return $pdf->stream('ventas.pdf');
+        return $pdf->download('ventas.pdf');
     }
 
     public function productos()
@@ -463,6 +473,8 @@ class ReporteController extends Controller
 
     public function r_productos(Request $request)
     {
+        ini_set('memory_limit', '-1');
+        set_time_limit(0);
         $producto_id = $request->producto_id;
         $categoria_id = $request->categoria_id;
         $marca_id = $request->marca_id;
@@ -493,6 +505,6 @@ class ReporteController extends Controller
         $ancho = $canvas->get_width();
         $canvas->page_text($ancho - 90, $alto - 25, "Página {PAGE_NUM} de {PAGE_COUNT}", null, 9, array(0, 0, 0));
 
-        return $pdf->stream('ventas.pdf');
+        return $pdf->download('ventas.pdf');
     }
 }
