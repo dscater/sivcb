@@ -78,7 +78,21 @@ class ReporteController extends Controller
         $unidad_medida_id = $request->unidad_medida_id;
         $sucursal_id = $request->sucursal_id;
 
-        $productos = Producto::select("productos.*");
+        $productos = Producto::select(
+            "productos.id",
+            "productos.nombre",
+            "productos.precio",
+            "productos.categoria_id",
+            "productos.marca_id",
+            "productos.unidad_medida_id",
+            "productos.precio",
+        )
+            ->with([
+                "categoria:id,nombre",
+                "marca:id,nombre",
+                "unidad_medida:id,nombre",
+                "almacen_producto"
+            ]);
         if ($categoria_id != 'todos') {
             $productos->where("categoria_id", $categoria_id);
         }
@@ -112,72 +126,55 @@ class ReporteController extends Controller
         $pdf->SetFont('helvetica', 'B', 10);
         $pdf->Cell(0, 5, "Expedido: " . date("d/m/Y"), 0, 1, 'C', 0, '', 0, false);
         $pdf->SetFont('helvetica', 'B', 8);
-        $ancho = 20;
+        $alto = 10;
         $font_size = 8;
         $font_size2 = 9;
         if ($lugar == 'ALMACÉN') {
-            $html = '<h3 style="font-weight: bold; margin-bottom: 3px;">STOCK DE ALMACÉN</h3>';
-            $html .= '<table border="1" cellspacing="0" style="margin-top:0px">
-            <thead>
-                <tr class="bg-principal">
-                    <th width="4%">#</th>
-                    <th width="20%">PRODUCTO</th>
-                    <th>CATEGORÍA</th>
-                    <th>MARCA</th>
-                    <th>UNIDAD DE MEDIDA</th>
-                    <th>PRECIO</th>
-                    <th>STOCK ACTUAL</th>
-                    <th>TOTAL</th>
-                </tr>
-            </thead>
-            <tbody>';
+            $pdf->setFont("helvetica", "B", $font_size2);
+            $pdf->cell(192, $alto, "STOCK DE ALMACÉN", 1, 1);
+            $pdf->cell(12, $alto, '#', 1, 0, 'C');
+            $pdf->cell(35, $alto, 'PRODUCTO', 1, 0, 'C');
+            $pdf->cell(25, $alto, 'CATEGORÍA', 1, 0, 'C');
+            $pdf->cell(25, $alto, 'MARCA', 1, 0, 'C');
+            $pdf->cellAutoFontSize($pdf, 25, $alto, 'UNIDAD MEDIDA', $font_size, 5, 'B');
+            $pdf->cell(25, $alto, 'PRECIO', 1, 0, 'C');
+            $pdf->cellAutoFontSize($pdf, 25, $alto, 'STOCK ACTUAL', $font_size, 5, 'B');
+            $pdf->cell(20, $alto, 'TOTAL', 1, 1, 'C');
             $cont = 1;
             $sum_total_c = 0;
             $sum_total_t = 0;
             $pdf->SetFont('helvetica', 'N', $font_size);
             foreach ($productos as $producto) {
-                $html .= '<tr>';
-                $html .= '<td width="4%">' . $cont++ . '</td>';
-                $html .= '<td width="20%">' . $producto->nombre . '</td>';
-                $html .= '<td>' . $producto->categoria->nombre . '</td>';
-                $html .= '<td>' . $producto->marca->nombre . '</td>';
-                $html .= '<td>' . $producto->unidad_medida->nombre . '</td>';
-                $html .= '<td>' . $producto->precio . '</td>';
-                $html .= '<td class="centreado">' . ($producto->almacen_producto ? $producto->almacen_producto->stock_actual : 0) . '</td>';
+                $pdf->cellAutoFontSize($pdf, 12, $alto, $cont++, $font_size);
+                $pdf->cellAutoFontSize($pdf, 35, $alto, $producto->nombre, $font_size);
+                $pdf->cellAutoFontSize($pdf, 25, $alto, $producto->categoria->nombre, $font_size);
+                $pdf->cellAutoFontSize($pdf, 25, $alto, $producto->marca->nombre, $font_size);
+                $pdf->cellAutoFontSize($pdf, 25, $alto, $producto->unidad_medida->nombre, $font_size);
+                $pdf->cellAutoFontSize($pdf, 25, $alto, $producto->precio, $font_size);
+                $pdf->cellAutoFontSize($pdf, 25, $alto, ($producto->almacen_producto ? $producto->almacen_producto->stock_actual : 0), $font_size);
                 $total = (float) $producto->precio * ($producto->almacen_producto ? $producto->almacen_producto->stock_actual : 0);
+                $pdf->cellAutoFontSize($pdf, 20, $alto, $total);
+                $pdf->Ln();
                 $sum_total_c += (float) ($producto->almacen_producto ? $producto->almacen_producto->stock_actual : 0);
                 $sum_total_t += (float) $total;
-                $html .= '<td class="centreado">' . $total . '</td>';
-                $html .= '</tr>';
             }
-
-            $html .= '<tr class="bg-principal">';
-            $html .= '<td colspan="6" class="derecha bold text-right text-md">TOTALES</td>';
-            $html .= '<td class="bold centreado text-md">' . $sum_total_c . '</td>';
-            $html .= '<td class="bold centreado text-md">' . $sum_total_t . '</td>';
-            $html .= '</tr>';
-
-            $html .= '</tbody>';
-            $html .= '</table>';
+            $pdf->setFont("helvetica", "B", $font_size2);
+            $pdf->cell(147, $alto, "TOTALES", 1, 0, 'R');
+            $pdf->cellAutoFontSize($pdf, 25, $alto, $sum_total_c, $font_size);
+            $pdf->cellAutoFontSize($pdf, 20, $alto, $sum_total_t, $font_size);
         } else {
             $html = '';
             foreach ($sucursals as $sucursal) {
-                $html .= '<h3 style="font-weight: bold; margin-bottom: 3px;">' . $sucursal->nombre . '</h3>';
-                $html .= '<table border="1" cellspacing="0" style="margin-top:0px">
-                        <thead>
-                            <tr class="bg-principal">
-                                <th width="4%">#</th>
-                                <th width="20%">PRODUCTO</th>
-                                <th>CATEGORÍA</th>
-                                <th>MARCA</th>
-                                <th>UNIDAD DE MEDIDA</th>
-                                <th>PRECIO</th>
-                                <th>STOCK ACTUAL</th>
-                                <th>TOTAL</th>
-                            </tr>
-                        </thead>
-                        <tbody>';
-
+                $pdf->setFont("helvetica", "B", $font_size2);
+                $pdf->cell(192, $alto, $sucursal->nombre, 1, 1);
+                $pdf->cell(12, $alto, '#', 1, 0, 'C');
+                $pdf->cell(35, $alto, 'PRODUCTO', 1, 0, 'C');
+                $pdf->cell(25, $alto, 'CATEGORÍA', 1, 0, 'C');
+                $pdf->cell(25, $alto, 'MARCA', 1, 0, 'C');
+                $pdf->cellAutoFontSize($pdf, 25, $alto, 'UNIDAD MEDIDA', $font_size, 5, 'B');
+                $pdf->cell(25, $alto, 'PRECIO', 1, 0, 'C');
+                $pdf->cellAutoFontSize($pdf, 25, $alto, 'STOCK ACTUAL', $font_size, 5, 'B');
+                $pdf->cell(20, $alto, 'TOTAL', 1, 1, 'C');
                 $cont = 1;
                 $sum_total_c = 0;
                 $sum_total_t = 0;
@@ -188,34 +185,27 @@ class ReporteController extends Controller
                         ->get()
                         ->first();
 
-                    $html .= '<tr>';
-                    $html .= '<td width="4%" style="font-weight:normal;">' . $cont++ . '</td>';
-                    $html .= '<td width="20%" style="font-weight:normal;">' . $producto->nombre . '</td>';
-                    $html .= '<td style="font-weight:normal;">' . $producto->categoria->nombre . '</td>';
-                    $html .= '<td style="font-weight:normal;">' . $producto->marca->nombre . '</td>';
-                    $html .= '<td style="font-weight:normal;">' . $producto->unidad_medida->nombre . '</td>';
-                    $html .= '<td style="text-align:center;font-weight:normal;">' . $producto->precio . '</td>';
-                    $html .= '<td style="text-align:center;font-weight:normal;">' . ($sucursal_producto ? $sucursal_producto->stock_actual : 0) . '</td>';
-                    $total =
-                        (float) $producto->precio *
-                        ($sucursal_producto ? $sucursal_producto->stock_actual : 0);
+                    $pdf->cellAutoFontSize($pdf, 12, $alto, $cont++, $font_size);
+                    $pdf->cellAutoFontSize($pdf, 35, $alto, $producto->nombre, $font_size);
+                    $pdf->cellAutoFontSize($pdf, 25, $alto, $producto->categoria->nombre, $font_size);
+                    $pdf->cellAutoFontSize($pdf, 25, $alto, $producto->marca->nombre, $font_size);
+                    $pdf->cellAutoFontSize($pdf, 25, $alto, $producto->unidad_medida->nombre, $font_size);
+                    $pdf->cellAutoFontSize($pdf, 25, $alto, $producto->precio, $font_size);
+                    $pdf->cellAutoFontSize($pdf, 25, $alto, ($sucursal_producto ? $sucursal_producto->stock_actual : 0), $font_size);
+                    $total = (float) $producto->precio * ($sucursal_producto ? $sucursal_producto->stock_actual : 0);
+                    $pdf->cellAutoFontSize($pdf, 20, $alto, $total);
+                    $pdf->Ln();
                     $sum_total_c += (float) ($sucursal_producto ? $sucursal_producto->stock_actual : 0);
                     $sum_total_t += (float) $total;
-                    $html .= '<td style="text-align:center;font-weight:normal;">' . $total . '</td>';
-                    $html .= '</tr>';
                 }
-                $html .= '<tr class="bg-principal">';
-                $html .= '<td colspan="6" class="derecha bold text-right text-md">TOTALES</td>';
-                $html .= '<td style="text-align:center">' . $sum_total_c . '</td>';
-                $html .= '<td style="text-align:center">' . $sum_total_t . '</td>';
-                $html .= '</tr>';
-
-                $html .= '</tbody>';
-                $html .= '</table>';
+                $pdf->setFont("helvetica", "B", $font_size2);
+                $pdf->cell(147, $alto, "TOTALES", 1, 0, 'R');
+                $pdf->cellAutoFontSize($pdf, 25, $alto, $sum_total_c, $font_size);
+                $pdf->cellAutoFontSize($pdf, 20, $alto, $sum_total_t, $font_size);
             }
+            $pdf->writeHTML($html, true, false, true, false, '');
         }
 
-        $pdf->writeHTML($html, true, false, true, false, '');
 
         // Guardar PDF o forzar descarga
         return response($pdf->Output('S'), 200)
@@ -263,7 +253,21 @@ class ReporteController extends Controller
                 'fecha_fin' => 'required|date',
             ]);
         }
-        $productos = Producto::select("productos.*");
+        $productos = Producto::select(
+            "productos.id",
+            "productos.nombre",
+            "productos.precio",
+            "productos.categoria_id",
+            "productos.marca_id",
+            "productos.unidad_medida_id",
+            "productos.precio",
+        )
+            ->with([
+                "categoria:id,nombre",
+                "marca:id,nombre",
+                "unidad_medida:id,nombre",
+                "almacen_producto"
+            ]);
         if ($producto_id != 'todos') {
             $productos->where("id", $producto_id);
         }
@@ -280,7 +284,7 @@ class ReporteController extends Controller
         }
         $productos = $productos->get();
 
-        $sucursals = Sucursal::select("sucursals.*");
+        $sucursals = Sucursal::select("sucursals.id", "sucursals.nombre");
         if ($sucursal_id != 'todos') {
             $sucursals->where("id", $sucursal_id);
         }
@@ -370,77 +374,64 @@ class ReporteController extends Controller
             $pdf->Cell(0, 5, $array_dias[date('w')] . ', ' . date('d') . ' de ' . $array_meses[date('m')] . ' de ' . date('Y'), 0, 1, 'C', 0, '', 0, false);
             $pdf->Cell(0, 5, "(Expresado en bolivianos)", 0, 1, 'C', 0, '', 0, false);
             $pdf->SetFont('helvetica', 'B', 8);
-            $ancho = 20;
+            $alto = 10;
             $font_size = 8;
             $font_size2 = 9;
 
             $html = '';
 
             foreach ($productos as $registro) {
-                $html .= '<br><br><table border="1" cellpadding="1" cellspacing="0">
-                <thead>
-                    <tr>
-                        <td style="font-size:10pt;text-align:center" colspan="9"><strong>' . $registro->nombre . '</strong></td>
-                    </tr>
-                    <tr>
-                        <th rowspan="2">FECHA</th>
-                        <th rowspan="2">DETALLE</th>
-                        <th colspan="3">CANTIDADES</th>
-                        <th rowspan="2">P/U</th>
-                        <th colspan="3">BOLIVIANOS</th>
-                    </tr>
-                    <tr>
-                        <th>ENTRADA</th>
-                        <th>SALIDA</th>
-                        <th>SALDO</th>
-                        <th>ENTRADA</th>
-                        <th>SALIDA</th>
-                        <th>SALDO</th>
-                    </tr>
-                </thead>
-                <tbody>';
+                $pdf->SetFont('helvetica', 'B', $font_size2);
+                $pdf->Cell(190, 10, $registro->nombre, 1, 1, 'C');
+                $pdf->MultiCell(15, 20, 'FECHA', 1, 'C', false, 0, $x = '',  $y = '',  $reseth = true,  $stretch = 0,  $ishtml = false,  $autopadding = true,  $maxh = 0,  $valign = 'M',  $fitcell = false);
+                $pdf->MultiCell(35, 20, 'DETALLE', 1, 'C', false, 0);
+                $pdf->cellAutoFontSize($pdf, 60, $alto, 'CANTIDADES', $font_size, 5, "B");
+                $pdf->cellAutoFontSize($pdf, 20, $alto, 'P/U', $font_size, 5, "B");
+                $pdf->cellAutoFontSize($pdf, 60, $alto, 'BOLIVIANOS', $font_size, 5, "B");
+                $pdf->Ln();
+                $pdf->SetX(60);
+                $pdf->cellAutoFontSize($pdf, 20, $alto, 'ENTRADA', $font_size, 5, "B");
+                $pdf->cellAutoFontSize($pdf, 20, $alto, 'SALIDA', $font_size, 5, "B");
+                $pdf->cellAutoFontSize($pdf, 20, $alto, 'SALDO', $font_size, 5, "B");
+                $pdf->SetX(140);
+                $pdf->cellAutoFontSize($pdf, 20, $alto, 'ENTRADA', $font_size, 5, "B");
+                $pdf->cellAutoFontSize($pdf, 20, $alto, 'SALIDA', $font_size, 5, "B");
+                $pdf->cellAutoFontSize($pdf, 20, $alto, 'SALDO', $font_size, 5, "B");
+                $pdf->Ln();
 
                 if (count($kardex_sucursals[$sucursal->id]['array_kardex'][$registro->id]) > 0 || $kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['sw']) {
 
                     $total = 0;
                     if ($kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['sw']) {
-                        $html .= '<tr>';
-                        $html .= '<td style="font-weight:normal;"></td>';
-                        $html .= '<td style="font-weight:normal;">SALDO ANTERIOR</td>';
-                        $html .= '<td style="font-weight:normal;"></td>';
-                        $html .= '<td style="font-weight:normal;"></td>';
-                        $html .= '<td style="text-align:center; font-weight:normal;">' . $kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['saldo_anterior']['cantidad_saldo'] . '</td>';
-                        $html .= '<td style="text-align:center; font-weight:normal;">' . $registro->precio . '</td>';
-                        $html .= '<td style="font-weight:normal;"></td>';
-                        $html .= '<td style="font-weight:normal;"></td>';
-                        $html .= '<td style="text-align:center; font-weight:normal;">' . number_format($kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['saldo_anterior']['monto_saldo'], 2, '.', ',') . '</td>';
-                        $html .= '</tr>';
+                        $pdf->cellAutoFontSize($pdf, 15, $alto, "",);
+                        $pdf->cellAutoFontSize($pdf, 35, $alto, "SALDO ANTERIOR",);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, "",);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, "",);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, $kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['saldo_anterior']['cantidad_saldo'],);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, $registro->precio,);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, "",);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, "",);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, number_format($kardex_sucursals[$sucursal->id]['array_saldo_anterior'][$registro->id]['saldo_anterior']['monto_saldo'], 2, '.', ','),);
+                        $pdf->Ln();
                     }
                     foreach ($kardex_sucursals[$sucursal->id]['array_kardex'][$registro->id] as $value) {
-                        $html .= '<tr>';
-                        $html .= '<td style="font-weight:normal;">' . date('d-m-Y', strtotime($value['fecha'])) . '</td>';
-                        $html .= '<td style="font-weight:normal;">' . $value['detalle'] . '</td>';
-                        $html .= '<td style="text-align:center; font-weight:normal;">' . $value['cantidad_ingreso'] . '</td>';
-                        $html .= '<td style="text-align:center; font-weight:normal;">' . $value['cantidad_salida'] . '</td>';
-                        $html .= '<td style="text-align:center; font-weight:normal;">' . $value['cantidad_saldo'] . '</td>';
-                        $html .= '<td style="text-align:center; font-weight:normal;">' . number_format($value['cu'], 2, '.', ',') . '</td>';
-                        $html .= '<td style="text-align:center; font-weight:normal;">' . $value['monto_ingreso'] . '</td>';
-                        $html .= '<td style="text-align:center; font-weight:normal;">' . $value['monto_salida'] . '</td>';
-                        $html .= '<td style="text-align:center; font-weight:normal;">' . number_format($value['monto_saldo'], 2, '.', ',') . '</td>';
-                        $html .= '</tr>';
+                        $pdf->cellAutoFontSize($pdf, 15, $alto, date("d/m/Y", strtotime($value["fecha"])));
+                        $pdf->cellAutoFontSize($pdf, 35, $alto, $value["detalle"]);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, $value["cantidad_ingreso"]);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, $value["cantidad_salida"]);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, $value["cantidad_saldo"]);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, number_format($value["cu"], 2, '.', ','));
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, $value["monto_ingreso"]);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, $value["monto_salida"]);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, number_format($value["monto_saldo"], 2, '.', ','));
+                        $pdf->Ln();
                     }
                 } else {
-                    $html .= '<tr>
-                            <td colspan="9" class="centreado">NO SE ENCONTRARON REGISTROS</td>
-                        </tr>';
+                    $pdf->Cell(190, 10, "NO SE ENCONTRARON REGISTROS", 1, 1);
                 }
-                $html .= '</tbody>';
-                $html .= '</table>';
+                $pdf->Ln();
             }
-            $pdf->writeHTML($html, true, false, true, false, '');
         }
-
-
 
         // Guardar PDF o forzar descarga
         return response($pdf->Output('S'), 200)
@@ -579,87 +570,61 @@ class ReporteController extends Controller
             $pdf->Cell(0, 5, $array_dias[date('w')] . ', ' . date('d') . ' de ' . $array_meses[date('m')] . ' de ' . date('Y'), 0, 1, 'C', 0, '', 0, false);
             $pdf->Cell(0, 5, "(Expresado en bolivianos)", 0, 1, 'C', 0, '', 0, false);
             $pdf->SetFont('helvetica', 'B', 8);
-            $ancho = 20;
+            $alto = 10;
             $font_size = 8;
             $font_size2 = 9;
 
-            $html = '';
-
             foreach ($productos as $registro) {
-                $html .= '<br><br>';
-                $html .= '<table border="1" cellpadding="1">
-                <thead>
-                    <tr>
-                        <td style="font-size:10pt;text-align:center;" colspan="8"><strong>VENTAS DE ' . $registro->nombre . '</strong></td>
-                    </tr>
-                    <tr>
-                        <th>FECHA</th>
-                        <th>NRO. ORDEN</th>
-                        <th>PAGO</th>
-                        <th>CLIENTE</th>
-                        <th>CANTIDAD</th>
-                        <th>DESCUENTO (1-100%)</th>
-                        <th>SUBTOTAL</th>
-                        <th>TOTAL</th>
-                    </tr>
-                </thead>
-                <tbody>';
+                $pdf->cell(190, $alto, "VENTAS DE " . $registro->nombre, 1, 1, 'C');
+                $pdf->cell(15, $alto, "FECHA", 1, 0, 'C');
+                $pdf->cell(25, $alto, "NRO. ORDEN", 1, 0, 'C');
+                $pdf->cell(20, $alto, "PAGO", 1, 0, 'C');
+                $pdf->cell(35, $alto, "CLIENTE", 1, 0, 'C');
+                $pdf->cellAutoFontSize($pdf, 17.5, $alto, "CANTIDAD", $font_size, 5, 'B');
+                $pdf->cellAutoFontSize($pdf, 17.5, $alto, "DESCUENTO", $font_size, 5, 'B');
+                $pdf->cell(30, $alto, "SUBTOTAL", 1, 0, 'C');
+                $pdf->cell(30, $alto, "TOTAL", 1, 1, 'C');
                 if (count($venta_sucursals[$sucursal->id]['array_ventas'][$registro->id]) > 0) {
                     $total_c = 0;
                     $total_sub = 0;
                     $total_total = 0;
                     foreach ($venta_sucursals[$sucursal->id]['array_ventas'][$registro->id] as $value) {
-                        $html .= '<tr>';
-                        $html .= '<td style="font-weight:normal;">' . date('d-m-Y', strtotime($value->venta->fecha_registro_t)) . '</td>';
-                        $html .= '<td style="font-weight:normal;">' . $value->venta->nro_orden . '</td>';
-                        $html .= '<td style="font-weight:normal;">' . $value->venta->tipo_pago . '</td>';
-                        $html .= '<td style="font-weight:normal;">' . $value->venta->cliente->nombre . '<br />' . $value->venta->nit . '</td>';
-                        $html .= '<td style="font-weight:normal;text-align:center;">' . $value->cantidad . '</td>';
-                        $html .= '<td style="font-weight:normal;text-align:center;">' . $value->venta->descuento . '</td>';
-                        $html .= '<td style="font-weight:normal;text-align:center;">' . number_format($value->subtotal, 2, '.', ',') . '</td>';
-                        $html .= '<td style="font-weight:normal;text-align:center;">' . number_format($value->subtotaltotal, 2, '.', ',') . '</td>';
+                        $pdf->cellAutoFontSize($pdf, 15, $alto, date("d-m-Y", strtotime($value->venta->fecha_registro)), $font_size);
+                        $pdf->cellAutoFontSize($pdf, 25, $alto, $value->venta->nro_orden, $font_size);
+                        $pdf->cellAutoFontSize($pdf, 20, $alto, $value->venta->tipo_pago, $font_size);
+                        $pdf->cellAutoFontSize($pdf, 35, $alto, $value->venta->cliente->nombre . ' ' . $value->venta->nit, $font_size);
+                        $pdf->cellAutoFontSize($pdf, 17.5, $alto, $value->cantidad, $font_size);
+                        $pdf->cellAutoFontSize($pdf, 17.5, $alto, $value->venta->descuento, $font_size);
+                        $pdf->cellAutoFontSize($pdf, 30, $alto, number_format($value->subtotal, 2, '.', ','), $font_size);
+                        $pdf->cellAutoFontSize($pdf, 30, $alto, number_format($value->subtotaltotal, 2, '.', ','), $font_size);
+                        $pdf->Ln();
                         $total_c += (float) $value->cantidad;
                         $total_sub += (float) $value->subtotal;
                         $total_total += (float) $value->subtotaltotal;
                         // sucursal
                         $total_sucursal_c += (float) $value->cantidad;
                         $total_sucursal_t += (float) $value->subtotaltotal;
-                        $html .= '</tr>';
                     }
-                    $html .= '<tr class="bg-principal">';
-                    $html .= '<td colspan="4" class="bold derecha text-md">TOTALES</td>';
-                    $html .= '<td class="centreado bold text-md">' . $total_c . '</td>';
-                    $html .= '<td></td>';
-                    $html .= '<td class="centreado bold text-md">' . number_format($total_sub, 2, '.', ',') . '</td>';
-                    $html .= '<td class="centreado bold text-md">' . number_format($total_total, 2, '.', ',') . '</td>';
-                    $html .= '</tr>';
+
+                    $pdf->setFont("helvetica", "B", $font_size2);
+                    $pdf->cell(130, $alto, "TOTALES", 1, 0, 'C');
+                    $pdf->setFont("helvetica", "B", $font_size);
+                    $pdf->cell(30, $alto, number_format($total_sub, 2, '.', ','), 1, 0, 'C');
+                    $pdf->cell(30, $alto, number_format($total_total, 2, '.', ','), 1, 1, 'C');
                 } else {
-                    $html .= '<tr>
-                            <td colspan="8">NO SE ENCONTRARON REGISTROS</td>
-                        </tr>';
+                    $pdf->cell(190, $alto, "NO SE ENCONTRARON REGISTROS");
+                    $pdf->Ln();
                 }
-                $html .= '</tbody>
-            </table>';
             }
 
-            $html .= '<br/><br/><table border="1" style="width:60%;">
-            <tbody>';
-            $html .= '<tr class="bg-principal">';
-            $html .= '<td class="bold">TOTAL SUCURSAL ' . $sucursal->nombre . '</td>';
-            $html .= '</tr>';
-            $html .= '<tr>';
-            $html .= '<td class="bold">TOTAL CANTIDAD PRODUCTOS VENDIDOS: ' . $total_sucursal_c . '</td>';
-            $html .= '</tr>';
-            $html .= '<tr>';
-            $html .= '<td class="bold">TOTAL MONTO: ' . number_format($total_sucursal_t, 2, '.', ',') . '</td>';
-            $html .= '</tr>
-            </tbody>
-        </table>';
-
-            $pdf->writeHTML($html, true, false, true, false, '');
+            $pdf->Ln();
+            $pdf->Ln();
+            $pdf->setFont("helvetica", "B", $font_size2);
+            $pdf->cell(150, $alto, "TOTAL SUCURSAL " . $sucursal->nombre, 1, 1, 'C');
+            $pdf->setFont("helvetica", "N", $font_size2);
+            $pdf->cell(150, $alto, "TOTAL CANTIDAD PRODUCTOS VENDIDOS : " . $total_sucursal_c, 1, 1, 'L');
+            $pdf->cell(150, $alto, "TOTAL MONTO: " .  number_format($total_sucursal_t, 2, '.', ','), 1, 1);
         }
-
-
 
         // Guardar PDF o forzar descarga
         return response($pdf->Output('S'), 200)
@@ -1218,7 +1183,23 @@ class ReporteController extends Controller
         $marca_id = $request->marca_id;
         $unidad_medida_id = $request->unidad_medida_id;
 
-        $productos = Producto::select("productos.*");
+        $productos = Producto::select(
+            "productos.id",
+            "productos.nombre",
+            "productos.precio",
+            "productos.categoria_id",
+            "productos.marca_id",
+            "productos.unidad_medida_id",
+            "productos.precio",
+            "productos.stock_min",
+            "productos.fecha_registro",
+        )
+            ->with([
+                "categoria:id,nombre",
+                "marca:id,nombre",
+                "unidad_medida:id,nombre",
+                "almacen_producto"
+            ]);
         if ($producto_id != 'todos') {
             $productos->where("id", $producto_id);
         }
@@ -1245,44 +1226,99 @@ class ReporteController extends Controller
         $pdf->SetFont('helvetica', 'B', 10);
         $pdf->Cell(0, 5, "Expedido: " . date("d/m/Y"), 0, 1, 'C', 0, '', 0, false);
         $pdf->SetFont('helvetica', 'B', 8);
+        $alto = 10;
         $ancho = 20;
         $font_size = 8;
         $font_size2 = 9;
 
-        $html = '<br><br/><table border="1">
-        <thead>
-            <tr class="bg-principal">
-                <th width="4%">#</th>
-                <th>NOMBRE</th>
-                <th>CATEGORÍA</th>
-                <th>MARCA</th>
-                <th>UNIDAD DE MEDIDA</th>
-                <th>PRECIO</th>
-                <th>STOCK MIN.</th>
-                <th>IMAGEN</th>
-                <th>FECHA DE REGISTRO</th>
-            </tr>
-        </thead>
-        <tbody>';
-
+        $pdf->SetFont('helvetica', 'B', $font_size2);
+        $pdf->Cell(9, $alto, "#", 1, 0, 'C', 0, '', 0, false);
+        $pdf->Cell(40, $alto, "NOMBRE", 1, 0, 'C', 0, '', 0, false);
+        $pdf->Cell(30, $alto, "CATEGORÍA", 1, 0, 'C', 0, '', 0, false);
+        $pdf->Cell(30, $alto, "MARCA", 1, 0, 'C', 0, '', 0, false);
+        $pdf->cellAutoFontSize($pdf, 30, $alto, "UNIDAD MEDIDA", $font_size, $font_size, 'B');
+        $pdf->Cell(20, $alto, "PRECIO", 1, 0, 'C', 0, '', 0, false);
+        $pdf->cellAutoFontSize($pdf, 15, $alto, "STOCK MIN.", $font_size, 5, 'B');
+        $pdf->Cell(25, $alto, "FECHA DE REGISTRO", 1, 1, 'C', 0, '', 0, false);
         $cont = 1;
+
+        $pdf->SetFont('helvetica', 'N', $font_size);
         foreach ($productos as $producto) {
-            $html .= '<tr>';
-            $html .= '<td width="4%">' . $cont++ . '</td>';
-            $html .= '<td style="font-weight:normal;">' . $producto->nombre . '</td>';
-            $html .= '<td style="font-weight:normal;">' . $producto->categoria->nombre . '</td>';
-            $html .= '<td style="font-weight:normal;">' . $producto->marca->nombre . '</td>';
-            $html .= '<td style="font-weight:normal;">' . $producto->unidad_medida->nombre . '</td>';
-            $html .= '<td style="font-weight:normal;">' . number_format($producto->precio, 2, '.', ',') . '</td>';
-            $html .= '<td style="font-weight:normal;">' . $producto->stock_min . '</td>';
-            $html .= '<td style="text-align:center;"><img src="' . $producto->foto_b64 . '" alt="Imagen" width="30px"></td>';
-            $html .= '<td style="font-weight:normal;">' . $producto->fecha_registro_t . '</td>';
-            $html .= '</tr>';
+
+            $pdf->cellAutoFontSize($pdf, 9, $alto, $cont++, $font_size);
+
+            $pdf->cellAutoFontSize(
+                $pdf,
+                40,
+                $alto,
+                $producto->nombre,
+                $font_size
+            );
+
+            $pdf->cellAutoFontSize(
+                $pdf,
+                30,
+                $alto,
+                $producto->categoria->nombre,
+                $font_size
+            );
+
+
+            $pdf->cellAutoFontSize(
+                $pdf,
+                30,
+                $alto,
+                $producto->marca->nombre,
+                $font_size
+            );
+
+            $pdf->cellAutoFontSize(
+                $pdf,
+                30,
+                $alto,
+                $producto->unidad_medida->nombre,
+                $font_size
+            );
+
+            $pdf->Cell(
+                20,
+                $alto,
+                $producto->precio,
+                1,
+                0,
+                'C',
+                0,
+                '',
+                0,
+                false
+            );
+
+            $pdf->Cell(
+                15,
+                $alto,
+                $producto->stock_min,
+                1,
+                0,
+                'C',
+                0,
+                '',
+                0,
+                false
+            );
+
+            $pdf->Cell(
+                25,
+                $alto,
+                $producto->fecha_registro,
+                1,
+                1,
+                'C',
+                0,
+                '',
+                0,
+                false
+            );
         }
-
-        $html .= '</tbody></table>';
-        $pdf->writeHTML($html, true, false, true, false, '');
-
         // Guardar PDF o forzar descarga
         return response($pdf->Output('S'), 200)
             ->header('Content-Type', 'application/pdf')
