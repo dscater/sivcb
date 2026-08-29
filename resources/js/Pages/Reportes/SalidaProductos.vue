@@ -114,11 +114,11 @@ const txtBtn = computed(() => {
 const generarReporte = () => {
     generando.value = true;
     const url = route("reportes.r_salida_productos", form.value);
-    window.location.href = url;
-    // window.open(url, "_blank");
-    // setTimeout(() => {
-    generando.value = false;
-    // }, 500);
+    // window.location.href = url;
+    window.open(url, "_blank");
+    setTimeout(() => {
+        generando.value = false;
+    }, 500);
 };
 </script>
 <template>
